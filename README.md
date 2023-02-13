@@ -13,8 +13,9 @@ The synthetic LP numbers are generated based on [the latest available online inf
 * [Private Passenger Cars Old-style (without region)](https://en.wikipedia.org/wiki/File:ROK_Vehicle_Registration_Plate_for_Private_Passenger_Car(2004-2006).jpg);
 
 ##### Sample LPs :rocket:! 
-[Private](https://user-images.githubusercontent.com/50166164/218385697-113a1610-d3e0-4ccb-8212-8bc68556e4d9.jpg) | [Commercial](https://user-images.githubusercontent.com/50166164/218385792-7de1be1a-51e9-48a4-991f-9948382e8fb3.jpg)
+[Private European-sized](https://user-images.githubusercontent.com/50166164/218385697-113a1610-d3e0-4ccb-8212-8bc68556e4d9.jpg) | [Commercial European-sized](https://user-images.githubusercontent.com/50166164/218385792-7de1be1a-51e9-48a4-991f-9948382e8fb3.jpg)
 :-:|:-:
+<img src=https://user-images.githubusercontent.com/50166164/218385697-113a1610-d3e0-4ccb-8212-8bc68556e4d9.jpg height=200px> | <img src=https://user-images.githubusercontent.com/50166164/218385792-7de1be1a-51e9-48a4-991f-9948382e8fb3.jpg height=200px>
 
 
 ### Real Korean Licence Plates Generation
