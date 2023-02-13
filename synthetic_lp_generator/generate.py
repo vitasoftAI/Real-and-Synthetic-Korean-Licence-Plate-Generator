@@ -20,7 +20,7 @@ if __name__ == "__main__":
     
     parser = argparse.ArgumentParser(description="Synthetic Korean Vehicle Registration Plates Generator")
     
-    parser.add_argument("-dp", "--data_path", help = "Path to the csv file with plate numbers", type = str, default = "test.csv")
+    parser.add_argument("-dp", "--data_path", help = "Path to the csv file with plate numbers", type = str, default = "sample_lps.csv")
     parser.add_argument("-sp", "--save_path", help = "Directory to save generated images", type = str, default = "./synthetic_lp_samples/")
     parser.add_argument("-s", "--save", help = "Saving option", type = bool, default = True)
     parser.add_argument("-np", "--number_of_plates", help = "Number of images to generate", type = int, default = 50)
