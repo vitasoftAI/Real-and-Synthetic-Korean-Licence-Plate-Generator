@@ -7,8 +7,8 @@ The synthetic LP numbers are generated based on [the latest available online inf
 
 * [Private (European-sized)](https://upload.wikimedia.org/wikipedia/commons/3/3d/Plak-Shakhsi-KOR.png);
 * [Private (North American-sized)](https://upload.wikimedia.org/wikipedia/commons/1/18/Plak-Shakhsi-335x155-KOR.png);
-* [Commercial (European-sized)](https://en.wikipedia.org/wiki/File:Plak-Tejari-335x170-KOR.png);
-* [Commercial (North American-sized)]();
+* [Commercial (European-sized)](https://upload.wikimedia.org/wikipedia/commons/e/e2/Plak-Tejari-KOR.png);
+* [Commercial (North American-sized)](https://upload.wikimedia.org/wikipedia/commons/6/6f/Plak-Tejari-335x170-KOR.png);
 * [Private old-style (with region)]();
 * [Private old-style (without region)]();
 
