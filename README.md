@@ -36,6 +36,7 @@ The synthetic LP numbers are generated based on [the latest available online inf
 | <img width="200" src=" https://user-images.githubusercontent.com/50166164/218385697-113a1610-d3e0-4ccb-8212-8bc68556e4d9.jpg">
 | <img width="200" src=" https://user-images.githubusercontent.com/50166164/218386944-87f51541-5016-44c7-9d2d-0b45e073e621.jpg">
 | <img width="200" src=" https://user-images.githubusercontent.com/50166164/218628189-0dab45b8-ed2c-4bef-84da-00c42dccc786.jpg">
+| <img src=https://user-images.githubusercontent.com/50166164/218387367-728251b9-db74-455b-8952-5db5d98133d6.jpg height=120px>
 | <img width="200" src=" https://user-images.githubusercontent.com/50166164/218628118-21eab9ea-7619-41e2-889c-311caf1c5a53.jpg">|
 
 
