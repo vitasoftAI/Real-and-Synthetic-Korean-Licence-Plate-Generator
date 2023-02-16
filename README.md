@@ -26,7 +26,7 @@ The synthetic LP numbers are generated based on [the latest available online inf
 
 ### Real Korean Licence Plates Generation
 
-After getting synthetic images, we train them using CUT GAN model to automatically obtain similar LP images, which are very similar to real-life LPs. Examples can be seen below:
+After getting synthetic images, we train them using [CUT GAN model](https://github.com/taesungp/contrastive-unpaired-translation) to automatically obtain similar LP images, which are very similar to real-life LPs. Examples can be seen below:
 
 ![first](https://user-images.githubusercontent.com/50166164/219285736-0a9e8771-d05b-4da2-973b-7eef434610e8.png)
 ![second](https://user-images.githubusercontent.com/50166164/219285778-9b32996a-ae7a-4456-adda-359ffff46ebf.png)
