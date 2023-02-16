@@ -30,5 +30,16 @@ After getting synthetic images, we train them using CUT GAN model to automatical
 
 ![first](https://user-images.githubusercontent.com/50166164/219285736-0a9e8771-d05b-4da2-973b-7eef434610e8.png)
 ![second](https://user-images.githubusercontent.com/50166164/219285778-9b32996a-ae7a-4456-adda-359ffff46ebf.png)
+![third](https://user-images.githubusercontent.com/50166164/219287897-0734fce3-1df8-4899-868e-c94e2cbb6898.png)
+![fourth](https://user-images.githubusercontent.com/50166164/219287922-e8a6ec2f-8041-4972-a795-e023338bd894.png)
+![fifth](https://user-images.githubusercontent.com/50166164/219287934-9f485ecc-616e-4805-9808-4dfb667979d6.png)
+![sixth](https://user-images.githubusercontent.com/50166164/219287955-ec52f52d-ae88-4f29-b3c7-5466f454b76c.png)
+
+
+
+
+
+
+
 
 
