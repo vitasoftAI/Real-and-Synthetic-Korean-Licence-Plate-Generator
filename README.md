@@ -46,6 +46,7 @@ After getting synthetic images, we train them using modified (more efficient and
 ```
 python train.py --dataroot path/to/the/dataset --name name/of/the/trained/model --CUT_mode CUT/FastCUT
 ```
+This script trains the model based on the "--CUT_mode" argument (CUT or FastCUT) using the given dataroot (the root should contain two folders, trainA and trainB, respectively) 
 
 to automatically obtain similar LP images, which are very similar to real-life LPs. Examples can be seen below:
 
