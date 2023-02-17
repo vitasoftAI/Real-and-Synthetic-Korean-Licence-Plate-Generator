@@ -31,6 +31,11 @@ python generate.py --data_path "path/to/csv_file" --save_path "path/to/save/synt
 python generate.py --save_path "path/to/save/synthetic_lps" --random=True --transformations=False --save=True --number_of_plates 100
 ```
 
+##### :computer: Create train dataset :computer:
+```
+python make_dataset.py --in_im_paths "path/to/generated/synthetic_lps" --random=True --transformations=False --save=True --number_of_plates 100
+```
+
 ### Real Korean Licence Plates Generation
 
 After getting synthetic images, we train them using modified (more efficient and fast) [CUT GAN model](https://github.com/taesungp/contrastive-unpaired-translation) to automatically obtain similar LP images, which are very similar to real-life LPs. Examples can be seen below:
