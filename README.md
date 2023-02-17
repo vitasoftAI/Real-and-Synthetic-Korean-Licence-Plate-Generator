@@ -38,7 +38,13 @@ python make_dataset.py --in_im_paths "path/to/generated/synthetic_lps" --out_im_
 
 ### Real Korean Licence Plates Generation
 
-After getting synthetic images, we train them using modified (more efficient and fast) [CUT GAN model](https://github.com/taesungp/contrastive-unpaired-translation) to automatically obtain similar LP images, which are very similar to real-life LPs. Examples can be seen below:
+After getting synthetic images, we train them using modified (more efficient and fast) [CUT GAN model](https://github.com/taesungp/contrastive-unpaired-translation) as follows:
+
+```
+python train.py --dataroot datasets/kor_licence_plate_dataset_test/ --name to_test6 --CUT_mode CUT
+```
+
+to automatically obtain similar LP images, which are very similar to real-life LPs. Examples can be seen below:
 
 ![first](https://user-images.githubusercontent.com/50166164/219285736-0a9e8771-d05b-4da2-973b-7eef434610e8.png)
 ![second](https://user-images.githubusercontent.com/50166164/219285778-9b32996a-ae7a-4456-adda-359ffff46ebf.png)
