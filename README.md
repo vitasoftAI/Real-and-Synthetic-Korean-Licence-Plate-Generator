@@ -22,11 +22,11 @@ The synthetic LP numbers are generated based on [the latest available online inf
 |       :---:       |     :---:        |         :-----:         |        :-----:         | 
 | <img src=https://user-images.githubusercontent.com/50166164/218385792-7de1be1a-51e9-48a4-991f-9948382e8fb3.jpg width=320px height=80px> | <img src=https://user-images.githubusercontent.com/50166164/218386808-c14fd229-fb3f-4464-8859-1c6c0fd6b94f.jpg width=200px height=120px> | <img src=https://user-images.githubusercontent.com/50166164/218387305-df52063b-c9e3-48e7-8ec2-f62b41edfb8c.jpg width=200px height=120px> | <img src=https://user-images.githubusercontent.com/50166164/218387367-728251b9-db74-455b-8952-5db5d98133d6.jpg width=200px height=120px> |
 
-##### :computer: Run the code :computer:
+##### :computer: Generate synthetic LPs from pre-defined file :computer:
 ```
 python generate.py --data_path "path/to/csv_file" --save_path "path/to/save/synthetic_lps" --random=False --transformations=False --save=True
 ```
-##### :computer: Run the code (for random generation) :computer:
+##### :computer: Generate synthetic LPs (random generation) :computer:
 ```
 python generate.py --save_path "path/to/save/synthetic_lps" --random=True --transformations=False --save=True --number_of_plates 100
 ```
