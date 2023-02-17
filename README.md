@@ -55,8 +55,7 @@ This script trains the model based on the "--CUT_mode" argument (CUT or FastCUT)
 ```
 python test.py --dataroot path/to/the/dataset --name name/of/the/trained/model --CUT_mode CUT/FastCUT --phase test
 ```
-This script conducts inference with the pretrained model
-based on the "--CUT_mode" argument (CUT or FastCUT) using the given dataroot (the root should contain two folders, testA and testB, respectively) and saves the model outputs under "--name" (this is later used for testing purposes) model name.
+This script conducts inference with the pretrained model (choose the model using "--name" argument) based on the "--CUT_mode" argument (CUT or FastCUT) using the given test dataroot (the root should contain two folders, testA and testB, respectively). The inference results can be found at ./results/name/train_latest/...
 
 to automatically obtain similar LP images, which are very similar to real-life LPs. Examples can be seen below:
 
