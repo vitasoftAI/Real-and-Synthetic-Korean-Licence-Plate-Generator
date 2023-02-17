@@ -33,7 +33,7 @@ python generate.py --save_path "path/to/save/synthetic_lps" --random=True --tran
 
 ##### :computer: Create train dataset :computer:
 ```
-python make_dataset.py --in_im_paths "path/to/generated/synthetic_lps" --out_im_paths "path/to/real-life/images" --trainA "path/to/copy/synthetic/images" --trainB "path/to/copy/real-life/images"
+python make_dataset.py --in_im_paths "path/to/generated/synthetic_lps" --out_im_paths "path/to/real-life/images" --trainA "path/to/copy/synthetic/images" --trainB "path/to/copy/real-life/images" --type "train or test depending on dataset type"
 ```
 
 ### Real Korean Licence Plates Generation
