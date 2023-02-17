@@ -26,9 +26,11 @@ The synthetic LP numbers are generated based on [the latest available online inf
 ```
 python generate.py --data_path "path/to/csv_file" --save_path "path/to/save/synthetic_lps" --random=False --transformations=False --save=True
 ```
+This script gets information about the LPs from pre-defined csv file, generates synthethic LPs, and saves them into the save_path.
+
 ##### :computer: Generate synthetic LPs (random generation) :computer:
 ```
-python generate.py --save_path "path/to/save/synthetic_lps" --random=True --transformations=False --save=True --number_of_plates 100
+python generate.py --save_path "path/to/save/synthetic_lps" --random=True --transformations=False --random=True --save=True --number_of_plates 100
 ```
 
 ##### :computer: Create train dataset :computer:
