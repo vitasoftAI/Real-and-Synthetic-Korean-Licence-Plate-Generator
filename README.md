@@ -24,8 +24,9 @@ The synthetic LP numbers are generated based on [the latest available online inf
 
 ##### :computer: Run the code :computer:
 ```
-    python generate.py --data_path "path/to/csv_file" --save_path "path/to/save/synthetic_lps" 
+python generate.py --data_path "path/to/csv_file" --save_path "path/to/save/synthetic_lps" --random=False --transformations=False --save=True
 ```
+
 
 ### Real Korean Licence Plates Generation
 
