@@ -32,6 +32,7 @@ This script gets information about the LPs from pre-defined csv file, generates 
 ```
 python generate.py --save_path "path/to/save/synthetic_lps" --random=True --transformations=False --random=True --save=True --number_of_plates 100
 ```
+This script randomly creates LP information, generates synthethic LPs from the randomly created information, and saves them into the save_path.
 
 ##### :computer: Create train dataset :computer:
 ```
