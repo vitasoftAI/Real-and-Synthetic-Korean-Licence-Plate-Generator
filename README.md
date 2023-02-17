@@ -41,12 +41,20 @@ python make_dataset.py --in_im_paths "path/to/generated/synthetic_lps" --out_im_
 
 ### Real Korean Licence Plates Generation
 
+##### Train
+
 After getting synthetic images, we train them using modified (more efficient and fast) [CUT GAN model](https://github.com/taesungp/contrastive-unpaired-translation) as follows:
 
 ```
 python train.py --dataroot path/to/the/dataset --name name/of/the/trained/model --CUT_mode CUT/FastCUT
 ```
 This script trains the model based on the "--CUT_mode" argument (CUT or FastCUT) using the given dataroot (the root should contain two folders, trainA and trainB, respectively) and saves the model outputs under "--name" (this is later used for testing purposes) model name.
+
+##### Inference
+
+```
+python test.py --dataroot datasets/car_reg_plate_test --name to_test4 --CUT_mode CUT --phase train
+```
 
 to automatically obtain similar LP images, which are very similar to real-life LPs. Examples can be seen below:
 
