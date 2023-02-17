@@ -44,7 +44,7 @@ python make_dataset.py --in_im_paths "path/to/generated/synthetic_lps" --out_im_
 After getting synthetic images, we train them using modified (more efficient and fast) [CUT GAN model](https://github.com/taesungp/contrastive-unpaired-translation) as follows:
 
 ```
-python train.py --dataroot datasets/kor_licence_plate_dataset_test/ --name to_test6 --CUT_mode CUT
+python train.py --dataroot path/to/the/dataset --name name/of/the/trained/model --CUT_mode CUT/FastCUT
 ```
 
 to automatically obtain similar LP images, which are very similar to real-life LPs. Examples can be seen below:
