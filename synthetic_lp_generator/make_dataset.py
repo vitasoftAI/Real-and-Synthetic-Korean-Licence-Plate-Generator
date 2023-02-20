@@ -16,6 +16,16 @@ parser.add_argument('--num_imgs', dest='num_ims', help='number of images', type=
 args = parser.parse_args()
 
 def copy_files(im_paths, destination): 
+    
+    """
+    
+    Gets path to images and path to output images and copies images to the destination path.
+    
+    Arguments:
+    im_paths - path to the images to be copied;
+    destination - path to the directory to copy the images.
+    
+    """
     for file in im_paths:
         shutil.copy(file, destination)
         
