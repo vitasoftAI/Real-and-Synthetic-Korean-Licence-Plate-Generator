@@ -57,7 +57,7 @@ python test.py --dataroot path/to/the/dataset --name name/of/the/trained/model -
 ```
 This script conducts inference with the pretrained model (choose the model using "--name" argument) based on the "--CUT_mode" argument (CUT or FastCUT) using the given test dataroot (the root should contain two folders, testA and testB, respectively). The inference results can be found at ./results/name/train_latest/...
 
-to automatically obtain similar LP images, which are very similar to real-life LPs. Examples can be seen below:
+Generated sample LPs can be seen below:
 
 ![first](https://user-images.githubusercontent.com/50166164/219285736-0a9e8771-d05b-4da2-973b-7eef434610e8.png)
 ![second](https://user-images.githubusercontent.com/50166164/219285778-9b32996a-ae7a-4456-adda-359ffff46ebf.png)
