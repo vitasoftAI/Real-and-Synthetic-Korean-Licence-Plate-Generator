@@ -22,14 +22,13 @@ def copy_files(im_paths, destination):
     Gets path to images and path to output images and copies images to the destination path.
     
     Arguments:
-    im_paths - path to the images to be copied;
-    destination - path to the directory to copy the images.
+    im_paths - path to the images to be copied, list;
+    destination - path to the directory to copy the images, str.
     
     """
     
     # Go through every path in the input paths
     for file in im_paths:
-        
         # Copy images to the specified train folder
         shutil.copy(file, destination)
         
@@ -46,7 +45,7 @@ def get_ims(ims_paths, im_files, train):
     
     """
     
-    return sorted(glob(f"{ims_paths}/*/*{[im_file for im_file in im_files]}")) if train else sorted(glob(f"{ims_paths}/*{[im_file for im_file in im_files]}"))
+    return sorted(glob(f"{ims_paths}/*/*{[im_file for im_file in im_files]}")) if train == "train" else sorted(glob(f"{ims_paths}/*{[im_file for im_file in im_files]}"))
 
 for arg in vars(args):
     print('[%s] = ' % arg, getattr(args, arg))
