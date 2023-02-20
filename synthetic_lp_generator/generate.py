@@ -17,13 +17,20 @@ def run(args):
     
     """
     
+    # Initialize generator class with the pre-defined arguments
     generator = PlateGenerator(save_path=args.save_path, random=args.random, transformations=args.transformations)
-
+    
+    # Random LP generation
     if args.random:
         generator.generation(save=args.save, num=args.number_of_plates, plate=None, plate_type=None, region_name=None)
-        
+    
+    # LP Generation from the csv file
     else:
+        
+        # Read data
         df = pd.read_csv(args.data_path)
+        
+        # Get LPs from the dataframe
         texts = [os.path.basename(filename) for filename in df["filename"]]
         for text in texts:
             generator.generation(text, args.save, num=1, plate_type=None, region_name=None)
