@@ -31,21 +31,21 @@ def run(args):
         df = pd.read_csv(args.data_path)
         
         # Get LPs from the dataframe
-        texts = [os.path.basename(filename) for filename in df["filename"]]
-        for text in texts:
-            generator.generation(text, args.save, num=1, plate_type=None, region_name=None)
+        lps = [os.path.basename(fname) for fname in df["filename"]]
+        for lp in lps:
+            generator.generation(lp, args.save, num=1, plate_type=None, region_name=None)
 
 if __name__ == "__main__":
     
+    # Set Arguments
     parser = argparse.ArgumentParser(description="Synthetic Korean Vehicle Registration Plates Generator")
-    
     parser.add_argument("-dp", "--data_path", help = "Path to the csv file with plate numbers", type = str, default = "sample_lps.csv")
     parser.add_argument("-sp", "--save_path", help = "Directory to save generated images", type = str, default = "./synthetic_lp_samples/")
     parser.add_argument("-s", "--save", help = "Saving option", type = bool, default = True)
     parser.add_argument("-np", "--number_of_plates", help = "Number of images to generate", type = int, default = 50)
     parser.add_argument("-r", "--random", help = "Generate random plate numbers", type = bool, default = True)
     parser.add_argument("-t", "--transformations", help = "Apply transformations", type = bool, default = False)
-    
-    
+
+    # Parse Arguments
     args = parser.parse_args()
     run(args) 
