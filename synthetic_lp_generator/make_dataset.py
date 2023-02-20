@@ -33,7 +33,19 @@ def copy_files(im_paths, destination):
         # Copy images to the specified train folder
         shutil.copy(file, destination)
         
-def get_train_ims(ims_paths, im_files): return sorted(glob(f"{ims_paths}/*/*{[im_file for im_file in im_files]}"))
+def get_train_ims(ims_paths, im_files): 
+    
+    """
+    
+    Gets images paths along with image file names and returns sorted paths of the images;
+    
+    Arguments:
+    ims_paths - paths of the images;
+    im_files - list with appropriate image files.
+    
+    """
+    
+    return sorted(glob(f"{ims_paths}/*/*{[im_file for im_file in im_files]}"))
 def get_test_ims(ims_paths, im_files): return sorted(glob(f"{ims_paths}/*{[im_file for im_file in im_files]}"))
 
 for arg in vars(args):
