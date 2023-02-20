@@ -66,9 +66,11 @@ print(f"There are {len(output_im_paths)} original images!")
 # Get the number of images
 num_ims = min(args.num_ims, len(input_im_paths))
 
+# Create folders
 os.makedirs(args.trainA, exist_ok=True)
 os.makedirs(args.trainB, exist_ok=True)
 
+# Copy images
 print("Copying images...")
 copy_files(input_im_paths, args.trainA)
 copy_files(output_im_paths, args.trainB)
