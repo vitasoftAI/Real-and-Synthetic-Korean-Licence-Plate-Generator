@@ -1,7 +1,9 @@
+# Import libraries
 import os, cv2, argparse, shutil
 import numpy as np
 from glob import glob
 
+# Add Arguments
 parser = argparse.ArgumentParser('Make Dataset for CUT train')
 parser.add_argument('--in_im_paths', help = 'Input Images Path', type = str, default='/home/ubuntu/workspace/bekhzod/imagen/Korean-license-plate-Generator/new_samples/aaa')
 parser.add_argument('--out_im_paths', help='Output Images Path', type = str, default='/home/ubuntu/workspace/bekhzod/imagen/lp_recognition_cropped/val')
@@ -9,6 +11,8 @@ parser.add_argument('--trainA', help = 'trainA Path', type = str, default='/home
 parser.add_argument('--trainB', help='trainB Path', type = str, default='/home/ubuntu/workspace/bekhzod/cut/datasets/kor_licence_plate_dataset_test/trainB')
 parser.add_argument('--type', help='Make train or test dataset (train and test)', type = str, default='train')
 parser.add_argument('--num_imgs', dest='num_ims', help='number of images', type=int, default=1000000)
+
+# Get Arguments
 args = parser.parse_args()
 
 def copy_files(im_paths, destination): 
