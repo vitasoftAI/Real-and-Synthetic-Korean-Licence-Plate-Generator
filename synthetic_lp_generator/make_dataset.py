@@ -33,28 +33,28 @@ def copy_files(im_paths, destination):
         # Copy images to the specified train folder
         shutil.copy(file, destination)
         
-def get_train_ims(ims_paths, im_files): 
+def get_ims(ims_paths, im_files, train): 
     
     """
     
     Gets images paths along with image file names and returns sorted paths of the images;
     
     Arguments:
-    ims_paths - paths of the images;
-    im_files - list with appropriate image files.
+    ims_paths - paths of the images, str;
+    im_files - list with appropriate image files, list;
+    train - create train or test directory, boolean.
     
     """
     
-    return sorted(glob(f"{ims_paths}/*/*{[im_file for im_file in im_files]}"))
-def get_test_ims(ims_paths, im_files): return sorted(glob(f"{ims_paths}/*{[im_file for im_file in im_files]}"))
+    return sorted(glob(f"{ims_paths}/*/*{[im_file for im_file in im_files]}")) if train else sorted(glob(f"{ims_paths}/*{[im_file for im_file in im_files]}"))
 
 for arg in vars(args):
     print('[%s] = ' % arg, getattr(args, arg))
 
 im_files = [".jpg", ".png", ".jpeg"]
-input_im_paths = get_train_ims(args.in_im_paths, im_files)
+input_im_paths = get_ims(args.in_im_paths, im_files, args.type)
 print(f"There are {len(input_im_paths)} synthetic images!")
-if args.type == "test": output_im_paths = get_train_ims(args.in_im_paths, im_files)
+if args.type == "test": output_im_paths = get_ims(args.in_im_paths, im_files, args.type)
 else: output_im_paths = get_test_ims(args.out_im_paths, im_files)
 print(f"There are {len(output_im_paths)} original images!")
 num_ims = min(args.num_ims, len(input_im_paths))
