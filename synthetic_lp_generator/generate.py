@@ -7,6 +7,16 @@ import numpy as np
 # Start running the code
 def run(args):
     
+    """
+    
+    Gets arguments list and generates images.
+    
+    Argument:
+    
+    args - train arguments list.
+    
+    """
+    
     generator = PlateGenerator(save_path=args.save_path, random=args.random, transformations=args.transformations)
 
     if args.random:
