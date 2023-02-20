@@ -47,15 +47,23 @@ def get_ims(ims_paths, im_files, train):
     
     return sorted(glob(f"{ims_paths}/*/*{[im_file for im_file in im_files]}")) if train == "train" else sorted(glob(f"{ims_paths}/*{[im_file for im_file in im_files]}"))
 
+# Go through every argument and print
 for arg in vars(args):
     print('[%s] = ' % arg, getattr(args, arg))
 
+# Initialize a list with proper image extensions
 im_files = [".jpg", ".png", ".jpeg"]
+
+# Get input images paths
 input_im_paths = get_ims(args.in_im_paths, im_files, args.type)
 print(f"There are {len(input_im_paths)} synthetic images!")
+
+# Get output images paths
 if args.type == "test": output_im_paths = get_ims(args.in_im_paths, im_files, args.type)
-else: output_im_paths = get_test_ims(args.out_im_paths, im_files)
+else: output_im_paths = get_ims(args.out_im_paths, im_files, args.type)
 print(f"There are {len(output_im_paths)} original images!")
+
+# Get the number of images
 num_ims = min(args.num_ims, len(input_im_paths))
 
 os.makedirs(args.trainA, exist_ok=True)
