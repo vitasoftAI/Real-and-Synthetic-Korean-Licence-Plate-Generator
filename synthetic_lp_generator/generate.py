@@ -1,8 +1,10 @@
+# Import libraries
 from plate_generator import PlateGenerator
 import argparse, os
 import pandas as pd
 import numpy as np
 
+# Start running the code
 def run(args):
     
     generator = PlateGenerator(save_path=args.save_path, random=args.random, transformations=args.transformations)
