@@ -56,10 +56,19 @@ class PlateGenerator:
         
         """
         
+        # Random option True
         if random:
+            
+            # Get plate type based on the probability function
             plate_type = plate_types[int(np.random.choice(np.arange(0, len(plate_types)), p=[0.33, 0.32, 0.15, 0.15, 0.03, 0.02]))]
+            
+            # Initialize two types for initial digits in LPs
             init_digit_types = ["three", "two"]
+            
+            # Get initial digits type based on the probability function
             init_digit = init_digit_types[int(np.random.choice(np.arange(0, len(init_digit_types)), p=[0.4, 0.6]))]
+            
+            # Set three digit option based on init digit variable 
             three_digit = True if init_digit == "three" else False
 
             plate = "경기01마0101" if plate_type in ["commercial_europe", "commercial_north", "green_old"] else "01마0000"
