@@ -94,21 +94,33 @@ class BaseDataset(data.Dataset, ABC):
 
     @abstractmethod
     def __len__(self):
-        """Return the total number of images in the dataset."""
+        
+        """
+        
+        Returns the total number of images in the dataset.
+        
+        """
+        
         return 0
 
     @abstractmethod
     def __getitem__(self, index):
-        """Return a data point and its metadata information.
+        
+        """ 
+        
+        Returns a data point and its metadata information.
 
-        Parameters:
-            index - - a random integer for data indexing
+        Arguments:
+        
+            index - a random integer for data indexing.
 
         Returns:
+        
             a dictionary of data with their names. It ususally contains the data itself and its metadata information.
+        
         """
+        
         pass
-
 
 def get_params(opt, size):
     w, h = size
