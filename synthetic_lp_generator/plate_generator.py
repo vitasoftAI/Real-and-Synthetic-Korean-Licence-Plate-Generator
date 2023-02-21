@@ -76,11 +76,13 @@ class PlateGenerator:
             if plate_type in ["commercial_europe", "commercial_north", "green_old", "green_basic"]:
                 three_digit = False
                     
+        # Generation from csv file
         else:
-            if plate[0].isalpha(): 
-                three_digit, plate_type = False, "commercial_europe"
-            elif plate[0].isdigit():
-                three_digit, plate_type = True if len(plate) > 7 else False, "basic_europe"
+            
+            # Set plate type and three digit option based on plate
+            if plate[0].isalpha(): three_digit, plate_type = False, "commercial_europe"
+            elif plate[0].isdigit(): three_digit, plate_type = True if len(plate) > 7 else False, "basic_europe"
+        
         
         if plate_type in ["commercial_north", "commercial_europe", "green_old"]:
             
