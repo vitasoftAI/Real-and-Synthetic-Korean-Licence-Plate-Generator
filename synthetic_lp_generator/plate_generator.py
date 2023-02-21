@@ -42,7 +42,19 @@ class PlateGenerator:
         self.char_ims_green, self.char_lists_green = load("letters/letters_green/")
         self.regions_green, self.regions_lists_green = load("regions/regions_green/")
         
+       
     def preprocessing(self, plate, random, plate_types):
+        
+        """
+        
+        Preprocessing function: gets plate, randomness option, and plate types and returns three digit option, plate, plate_type, digits and name of the region.
+        
+        Arguments:
+        plate - plate image to be generated, array;
+        random - randomness option, bool;
+        plate_types - types of plates, list.
+        
+        """
         
         if random:
             plate_type = plate_types[int(np.random.choice(np.arange(0, len(plate_types)), p=[0.33, 0.32, 0.15, 0.15, 0.03, 0.02]))]
