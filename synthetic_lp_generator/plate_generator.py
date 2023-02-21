@@ -18,9 +18,16 @@ class PlateGenerator:
     
     def __init__(self, save_path, random, transformations):
         
+        # Set a path to save generated images
         self.save_path = save_path
+        
+        # Set randomness option
         self.random = random
+        
+        # Set transformations option
         self.transformations = transformations
+        
+        # Initialize a list with LP types
         self.plate_types = ["basic_europe", "basic_north", "commercial_europe", "commercial_north", "green_old", "green_basic"]
 
         # Basic nums and chars0
