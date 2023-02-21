@@ -97,6 +97,16 @@ class PlateGenerator:
     
     def assertion(self, region_name, region_names):
         
+        """
+        
+        Gets a region name along with region names list and checks whether the region name in the list of regions.
+        
+        Arguments:
+        region_name - a name of the region in the plate, str;
+        region_names - names of the regions, list;
+        
+        """
+        
         assert region_name != None, "Please insert a region name"
         assert region_name in [os.path.basename(region) for region in region_names], f"Please choose one of these regions: {[os.path.basename(region) for region in region_names]}"
     
