@@ -50,7 +50,7 @@ class PlateGenerator:
         Preprocessing function: gets plate, randomness option, and plate types and returns three digit option, plate, plate_type, digits and name of the region.
         
         Arguments:
-        plate - plate image to be generated, array;
+        plate - LP, str;
         random - randomness option, bool;
         plate_types - types of plates, list.
         
@@ -111,6 +111,18 @@ class PlateGenerator:
         assert region_name in [os.path.basename(region) for region in region_names], f"Please choose one of these regions: {[os.path.basename(region) for region in region_names]}"
     
     def generation(self, plate, save, plate_type, num, region_name):
+        
+        """
+        
+        Gets plate, save option, plate type, number, and region name and generates synthethic plate(s).
+        
+        Arguments:
+        plate - LP with digits and letters, str;
+        save - save option, bool;
+        num - number of LPs to be generated, int;
+        region_name - name of a region, str.        
+        
+        """
         
         for _ in range(num):
             plate_path, num_list, num_size, num_size_2, init_size, char_list, regions, num_ims, char_size, char_ims, region_size, all_regions, plate_size = "plates/plate_white.jpg", self.num_lists, (56, 83), None, (13, 36), self.char_lists, None, self.num_ims, (60, 83), self.char_ims, None, self.regions_lists_yellow, (520, 110)
