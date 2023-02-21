@@ -1,8 +1,6 @@
 # Import functions from utils
 from utils import *
 
-
-
 class PlateGenerator:
     
     """
@@ -30,16 +28,16 @@ class PlateGenerator:
         # Initialize a list with LP types
         self.plate_types = ["basic_europe", "basic_north", "commercial_europe", "commercial_north", "green_old", "green_basic"]
 
-        # Basic nums and chars0
+        # Get lists and dictionaries with letters and digits that have white background
         self.num_ims, self.num_lists = load("digits/digits_white/")
         self.char_ims, self.char_lists = load("letters/letters_white/")
 
-        # Yellow nums and chars
+        # Get lists and dictionaries with letters, regions, and digits that have yellow background
         self.num_ims_yellow, self.num_lists_yellow = load("digits/digits_yellow/")
         self.char_ims_yellow, self.char_lists_yellow = load("letters/letters_yellow/")
         self.regions_yellow, self.regions_lists_yellow = load("regions/regions_yellow/")
        
-        # Green nums and chars
+        # Get lists and dictionaries with letters, regions, and digits that have green background
         self.num_ims_green, self.num_lists_green = load("digits/digits_green/")
         self.char_ims_green, self.char_lists_green = load("letters/letters_green/")
         self.regions_green, self.regions_lists_green = load("regions/regions_green/")
