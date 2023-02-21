@@ -151,6 +151,7 @@ class PlateGenerator:
             # Get information for basic green plate type
             elif plate_type == "green_basic": plate_path, num_list, num_size, num_size_2, init_size, char_list, regions, num_ims, char_size, char_ims, all_regions, plate_size = "plates/plate_green.jpg", self.num_lists_green, (60, 65), (80, 90), (8, 78), self.char_lists_green, self.regions_green, self.num_ims_green, (60, 65), self.char_ims_green, self.regions_lists_yellow, (336, 170)
             
+            # Start generation based on the above information
             generate_plate(plate_path=plate_path, random=self.random,
                            plate=plate, num_size=num_size, num_size_2=num_size_2, 
                            num_list=num_list, init_size=init_size, 
