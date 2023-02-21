@@ -16,7 +16,19 @@ import torchvision.transforms.functional as F
 import numpy as np
 
 class SquarePad:
+    
+    """ 
+    
+    Gets a rectangle shaped image and and creates a square image with padding.
+    
+    Argument:
+    
+    image - a rectangle shaped image.
+    
+    """
+    
     def __call__(self, image):
+        
         w, h = image.size
         max_wh = np.max([w, h])
         hp = int((max_wh - w)/2)
