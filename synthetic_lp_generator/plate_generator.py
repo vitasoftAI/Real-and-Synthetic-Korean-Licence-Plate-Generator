@@ -71,6 +71,7 @@ class PlateGenerator:
             # Set three digit option based on init digit variable 
             three_digit = True if init_digit == "three" else False
 
+            # Set initial plate based on the plate type for random generation
             plate = "경기01마0101" if plate_type in ["commercial_europe", "commercial_north", "green_old"] else "01마0000"
             if plate_type in ["commercial_europe", "commercial_north", "green_old", "green_basic"]:
                 three_digit = False
