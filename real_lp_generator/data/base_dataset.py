@@ -45,35 +45,50 @@ class SquarePad:
         return F.pad(image, padding, 255, 'constant')
 
 class BaseDataset(data.Dataset, ABC):
-    """This class is an abstract base class (ABC) for datasets.
+    
+    """ 
+    
+    An abstract base class (ABC) for datasets.
 
     To create a subclass, you need to implement the following four functions:
     -- <__init__>:                      initialize the class, first call BaseDataset.__init__(self, opt).
     -- <__len__>:                       return the size of dataset.
     -- <__getitem__>:                   get a data point.
     -- <modify_commandline_options>:    (optionally) add dataset-specific options and set default options.
+    
     """
 
     def __init__(self, opt):
-        """Initialize the class; save the options in the class
-
-        Parameters:
-            opt (Option class)-- stores all the experiment flags; needs to be a subclass of BaseOptions
+        
         """
+        
+        Initializes the class; saves the options in the class.
+
+        Arguments:
+            opt (Option class) -- stores all the experiment flags; needs to be a subclass of BaseOptions
+            
+        """
+        
         self.opt = opt
         self.root = opt.dataroot
         self.current_epoch = 0
 
     @staticmethod
     def modify_commandline_options(parser, is_train):
-        """Add new dataset-specific options, and rewrite default values for existing options.
+        
+        """
+        
+        Adds new dataset-specific options, and rewrites default values for existing options.
 
-        Parameters:
-            parser          -- original option parser
-            is_train (bool) -- whether training phase or test phase. You can use this flag to add training-specific or test-specific options.
+        Arguments:
+        
+            parser - original option parser;
+            is_train - whether training phase or test phase.
 
         Returns:
+            
             the modified parser.
+            
         """
         return parser
 
