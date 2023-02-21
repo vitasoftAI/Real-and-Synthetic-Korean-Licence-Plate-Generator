@@ -83,12 +83,14 @@ class PlateGenerator:
             if plate[0].isalpha(): three_digit, plate_type = False, "commercial_europe"
             elif plate[0].isdigit(): three_digit, plate_type = True if len(plate) > 7 else False, "basic_europe"
         
-        
+        # Managing plates with regions
         if plate_type in ["commercial_north", "commercial_europe", "green_old"]:
             
+            # Get region name and digits for the plate
             split = os.path.splitext(os.path.basename(plate))[0]
             region_name, digits = split[:2], split[2:]
             
+        # Plates without region
         else: digits, region_name = None, None
         
         return three_digit, plate, plate_type, digits, region_name
