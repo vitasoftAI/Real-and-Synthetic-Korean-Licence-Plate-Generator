@@ -1,7 +1,12 @@
-"""This module implements an abstract base class (ABC) 'BaseDataset' for datasets.
-
-It also includes common transformation functions (e.g., get_transform, __scale_width), which can be later used in subclasses.
 """
+
+This module implements an abstract base class (ABC) 'BaseDataset' for datasets. 
+It also includes common transformation functions (e.g., get_transform, __scale_width), 
+which can be later used in subclasses.
+
+"""
+
+# Import libraries
 import random
 import torch.utils.data as data
 from PIL import Image
@@ -9,7 +14,6 @@ import torchvision.transforms as transforms
 from abc import ABC, abstractmethod
 import torchvision.transforms.functional as F
 import numpy as np
-
 
 class SquarePad:
     def __call__(self, image):
