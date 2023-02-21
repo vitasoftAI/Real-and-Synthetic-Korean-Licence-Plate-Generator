@@ -124,13 +124,19 @@ class PlateGenerator:
         
         """
         
+        # Iterate based on the pre-defined number 
         for _ in range(num):
+            
+            # Initialize variables
             plate_path, num_list, num_size, num_size_2, init_size, char_list, regions, num_ims, char_size, char_ims, region_size, all_regions, plate_size = "plates/plate_white.jpg", self.num_lists, (56, 83), None, (13, 36), self.char_lists, None, self.num_ims, (60, 83), self.char_ims, None, self.regions_lists_yellow, (520, 110)
             
+            # Pre-process
             three_digit, plate, plate_type, digits, region_name = self.preprocessing(plate, self.random, self.plate_types)
             
+            # Do assertion
             self.assertion(region_name, self.regions_lists_yellow) if plate_type in ["commercial_north", "commercial_europe", "green_old"] else 0
             
+            # Get information for basic_north plate type
             if plate_type == "basic_north": num_size, init_size, char_size, plate_size = (40, 83), (46, 10), (49, 70), (355, 155)
                 
             elif plate_type == "commercial_north": plate_path, num_list, num_size, num_size_2, init_size, char_list, regions, num_ims, char_size, char_ims, region_size, all_regions, plate_size = "plates/plate_yellow.jpg", self.num_lists_yellow, (44, 60), (64, 90), (8, 76), self.char_lists_yellow, self.regions_yellow, self.num_ims_yellow, (64, 62), self.char_ims_yellow, (88, 60), self.regions_lists_yellow, (336, 170)
