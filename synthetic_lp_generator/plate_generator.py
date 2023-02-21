@@ -1,6 +1,20 @@
+# Import functions from utils
 from utils import *
 
+
+
 class PlateGenerator:
+    
+    """
+    
+    Plate Generator Class: gets a path to save the generated images, random and transformations options and generates LPs.
+    
+    Arguments:
+    save_path - a path to save generated images;
+    
+    
+    
+    """
     
     def __init__(self, save_path, random, transformations):
         
