@@ -323,14 +323,15 @@ def __scale_shortside(img, target_width, crop_width, method=transforms.Interpola
     
     """
    
+    # Get width and height of the image
     ow, oh = img.size
+    
+    # Get the shortside
     shortside = min(ow, oh)
-    if shortside >= target_width:
-        return img
+    if shortside >= target_width: return img
     else:
         scale = target_width / shortside
         return img.resize((round(ow * scale), round(oh * scale)), method)
-
 
 def __trim(img, trim_width):
     ow, oh = img.size
