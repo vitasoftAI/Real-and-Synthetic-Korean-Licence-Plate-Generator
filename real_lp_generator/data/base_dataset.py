@@ -133,11 +133,16 @@ def get_params(opt, size):
     
     """
     
+    # Get width and height based on pre-defined size
     w, h = size
-    new_h = h
-    new_w = w
-    if opt.preprocess == 'resize_and_crop':
-        new_h = new_w = opt.load_size
+    
+    # Set new width and height
+    new_w, new_h = w, h
+    
+    # If preprocess has resize and crop to width and height to pre-defined load size
+    if opt.preprocess == 'resize_and_crop': new_h = new_w = opt.load_size
+    
+    # If preprocess has resize and crop to width and height to pre-defined load size
     elif opt.preprocess == 'scale_width_and_crop':
         new_w = opt.load_size
         new_h = opt.load_size * h // w
