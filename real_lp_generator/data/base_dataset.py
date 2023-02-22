@@ -215,14 +215,14 @@ def get_transform(opt, params=None, grayscale=False, method=transforms.Interpola
     # Add crop to the transformations list
     if 'crop' in opt.preprocess: transform_list.append(transforms.RandomCrop(opt.crop_size)) if (params is None or 'crop_pos' not in params) else transform_list.append(transforms.Lambda(lambda img: __crop(img, params['crop_pos'], opt.crop_size)))
     
-    if 'patch' in opt.preprocess:
-        transform_list.append(transforms.Lambda(lambda img: __patch(img, params['patch_index'], opt.crop_size)))
+    # Add path to the transformations list
+    if 'patch' in opt.preprocess: transform_list.append(transforms.Lambda(lambda img: __patch(img, params['patch_index'], opt.crop_size)))
 
-    if 'trim' in opt.preprocess:
-        transform_list.append(transforms.Lambda(lambda img: __trim(img, opt.crop_size)))
+    # Add trim to the transformations list
+    if 'trim' in opt.preprocess: transform_list.append(transforms.Lambda(lambda img: __trim(img, opt.crop_size)))
 
-    # if opt.preprocess == 'none':
-    transform_list.append(transforms.Lambda(lambda img: __make_power_2(img, base=4, method=method)))
+    # Make square image
+    if opt.preprocess == 'none': transform_list.append(transforms.Lambda(lambda img: __make_power_2(img, base=4, method=method)))
 
     if not opt.no_flip:
         pass
