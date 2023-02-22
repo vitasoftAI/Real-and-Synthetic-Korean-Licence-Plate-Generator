@@ -401,13 +401,34 @@ def __scale_width(img, target_width, crop_width, method=transforms.Interpolation
     return img.resize((w, h), method)
 
 def __crop(img, pos, size):
+    
+    """
+    
+    A function to crop an image.
+    
+    Arguments:
+    
+        img - image to be scaled, PIL image;
+        pos - desired width to be scaled;
+        crop_width - width of the crop, int;
+        method - resize method;
+        
+    Return:
+    
+        img - scaled image.
+    
+    """
+    
+    # Get width and height of an image
     ow, oh = img.size
+    
+    # Set the coordinates
     x1, y1 = pos
     tw = th = size
     if (ow > tw or oh > th):
         return img.crop((x1, y1, x1 + tw, y1 + th))
+    
     return img
-
 
 def __patch(img, index, size):
     ow, oh = img.size
