@@ -241,6 +241,23 @@ def get_transform(opt, params=None, grayscale=False, method=transforms.Interpola
     return transforms.Compose(transform_list)
 
 def __make_power_2(img, base, method=transforms.InterpolationMode.BICUBIC):
+    
+    """
+    Function to make a square-shaped image.
+    
+    Arguments:
+    
+        img - input image, PIL image;
+        base - base value, int;
+        method - method to resize.
+    
+    Returns:
+    
+        resized image.    
+    
+    """
+    
+    # Get image size
     ow, oh = img.size
     h = int(round(oh / base) * base)
     w = int(round(ow / base) * base)
