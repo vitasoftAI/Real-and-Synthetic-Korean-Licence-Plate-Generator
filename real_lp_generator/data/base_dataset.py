@@ -125,11 +125,17 @@ class BaseDataset(data.Dataset, ABC):
 def get_params(opt, size):
     
     """
+    
     Function to get parameters for transformation.
     
     Arguments:
-    opt - options;
-    size - pre-defined height and width.
+    
+        opt - options;
+        size - pre-defined height and width.
+    
+    Returns:
+    
+        crop coordinates and flip option.
     
     """
     
