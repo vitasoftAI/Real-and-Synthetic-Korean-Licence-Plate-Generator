@@ -123,6 +123,16 @@ class BaseDataset(data.Dataset, ABC):
         pass
 
 def get_params(opt, size):
+    
+    """
+    Function to get parameters for transformation.
+    
+    Arguments:
+    opt - options;
+    size - pre-defined height and width.
+    
+    """
+    
     w, h = size
     new_h = h
     new_w = w
