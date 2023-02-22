@@ -139,20 +139,20 @@ def get_params(opt, size):
     # Set new width and height
     new_w, new_h = w, h
     
-    # If preprocess has resize and crop to width and height to pre-defined load size
+    # If preprocess has resize and crop set width and height to pre-defined load size
     if opt.preprocess == 'resize_and_crop': new_h = new_w = opt.load_size
     
-    # If preprocess has resize and crop to width and height to pre-defined load size
+    # If preprocess has scaled width and crop option set new width and height
     elif opt.preprocess == 'scale_width_and_crop':
         new_w = opt.load_size
         new_h = opt.load_size * h // w
-
+    
+    # Get random integers for crop
     x = random.randint(0, np.maximum(0, new_w - opt.crop_size))
     y = random.randint(0, np.maximum(0, new_h - opt.crop_size))
-
-    flip = random.random() > 0.5
-
-    return {'crop_pos': (x, y), 'flip': flip}
+    
+    # Return cropping coordinates flip option
+    return {'crop_pos': (x, y), 'flip': random.random() > 0.5}
 
 
 def get_transform(opt, params=None, grayscale=False, method=transforms.InterpolationMode.BICUBIC, convert=True):
