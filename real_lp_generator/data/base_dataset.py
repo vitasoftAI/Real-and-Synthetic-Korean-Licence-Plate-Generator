@@ -373,13 +373,32 @@ def __trim(img, trim_width):
     return img.crop((xstart, ystart, xend, yend))
 
 def __scale_width(img, target_width, crop_width, method=transforms.InterpolationMode.BICUBIC):
+    
+    """
+    
+    A function to scale the width of an image.
+    
+    Arguments:
+    
+        img - image to be scaled, PIL image;
+        target_width - desired width to be scaled;
+        crop_width - width of the crop, int;
+        method - resize method;
+        
+    Return:
+    
+        img - scaled image.
+    
+    """
+    
+    # Get width and heigh of the image
     ow, oh = img.size
     if ow == target_width and oh >= crop_width:
         return img
     w = target_width
     h = int(max(target_width * oh / ow, crop_width))
+    
     return img.resize((w, h), method)
-
 
 def __crop(img, pos, size):
     ow, oh = img.size
