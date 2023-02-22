@@ -448,10 +448,13 @@ def __patch(img, index, size):
     
     """
     
+    # Get width and height of an image
     ow, oh = img.size
     nw, nh = ow // size, oh // size
     roomx = ow - nw * size
     roomy = oh - nh * size
+    
+    # Start coordinates
     startx = np.random.randint(int(roomx) + 1)
     starty = np.random.randint(int(roomy) + 1)
 
@@ -460,8 +463,9 @@ def __patch(img, index, size):
     iy = index % nh
     gridx = startx + ix * size
     gridy = starty + iy * size
+    
+    # Return cropped image
     return img.crop((gridx, gridy, gridx + size, gridy + size))
-
 
 def __flip(img, flip):
     if flip:
