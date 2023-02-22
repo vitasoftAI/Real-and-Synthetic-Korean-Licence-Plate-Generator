@@ -273,6 +273,23 @@ def __make_power_2(img, base, method=transforms.InterpolationMode.BICUBIC):
 
 def __random_zoom(img, target_width, crop_width, method=transforms.InterpolationMode.BICUBIC, factor=None):
     
+    """
+    A function to zoom an image.
+    
+    Arguments:
+    
+        img - image to be zoomed, PIL image;
+        target_width - desired width to be zoomed;
+        crop_width - width of the crop, int;
+        method - resize method;
+        factor - factor to zoom, tuple.
+        
+    Return:
+    
+        img - zoomed image
+    
+    """
+    
     # Get zoom level
     zoom_level = np.random.uniform(0.8, 1.0, size=[2]) if factor is None else (factor[0], factor[1])
     
