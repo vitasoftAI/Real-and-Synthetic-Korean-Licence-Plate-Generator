@@ -272,15 +272,19 @@ def __make_power_2(img, base, method=transforms.InterpolationMode.BICUBIC):
     return img.resize((w, h), method)
 
 def __random_zoom(img, target_width, crop_width, method=transforms.InterpolationMode.BICUBIC, factor=None):
-    if factor is None:
-        zoom_level = np.random.uniform(0.8, 1.0, size=[2])
-    else:
-        zoom_level = (factor[0], factor[1])
+    
+    # Get zoom level
+    zoom_level = np.random.uniform(0.8, 1.0, size=[2]) if factor is None else (factor[0], factor[1])
+    
+    # Get image coordinates
     iw, ih = img.size
+    
+    # Get zoom coordinates
     zoomw = max(crop_width, iw * zoom_level[0])
     zoomh = max(crop_width, ih * zoom_level[1])
-    img = img.resize((int(round(zoomw)), int(round(zoomh))), method)
-    return img
+    
+    # Return the zoomed image
+    return img.resize((int(round(zoomw)), int(round(zoomh))), method)
 
 
 def __scale_shortside(img, target_width, crop_width, method=transforms.InterpolationMode.BICUBIC):
