@@ -130,8 +130,8 @@ def get_params(opt, size):
     
     Arguments:
     
-        opt - options;
-        size - pre-defined height and width.
+        opt - options, str;
+        size - pre-defined height and width, tuple.
     
     Returns:
     
@@ -160,8 +160,21 @@ def get_params(opt, size):
     # Return cropping coordinates flip option
     return {'crop_pos': (x, y), 'flip': random.random() > 0.5}
 
-
 def get_transform(opt, params=None, grayscale=False, method=transforms.InterpolationMode.BICUBIC, convert=True):
+    
+    """
+    
+    Function to get transformations list;
+    
+    Arguments:
+        opt - options, str;
+        params - parameters;
+        grayscale - grayscale option, bool;
+        method - name of the method for resizing;
+        convert - conversion option, bool.
+    
+    
+    """
     transform_list = []
     if grayscale:
         transform_list.append(transforms.Grayscale(1))
