@@ -225,10 +225,7 @@ def get_transform(opt, params=None, grayscale=False, method=transforms.Interpola
     if opt.preprocess == 'none': transform_list.append(transforms.Lambda(lambda img: __make_power_2(img, base=4, method=method)))
 
     # Flip option
-    if not opt.no_flip:
-        if params is None or 'flip' not in params: transform_list.append(transforms.RandomHorizontalFlip())
-        elif 'flip' in params: transform_list.append(transforms.Lambda(lambda img: __flip(img, params['flip'])))
-            
+    if not opt.no_flip: transform_list.append(transforms.RandomHorizontalFlip()) if (params is None or 'flip' not in params) elif 'flip' in params transform_list.append(transforms.Lambda(lambda img: __flip(img, params['flip'])))
 
     # Convert option
     if convert:
