@@ -259,13 +259,17 @@ def __make_power_2(img, base, method=transforms.InterpolationMode.BICUBIC):
     
     # Get image size
     ow, oh = img.size
+    
+    # Get height to resize
     h = int(round(oh / base) * base)
+    
+    # Get width to resize
     w = int(round(ow / base) * base)
-    if h == oh and w == ow:
-        return img
+    
+    # If new and old h and width are the same return the original input image
+    if h == oh and w == ow: return img
 
     return img.resize((w, h), method)
-
 
 def __random_zoom(img, target_width, crop_width, method=transforms.InterpolationMode.BICUBIC, factor=None):
     if factor is None:
