@@ -181,34 +181,40 @@ def get_transform(opt, params=None, grayscale=False, method=transforms.Interpola
     """
     
     # Initialize transformations list
+    
     transform_list = []
-    if grayscale:
-        transform_list.append(transforms.Grayscale(1))
-    if 'fixsize' in opt.preprocess:
-        transform_list.append(transforms.Resize(params["size"], method))
+    
+    # Add grayscale transformations list
+    if grayscale: transform_list.append(transforms.Grayscale(1))
+    
+    # Add fixed size resize transformations list
+    if 'fixsize' in opt.preprocess: transform_list.append(transforms.Resize(params["size"], method))
+    
+    # Add resize transformations list
     if 'resize' in opt.preprocess:
+        
+        # Get list of sizes based on load size option
         osize = [opt.load_size, opt.load_size]
-        if "gta2cityscapes" in opt.dataroot:
-            osize[0] = opt.load_size // 2
+        
+        # Manage the case of gta2cityscapes
+        if "gta2cityscapes" in opt.dataroot: osize[0] = opt.load_size // 2
+            
+        # Add square padding to the transformations list
         transform_list.append(SquarePad())
+        
+        # Add resize to the transformations list
         transform_list.append(transforms.Resize(osize, method))
-    elif 'scale_width' in opt.preprocess:
-        transform_list.append(transforms.Lambda(lambda img: __scale_width(img, opt.load_size, opt.crop_size, method)))
-    elif 'scale_shortside' in opt.preprocess:
-        transform_list.append(transforms.Lambda(lambda img: __scale_shortside(img, opt.load_size, opt.crop_size, method)))
-
-    if 'zoom' in opt.preprocess:
-        if params is None:
-            transform_list.append(transforms.Lambda(lambda img: __random_zoom(img, opt.load_size, opt.crop_size, method)))
-        else:
-            transform_list.append(transforms.Lambda(lambda img: __random_zoom(img, opt.load_size, opt.crop_size, method, factor=params["scale_factor"])))
-
-    if 'crop' in opt.preprocess:
-        if params is None or 'crop_pos' not in params:
-            transform_list.append(transforms.RandomCrop(opt.crop_size))
-        else:
-            transform_list.append(transforms.Lambda(lambda img: __crop(img, params['crop_pos'], opt.crop_size)))
-
+        
+    # Add scale to the transformations list
+    elif 'scale_width' in opt.preprocess: transform_list.append(transforms.Lambda(lambda img: __scale_width(img, opt.load_size, opt.crop_size, method)))
+    elif 'scale_shortside' in opt.preprocess: transform_list.append(transforms.Lambda(lambda img: __scale_shortside(img, opt.load_size, opt.crop_size, method)))
+    
+    # Add zoom to the transformations list
+    if 'zoom' in opt.preprocess: transform_list.append(transforms.Lambda(lambda img: __random_zoom(img, opt.load_size, opt.crop_size, method))) if params is None else transform_list.append(transforms.Lambda(lambda img: __random_zoom(img, opt.load_size, opt.crop_size, method, factor=params["scale_factor"])))
+    
+    # Add crop to the transformations list
+    if 'crop' in opt.preprocess: transform_list.append(transforms.RandomCrop(opt.crop_size)) if (params is None or 'crop_pos' not in params) else transform_list.append(transforms.Lambda(lambda img: __crop(img, params['crop_pos'], opt.crop_size)))
+    
     if 'patch' in opt.preprocess:
         transform_list.append(transforms.Lambda(lambda img: __patch(img, params['patch_index'], opt.crop_size)))
 
