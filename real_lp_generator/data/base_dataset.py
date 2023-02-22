@@ -313,13 +313,13 @@ def __scale_shortside(img, target_width, crop_width, method=transforms.Interpola
     Arguments:
     
         img - image to be scaled, PIL image;
-        target_width - desired width to be zoomed;
+        target_width - desired width to be scaled;
         crop_width - width of the crop, int;
         method - resize method;
         
     Return:
     
-        img - zoomed image
+        img - scaled image.
     
     """
    
@@ -334,6 +334,22 @@ def __scale_shortside(img, target_width, crop_width, method=transforms.Interpola
         return img.resize((round(ow * scale), round(oh * scale)), method)
 
 def __trim(img, trim_width):
+    
+    """
+    
+    A function to trim the image.
+    
+    Arguments:
+    
+        img - image to be trimmed, PIL image;
+        trim_width - desired width to be trimmed;
+        
+    Return:
+    
+        img - trimmed image.
+    
+    """
+    
     ow, oh = img.size
     if ow > trim_width:
         xstart = np.random.randint(ow - trim_width)
