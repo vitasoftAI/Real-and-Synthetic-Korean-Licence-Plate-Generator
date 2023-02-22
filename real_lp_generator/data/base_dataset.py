@@ -415,7 +415,7 @@ def __crop(img, pos, size):
         
     Return:
     
-        img - scaled image.
+        img - cropped image.
     
     """
     
@@ -431,6 +431,23 @@ def __crop(img, pos, size):
     return img
 
 def __patch(img, index, size):
+    
+    """
+    
+    A function to get patch of an image.
+    
+    Arguments:
+    
+        img - image to be scaled, PIL image;
+        index - index;
+        size - desired size, tuple;
+        
+    Return:
+    
+        img - patched image.
+    
+    """
+    
     ow, oh = img.size
     nw, nh = ow // size, oh // size
     roomx = ow - nw * size
