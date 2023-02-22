@@ -350,21 +350,27 @@ def __trim(img, trim_width):
     
     """
     
+    # Get width and height of the image
     ow, oh = img.size
+    
+    # Get start and end points
     if ow > trim_width:
         xstart = np.random.randint(ow - trim_width)
         xend = xstart + trim_width
     else:
         xstart = 0
         xend = ow
+    
+    # Get start and end points
     if oh > trim_width:
         ystart = np.random.randint(oh - trim_width)
         yend = ystart + trim_width
     else:
         ystart = 0
         yend = oh
+    
+    # Return cropped image
     return img.crop((xstart, ystart, xend, yend))
-
 
 def __scale_width(img, target_width, crop_width, method=transforms.InterpolationMode.BICUBIC):
     ow, oh = img.size
