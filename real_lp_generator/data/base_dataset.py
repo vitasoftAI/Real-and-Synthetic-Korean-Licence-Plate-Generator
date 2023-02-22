@@ -274,6 +274,7 @@ def __make_power_2(img, base, method=transforms.InterpolationMode.BICUBIC):
 def __random_zoom(img, target_width, crop_width, method=transforms.InterpolationMode.BICUBIC, factor=None):
     
     """
+    
     A function to zoom an image.
     
     Arguments:
@@ -303,8 +304,25 @@ def __random_zoom(img, target_width, crop_width, method=transforms.Interpolation
     # Return the zoomed image
     return img.resize((int(round(zoomw)), int(round(zoomh))), method)
 
-
 def __scale_shortside(img, target_width, crop_width, method=transforms.InterpolationMode.BICUBIC):
+    
+    """
+    
+    A function to scale the shortside of an image.
+    
+    Arguments:
+    
+        img - image to be scaled, PIL image;
+        target_width - desired width to be zoomed;
+        crop_width - width of the crop, int;
+        method - resize method;
+        
+    Return:
+    
+        img - zoomed image
+    
+    """
+   
     ow, oh = img.size
     shortside = min(ow, oh)
     if shortside >= target_width:
