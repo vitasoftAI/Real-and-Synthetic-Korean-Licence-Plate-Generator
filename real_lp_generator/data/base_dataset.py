@@ -225,17 +225,20 @@ def get_transform(opt, params=None, grayscale=False, method=transforms.Interpola
     if opt.preprocess == 'none': transform_list.append(transforms.Lambda(lambda img: __make_power_2(img, base=4, method=method)))
 
     # Flip option
-    if not opt.no_flip: transform_list.append(transforms.RandomHorizontalFlip()) if (params is None or 'flip' not in params) elif 'flip' in params transform_list.append(transforms.Lambda(lambda img: __flip(img, params['flip'])))
+    if not opt.no_flip: transform_list.append(transforms.RandomHorizontalFlip()) if (params is None or 'flip' not in params) else transform_list.append(transforms.Lambda(lambda img: __flip(img, params['flip'])))
 
     # Convert option
     if convert:
+        # Convert to tensor
         transform_list += [transforms.ToTensor()]
-        if grayscale:
-            transform_list += [transforms.Normalize((0.5,), (0.5,))]
-        else:
-            transform_list += [transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))]
+        
+        # Grayscale image normalization
+        if grayscale: transform_list += [transforms.Normalize((0.5,), (0.5,))]
+        
+        # RGB image normalization
+        else: transform_list += [transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))]
+            
     return transforms.Compose(transform_list)
-
 
 def __make_power_2(img, base, method=transforms.InterpolationMode.BICUBIC):
     ow, oh = img.size
