@@ -31,11 +31,17 @@ class UnalignedDataset(BaseDataset):
         
         BaseDataset.__init__(self, opt)
         self.test = test
-        # Set a path to the  directory with ima
-        self.dir_A = os.path.join(opt.dataroot, opt.phase + 'A')  # create a path '/path/to/data/trainA'
-        self.dir_B = os.path.join(opt.dataroot, opt.phase + 'B')  # create a path '/path/to/data/trainB'
+        
+        # Set a path to the directory with images from domain A
+        self.dir_A = os.path.join(opt.dataroot, opt.phase + 'A') 
+        
+        # Set a path to the directory with images from domain B
+        self.dir_B = os.path.join(opt.dataroot, opt.phase + 'B')
+        
+        # Set a list with proper image filetypes
         self.im_files = [".jpg", ".png", ".jpeg"]
         
+        # Set a path to the directory with images from domain A and B for test purposes
         if opt.phase == "test" and not os.path.exists(self.dir_A) \
            and os.path.exists(os.path.join(opt.dataroot, "valA")):
             self.dir_A = os.path.join(opt.dataroot, "valA")
