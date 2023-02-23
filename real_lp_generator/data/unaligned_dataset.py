@@ -52,17 +52,25 @@ class UnalignedDataset(BaseDataset):
         self.B_paths = sorted(make_dataset(self.dir_B, opt.max_dataset_size))   
 
     def __getitem__(self, index):
-        """Return a data point and its metadata information.
-
-        Parameters:
-            index (int)      -- a random integer for data indexing
-
-        Returns a dictionary that contains A, B, A_paths and B_paths
-            A (tensor)       -- an image in the input domain
-            B (tensor)       -- its corresponding image in the target domain
-            A_paths (str)    -- image paths
-            B_paths (str)    -- image paths
+        
         """
+        
+        This function returns an image and its metadata information.
+
+        Arguments:
+            index - a random integer for data indexing, int.
+
+        Output:
+        
+            a dictionary that contains A, B, A_paths and B_paths, where:
+            
+            A - an image in the input domain A, tensor;
+            B - corresponding image for the input domain A in the target domain B, tensor;
+            A_paths - path of the image in the input domain A, str;
+            B_paths - path of the image in the input domain B, str;
+            
+        """
+        
         A_path = self.A_paths[index % len(self.A_paths)]  # make sure index is within then range # qoldiq
         if self.test:
             index_B = random.randint(0, len(self.B_paths) - 1)
