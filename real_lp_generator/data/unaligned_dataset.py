@@ -18,13 +18,20 @@ class UnalignedDataset(BaseDataset):
     """
 
     def __init__(self, opt, test=True):
-        """Initialize this dataset class.
-
-        Parameters:
-            opt (Option class) -- stores all the experiment flags; needs to be a subclass of BaseOptions
+        
         """
+        
+        This functiin initializes the unaligned dataset class.
+
+        Arguments:
+            opt - options need to be a subclass of BaseOptions;
+            test - test option, bool.
+            
+        """
+        
         BaseDataset.__init__(self, opt)
         self.test = test
+        # Set a path to the  directory with ima
         self.dir_A = os.path.join(opt.dataroot, opt.phase + 'A')  # create a path '/path/to/data/trainA'
         self.dir_B = os.path.join(opt.dataroot, opt.phase + 'B')  # create a path '/path/to/data/trainB'
         self.im_files = [".jpg", ".png", ".jpeg"]
