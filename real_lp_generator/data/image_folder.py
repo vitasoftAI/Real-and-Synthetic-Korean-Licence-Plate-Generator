@@ -75,6 +75,24 @@ def default_loader(path):
     return Image.open(path).convert('RGB')
 
 class ImageFolder(data.Dataset):
+    
+    """
+    
+    This class reads an image from the given path and returns transformed image.
+    
+    Arguments:
+        
+        root - path to the folder with images, str;
+        transform - transformations to be applied;
+        return_paths - option to return the path of an image, bool;
+        loader - loader to load images from the root.
+        
+    Output:
+        
+        path - image path;
+        img - transformed image.
+    
+    """
 
     def __init__(self, root, transform=None, return_paths=False,
                  loader=default_loader):
