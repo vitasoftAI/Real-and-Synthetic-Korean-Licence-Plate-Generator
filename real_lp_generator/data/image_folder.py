@@ -10,15 +10,21 @@ from PIL import Image
 import os
 import os.path
 
-IMG_EXTENSIONS = [
-    '.jpg', '.JPG', '.jpeg', '.JPEG',
-    '.png', '.PNG', '.ppm', '.PPM', '.bmp', '.BMP',
-    '.tif', '.TIF', '.tiff', '.TIFF',
-]
+# Initialize a list with proper image extensions
+im_exts = ['.jpg', '.JPG', '.jpeg', '.JPEG', '.png', '.PNG', '.ppm', '.PPM', '.bmp', '.BMP', '.tif', '.TIF', '.tiff', '.TIFF']
 
+def is_image_file(fn):
+    
+    """
+    
+    This function checks filetype of the input file and returns True if the filetype is in the proper image extensions list.
+    
+    Argument:
+        filename - name of the image file.
+    
+    """
 
-def is_image_file(filename):
-    return any(filename.endswith(extension) for extension in IMG_EXTENSIONS)
+    return any(fn.endswith(im_ext) for im_ext in im_exts)
 
 
 def make_dataset(dir, max_dataset_size=float("inf")):
