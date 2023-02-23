@@ -28,15 +28,27 @@ def is_image_file(fn):
 
 
 def make_dataset(dir, max_dataset_size=float("inf")):
-    images = []
+    
+    """
+    
+    This function creates dataset by getting root folder and maximum number for dataset size.
+    
+    Arguments:
+        
+        dir - root folder with images, str.
+        max_dataset_size - maximum number for the dataset, int.
+    
+    """
+    
+    ims = []
     assert os.path.isdir(dir) or os.path.islink(dir), '%s is not a valid directory' % dir
 
     for root, _, fnames in sorted(os.walk(dir, followlinks=True)):
         for fname in fnames:
             if is_image_file(fname):
                 path = os.path.join(root, fname)
-                images.append(path)
-    return images[:min(max_dataset_size, len(images))]
+                ims.append(path)
+    return ims[:min(max_dataset_size, len(ims))]
 
 
 def default_loader(path):
@@ -50,7 +62,7 @@ class ImageFolder(data.Dataset):
         imgs = make_dataset(root)
         if len(imgs) == 0:
             raise(RuntimeError("Found 0 images in: " + root + "\n"
-                               "Supported image extensions are: " + ",".join(IMG_EXTENSIONS)))
+                               "Supported image extensions are: " + ",".join(im_exts)))
 
         self.root = root
         self.imgs = imgs
