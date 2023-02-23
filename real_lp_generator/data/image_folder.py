@@ -104,21 +104,39 @@ class ImageFolder(data.Dataset):
                                "Supported image extensions are: " + ",".join(im_exts)))
 
         # Set class variables
-        self.root = root
-        self.imgs = imgs
-        self.transform = transform
-        self.return_paths = return_paths
-        self.loader = loader
+        self.root, self.imgs, self.transform, self.return_paths, self.loader = root, imgs, transform, return_paths, loader
 
     def __getitem__(self, index):
+        
+        """
+    
+        This function reads image and applies transformations (if needed) and returns an image and path (if needed) based on the given index.
+
+        Argument:
+            path - path to an image.
+
+        Output:
+            PIL image.
+
+        """
+        
+        # Get an image path
         path = self.imgs[index]
+        # Load an image from the image path
         img = self.loader(path)
-        if self.transform is not None:
-            img = self.transform(img)
-        if self.return_paths:
-            return img, path
-        else:
-            return img
+        # Apply transformations
+        if self.transform is not None: img = self.transform(img)
+        
+        # Return image and path
+        if self.return_paths: return img, path
+        else: return img
 
     def __len__(self):
+        
+        """
+    
+        This function returns length of the dataset.
+
+        """
+        
         return len(self.imgs)
