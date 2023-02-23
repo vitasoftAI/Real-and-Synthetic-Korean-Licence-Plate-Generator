@@ -58,8 +58,21 @@ def make_dataset(dir, max_dataset_size=float("inf")):
     return ims[:min(max_dataset_size, len(ims))]
 
 def default_loader(path):
+    
+    """
+    
+    This function loads an image from the given path.
+    
+    Argument:
+        path - path to an image.
+        
+    Output:
+        PIL image.
+    
+    """
+    
+    # Read image and convert it to RGB
     return Image.open(path).convert('RGB')
-
 
 class ImageFolder(data.Dataset):
 
