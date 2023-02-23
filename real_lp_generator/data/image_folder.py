@@ -42,14 +42,20 @@ def make_dataset(dir, max_dataset_size=float("inf")):
     
     ims = []
     assert os.path.isdir(dir) or os.path.islink(dir), '%s is not a valid directory' % dir
-
+    
+    # Go through the directory
     for root, _, fnames in sorted(os.walk(dir, followlinks=True)):
+        
+        # Go through the file names in the root folder
         for fname in fnames:
+            # Get image path
             if is_image_file(fname):
                 path = os.path.join(root, fname)
+                # Add image path to the list
                 ims.append(path)
+    
+    # Return a list with images based on max_dataset_size
     return ims[:min(max_dataset_size, len(ims))]
-
 
 def default_loader(path):
     return Image.open(path).convert('RGB')
