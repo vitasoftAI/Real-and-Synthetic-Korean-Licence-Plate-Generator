@@ -17,7 +17,7 @@ class UnalignedDataset(BaseDataset):
     
     """
 
-    def __init__(self, opt, test=True):
+    def __init__(self, opt, test = True):
         
         """
         
@@ -71,25 +71,16 @@ class UnalignedDataset(BaseDataset):
             
         """
         
-        A_path = self.A_paths[index % len(self.A_paths)]  # make sure index is within then range # qoldiq
-        if self.test:
-            index_B = random.randint(0, len(self.B_paths) - 1)
-            B_path = self.B_paths[index_B]
-        else:
-            plate_type = os.path.splitext(os.path.basename(A_path))[0].split("__")[1]
-            out_path = glob(f"{os.path.join(self.dir_B, plate_type)}/*{[im_file for im_file in self.im_files]}")
-            index_B = random.randint(0, len(out_path) - 1)
-            B_path = out_path[index_B]
+        # Set A_path variable and make sure it is in the range of len of A_path
+        A_path = self.A_paths[index % len(self.A_paths)] 
         
+        # Set B_path variable and make sure it is random every __getitem__call to avoid fixed pair of images
+        B_path = self.B_paths[random.randint(0, len(self.B_paths) - 1)]
+        
+       
         A_img = Image.open(A_path).convert('RGB')
         B_img = Image.open(B_path).convert('RGB')
-        # print(A_path)
-        # print(B_path)
-        # if index % 100 == 0:
-        # print(os.path.basename(A_path), os.path.basename(B_path))
-        # Apply image transformation
-        # For CUT/FastCUT mode, if in finetuning phase (learning rate is decaying),
-        # do not perform resize-crop data augmentation of CycleGAN.
+        
         is_finetuning = self.opt.isTrain and self.current_epoch > self.opt.n_epochs
         modified_opt = util.copyconf(self.opt, load_size=self.opt.crop_size if is_finetuning else self.opt.load_size)
         transform = get_transform(modified_opt)
