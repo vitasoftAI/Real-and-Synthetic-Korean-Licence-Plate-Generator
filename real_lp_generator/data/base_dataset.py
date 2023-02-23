@@ -468,10 +468,25 @@ def __patch(img, index, size):
     return img.crop((gridx, gridy, gridx + size, gridy + size))
 
 def __flip(img, flip):
-    if flip:
-        return img.transpose(Image.FLIP_LEFT_RIGHT)
+    
+    """
+    
+    A function to flip an image.
+    
+    Arguments:
+    
+        img - image to be flipped, PIL image;
+        flip - flip option, bool;
+        
+    Return:
+    
+        img - flipped (or not flipped) image.
+    
+    """
+    
+    if flip: return img.transpose(Image.FLIP_LEFT_RIGHT)
+    
     return img
-
 
 def __print_size_warning(ow, oh, w, h):
     """Print warning information about image size(only print once)"""
