@@ -94,13 +94,16 @@ class ImageFolder(data.Dataset):
     
     """
 
-    def __init__(self, root, transform=None, return_paths=False,
-                 loader=default_loader):
+    def __init__(self, root, transform = None, return_paths = False, loader = default_loader):
+        
+        # Get image paths
         imgs = make_dataset(root)
-        if len(imgs) == 0:
-            raise(RuntimeError("Found 0 images in: " + root + "\n"
+        
+        # If no image is in the root
+        if len(imgs) == 0: raise(RuntimeError("Found 0 images in: " + root + "\n"
                                "Supported image extensions are: " + ",".join(im_exts)))
 
+        # Set class variables
         self.root = root
         self.imgs = imgs
         self.transform = transform
