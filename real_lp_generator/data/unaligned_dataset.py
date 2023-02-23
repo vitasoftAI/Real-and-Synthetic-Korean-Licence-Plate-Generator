@@ -6,16 +6,15 @@ from PIL import Image
 import random
 import util.util as util
 
-
 class UnalignedDataset(BaseDataset):
+    
     """
-    This dataset class can load unaligned/unpaired datasets.
+    
+    This dataset class loads unaligned/unpaired datasets.
 
     It requires two directories to host training images from domain A '/path/to/data/trainA'
-    and from domain B '/path/to/data/trainB' respectively.
-    You can train the model with the dataset flag '--dataroot /path/to/data'.
-    Similarly, you need to prepare two directories:
-    '/path/to/data/testA' and '/path/to/data/testB' during test time.
+    and from domain B '/path/to/data/trainB', respectively.
+    
     """
 
     def __init__(self, opt, test=True):
