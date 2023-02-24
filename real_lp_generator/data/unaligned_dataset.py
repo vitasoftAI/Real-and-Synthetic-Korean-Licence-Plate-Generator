@@ -77,22 +77,28 @@ class UnalignedDataset(BaseDataset):
         # Set B_path variable and make sure it is random every __getitem__call to avoid fixed pair of images
         B_path = self.B_paths[random.randint(0, len(self.B_paths) - 1)]
         
-       
-        A_img = Image.open(A_path).convert('RGB')
-        B_img = Image.open(B_path).convert('RGB')
+        # Read images from both domains
+        A_img, B_img = Image.open(A_path).convert('RGB'), Image.open(B_path).convert('RGB')
         
         is_finetuning = self.opt.isTrain and self.current_epoch > self.opt.n_epochs
         modified_opt = util.copyconf(self.opt, load_size=self.opt.crop_size if is_finetuning else self.opt.load_size)
+        
+        # Get transformations
         transform = get_transform(modified_opt)
-        A = transform(A_img)
-        B = transform(B_img)
+        
+        # Apply transformations
+        A, B = transform(A_img), transform(B_img)
 
         return {'A': A, 'B': B, 'A_paths': A_path, 'B_paths': B_path}
 
     def __len__(self):
-        """Return the total number of images in the dataset.
-
-        As we have two datasets with potentially different number of images,
-        we take a maximum of
+        
         """
+        
+        This function returns the total number of images in the dataset.
+
+        Because there are two datasets from two different domains, the function returns the max number of images in the datasets.
+        
+        """
+        
         return max(len(self.A_paths), len(self.B_paths))
