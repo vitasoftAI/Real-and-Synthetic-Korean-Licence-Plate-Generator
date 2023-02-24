@@ -2,9 +2,8 @@ import numpy as np
 import torch
 from .base_model import BaseModel
 from . import networks, losses
-from .patchnce import PatchNCELoss
+from .losses import PatchNCELoss
 import util.util as util
-
 
 class CUTModel(BaseModel):
     """ This class implements CUT and FastCUT model, described in the paper
