@@ -64,6 +64,11 @@ def save(plate, save_path, transformations, label):
     os.makedirs(save_dir, exist_ok = True)
     cv2.imwrite(os.path.join(save_dir, f"{label.split('__')[1]}__{folder}") + ".jpg", plate)
     print(f"Plate {label.split('__')[1]}__{folder}.jpg is saved to {save_dir}/!")
+    
+    # fname = os.path.join(save_path, label.split('_')[1])
+    # os.makedirs(save_path, exist_ok = True)
+    # cv2.imwrite(f"{fname}.jpg", plate)
+    # print(f"Plate {label.split('_')[1]}.jpg is saved to {save_path}!")
 
 def load(files_path):
     
@@ -83,6 +88,7 @@ def preprocess(plate, plate_path, plate_size, label_prefix, init_size):
     plate_chars = [char for char in plate]
     plate = cv2.resize(cv2.imread(plate_path), plate_size)
     label = f"{label_prefix}__" 
+    # label = f"_" 
     row, col = init_size[0], init_size[1]
     
     return plate_chars, plate, label, row, col
@@ -94,9 +100,8 @@ def generate_plate(plate_path, plate, plate_size, num_size, num_size_2, random, 
     plate_chars, plate, label, row, col = preprocess(plate, plate_path, plate_size, label_prefix, init_size)
     
     if random: region_name = all_regions[int(np.random.randint(low=0, high=len(all_regions), size=1))]
-
     if label_prefix == "commercial_europe":
-
+        
         row, col = 10, 25
         to_crop = regions[region_name].shape[1] // 2
         plate[row:row + row * 4, col:col + col * 2, :] = cv2.resize(regions[region_name][:, 0:to_crop], (col * 2, row * 4))
