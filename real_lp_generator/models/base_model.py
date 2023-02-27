@@ -4,11 +4,21 @@ from collections import OrderedDict
 from abc import ABC, abstractmethod
 from . import networks
 
-def pp(var_name, var, shape=False):
-    if shape:
-        print(f"{var_name} -> {var.shape}\n")        
-    else:
-        print(f"{var_name} -> {var}\n")
+def pp(var_name, var, shape = False):
+    
+    """
+    
+    This is a debugging function that gets variable and returns print with (or without) its shape
+    
+    Arguments:
+        var_name - name of the variable to be printed, str;
+        var - variable;
+        shape - whether or not to print the shape of the variable, bool;
+        
+    """
+    
+    if shape: print(f"{var_name} -> {var.shape}\n")        
+    else: print(f"{var_name} -> {var}\n")
 
 
 class BaseModel(ABC):
