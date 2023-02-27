@@ -16,28 +16,21 @@ class PlateGenerator:
     
     def __init__(self, save_path, random, transformations):
         
-        # Set a path to save generated images
         self.save_path = save_path
-        
-        # Set randomness option
         self.random = random
-        
-        # Set transformations option
         self.transformations = transformations
-        
-        # Initialize a list with LP types
         self.plate_types = ["basic_europe", "basic_north", "commercial_europe", "commercial_north", "green_old", "green_basic"]
 
-        # Get lists and dictionaries with letters and digits that have white background
+        # Basic nums and chars0
         self.num_ims, self.num_lists = load("digits/digits_white/")
         self.char_ims, self.char_lists = load("letters/letters_white/")
 
-        # Get lists and dictionaries with letters, regions, and digits that have yellow background
+        # Yellow nums and chars
         self.num_ims_yellow, self.num_lists_yellow = load("digits/digits_yellow/")
         self.char_ims_yellow, self.char_lists_yellow = load("letters/letters_yellow/")
         self.regions_yellow, self.regions_lists_yellow = load("regions/regions_yellow/")
        
-        # Get lists and dictionaries with letters, regions, and digits that have green background
+        # Green nums and chars
         self.num_ims_green, self.num_lists_green = load("digits/digits_green/")
         self.char_ims_green, self.char_lists_green = load("letters/letters_green/")
         self.regions_green, self.regions_lists_green = load("regions/regions_green/")
@@ -58,42 +51,28 @@ class PlateGenerator:
         
         # Random option True
         if random:
-            
-            # Get plate type based on the probability function
             plate_type = plate_types[int(np.random.choice(np.arange(0, len(plate_types)), p=[0.33, 0.32, 0.15, 0.15, 0.03, 0.02]))]
-            
-            # Initialize two types for initial digits in LPs
             init_digit_types = ["three", "two"]
-            
-            # Get initial digits type based on the probability function
             init_digit = init_digit_types[int(np.random.choice(np.arange(0, len(init_digit_types)), p=[0.4, 0.6]))]
-            
-            # Set three digit option based on init digit variable 
             three_digit = True if init_digit == "three" else False
 
-            # Set initial plate based on the plate type for random generation
             plate = "경기01마0101" if plate_type in ["commercial_europe", "commercial_north", "green_old"] else "01마0000"
             if plate_type in ["commercial_europe", "commercial_north", "green_old", "green_basic"]:
                 three_digit = False
-                    
-        # Generation from csv file
         else:
-            
-            # Set plate type and three digit option based on plate
-            if plate[0].isalpha(): three_digit, plate_type = False, "commercial_europe"
-            elif plate[0].isdigit(): three_digit, plate_type = True if len(plate) > 7 else False, "basic_europe"
+            if plate[0].isalpha(): 
+                three_digit, plate_type = False, "commercial_europe"
+            elif plate[0].isdigit():
+                three_digit, plate_type = True if len(plate) > 7 else False, "basic_europe"
         
-        # Managing plates with regions
         if plate_type in ["commercial_north", "commercial_europe", "green_old"]:
             
-            # Get region name and digits for the plate
             split = os.path.splitext(os.path.basename(plate))[0]
             region_name, digits = split[:2], split[2:]
             
-        # Plates without region
-        else: digits, region_name = None, None
+            return three_digit, digits, plate_type, region_name
         
-        return three_digit, plate, plate_type, digits, region_name
+        else: return three_digit, plate, plate_type, None
     
     def assertion(self, region_name, region_names):
         
@@ -126,32 +105,22 @@ class PlateGenerator:
         
         # Iterate based on the pre-defined number 
         for _ in range(num):
-            
-            # Initialize variables
             plate_path, num_list, num_size, num_size_2, init_size, char_list, regions, num_ims, char_size, char_ims, region_size, all_regions, plate_size = "plates/plate_white.jpg", self.num_lists, (56, 83), None, (13, 36), self.char_lists, None, self.num_ims, (60, 83), self.char_ims, None, self.regions_lists_yellow, (520, 110)
             
-            # Pre-process
-            three_digit, plate, plate_type, digits, region_name = self.preprocessing(plate, self.random, self.plate_types)
-            
-            # Do assertion
+            three_digit, plate, plate_type, region_name = self.preprocessing(plate, self.random, self.plate_types)
             self.assertion(region_name, self.regions_lists_yellow) if plate_type in ["commercial_north", "commercial_europe", "green_old"] else 0
             
-            # Get information for basic_north plate type
             if plate_type == "basic_north": num_size, init_size, char_size, plate_size = (40, 83), (46, 10), (49, 70), (355, 155)
                 
-            # Get information for commercial north plate type
             elif plate_type == "commercial_north": plate_path, num_list, num_size, num_size_2, init_size, char_list, regions, num_ims, char_size, char_ims, region_size, all_regions, plate_size = "plates/plate_yellow.jpg", self.num_lists_yellow, (44, 60), (64, 90), (8, 76), self.char_lists_yellow, self.regions_yellow, self.num_ims_yellow, (64, 62), self.char_ims_yellow, (88, 60), self.regions_lists_yellow, (336, 170)
-            
-            # Get information for commercial europe plate type
+                
             elif plate_type == "commercial_europe": plate_path, num_list, char_list, regions, num_ims, char_ims, region_size = "plates/plate_yellow.jpg", self.num_lists_yellow,  self.char_lists_yellow, self.regions_yellow, self.num_ims_yellow, self.char_ims_yellow, (88, 60)
                 
-            # Get information for old green plate type
+                
             elif plate_type == "green_old": plate_path, num_list, num_size, num_size_2, init_size, char_list, regions, num_ims, char_size, char_ims, region_size, all_regions, plate_size = "plates/plate_green.jpg", self.num_lists_green, (44, 60), (64, 90), (8, 76), self.char_lists_green, self.regions_green, self.num_ims_green, (64, 62), self.char_ims_green, (88, 60), self.regions_lists_yellow, (336, 170)
-            
-            # Get information for basic green plate type
+             
             elif plate_type == "green_basic": plate_path, num_list, num_size, num_size_2, init_size, char_list, regions, num_ims, char_size, char_ims, all_regions, plate_size = "plates/plate_green.jpg", self.num_lists_green, (60, 65), (80, 90), (8, 78), self.char_lists_green, self.regions_green, self.num_ims_green, (60, 65), self.char_ims_green, self.regions_lists_yellow, (336, 170)
             
-            # Start generation based on the above information
             generate_plate(plate_path=plate_path, random=self.random,
                            plate=plate, num_size=num_size, num_size_2=num_size_2, 
                            num_list=num_list, init_size=init_size, 
