@@ -49,16 +49,16 @@ class BaseModel(ABC):
         # Input images might have different sizes, which hurts the performance of cudnn.benchmark.
         if opt.preprocess != 'scale_width':  torch.backends.cudnn.benchmark = True
             
+        # Initialize lists
         self.loss_names, self.model_names, self.visual_names, self.optimizers, self.image_paths   = [], [], [], [], []
-         = []
-         = []
-         = []
-         = []
-        self.metric = 0  # used for learning rate policy 'plateau'
+        
+        # Metric for "plateau" learning rate policy
+        self.metric = 0 
 
     @staticmethod
-    def dict_grad_hook_factory(add_func=lambda x: x):
-        saved_dict = dict()
+    def dict_grad_hook_factory(add_func = lambda x: x):
+        
+        saved_dict = {}
 
         def hook_gen(name):
             def grad_hook(grad):
@@ -69,13 +69,21 @@ class BaseModel(ABC):
 
     @staticmethod
     def modify_commandline_options(parser, is_train):
-        """Add new model-specific options, and rewrite default values for existing options.
-        Parameters:
-            parser          -- original option parser
-            is_train (bool) -- whether training phase or test phase. You can use this flag to add training-specific or test-specific options.
-        Returns:
-            the modified parser.
+        
         """
+        This function adds new model-specific options, and rewrite default values for existing options.
+        
+        Arguments:
+        
+            parser          - original option parser
+            is_train (bool) - whether training phase or test phase. You can use this flag to add training-specific or test-specific options.
+        
+        Output:
+        
+            the modified parser.
+            
+        """
+        
         return parser
 
     @abstractmethod
