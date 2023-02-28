@@ -71,11 +71,12 @@ class BaseModel(ABC):
     def modify_commandline_options(parser, is_train):
         
         """
+        
         This function adds new model-specific options, and rewrite default values for existing options.
         
         Arguments:
         
-            parser          - original option parser
+            parser          - original option parser;
             is_train (bool) - whether training phase or test phase. You can use this flag to add training-specific or test-specific options.
         
         Output:
@@ -88,20 +89,35 @@ class BaseModel(ABC):
 
     @abstractmethod
     def set_input(self, input):
-        """Unpack input data from the dataloader and perform necessary pre-processing steps.
-        Parameters:
+        
+        
+        """
+        
+        This function unpacks input data from the dataloader and perform necessary pre-processing steps.
+        Argument:
             input (dict): includes the data itself and its metadata information.
+        
         """
         pass
 
     @abstractmethod
     def forward(self):
-        """Run forward pass; called by both functions <optimize_parameters> and <test>."""
+        
+        """
+        
+        This function runs forward pass; called by both functions <optimize_parameters> and <test>.
+        
+        """
         pass
 
     @abstractmethod
     def optimize_parameters(self):
-        """Calculate losses, gradients, and update network weights; called in every training iteration"""
+        
+        """
+        
+        This function calculates losses, gradients, and update network weights; called in every training iteration
+        
+        """
         pass
 
     def setup(self, opt):
