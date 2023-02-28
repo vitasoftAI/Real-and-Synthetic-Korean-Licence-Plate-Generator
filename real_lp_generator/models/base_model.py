@@ -142,6 +142,7 @@ class BaseModel(ABC):
             self.load_networks(load_suffix)
         self.print_networks(opt.verbose)
 
+    # Parallel computation
     def parallelize(self):
         for name in self.model_names:
             if isinstance(name, str):
@@ -150,11 +151,17 @@ class BaseModel(ABC):
                 print(f"Training on {self.opt.gpu_ids} gpus")
                 setattr(self, 'net' + name, torch.nn.DataParallel(net, self.opt.gpu_ids))
 
-    def data_dependent_initialize(self, data):
-        pass
+    def data_dependent_initialize(self, data): pass
 
     def eval(self):
-        """Make models eval mode during test time"""
+        
+        """
+        
+        This function makes models eval mode during test time
+        
+        """
+        
+        # Go through model names
         for name in self.model_names:
             if isinstance(name, str):
                 net = getattr(self, 'net' + name)
