@@ -230,7 +230,14 @@ class BaseModel(ABC):
         return visual_ret
 
     def get_current_losses(self):
-        """Return traning losses / errors. train.py will print out these errors on console, and save them to a file"""
+        
+        
+        """
+        
+        This function returns traning losses / errors. train.py will print out these errors on console, and save them to a file
+        
+        """
+        
         errors_ret = OrderedDict()
         for name in self.loss_names:
             if isinstance(name, str):
@@ -238,10 +245,17 @@ class BaseModel(ABC):
         return errors_ret
 
     def save_networks(self, epoch):
-        """Save all the networks to the disk.
-        Parameters:
-            epoch (int) -- current epoch; used in the file name '%s_net_%s.pth' % (epoch, name)
+        
+        """ 
+        
+        This function saves all the networks to the disk.
+        
+        Argument:
+        
+            epoch - current epoch; used in the file name '%s_net_%s.pth' % (epoch, name), int.
+        
         """
+        
         for name in self.model_names:
             if isinstance(name, str):
                 save_filename = '%s_net_%s.pth' % (epoch, name)
