@@ -121,17 +121,25 @@ class BaseModel(ABC):
         pass
 
     def setup(self, opt):
-        """Load and print networks; create schedulers
-        Parameters:
-            opt (Option class) -- stores all the experiment flags; needs to be a subclass of BaseOptions
+        
         """
-        if self.isTrain:
-            self.schedulers = [networks.get_scheduler(optimizer, opt) for optimizer in self.optimizers]
+        
+        This function loads and print networks; create schedulers.
+        
+        Argument:
+        
+            opt - stores all the experiment flags; needs to be a subclass of BaseOptions.
+        
+        """
+        
+        # Train
+        if self.isTrain: self.schedulers = [networks.get_scheduler(optimizer, opt) for optimizer in self.optimizers]
+        
+        # Inference
         if not self.isTrain or opt.continue_train:
             load_suffix = opt.epoch
 #             load_suffix = "95"
             self.load_networks(load_suffix)
-
         self.print_networks(opt.verbose)
 
     def parallelize(self):
