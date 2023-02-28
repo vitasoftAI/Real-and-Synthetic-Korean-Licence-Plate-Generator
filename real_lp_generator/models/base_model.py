@@ -199,7 +199,14 @@ class BaseModel(ABC):
         return self.image_paths
 
     def update_learning_rate(self):
-        """Update learning rates for all the networks; called at the end of every epoch"""
+        
+        
+        """
+        
+        This function updates learning rates for all the networks; called at the end of every epoch
+        
+        """
+        
         for scheduler in self.schedulers:
             if self.opt.lr_policy == 'plateau':
                 scheduler.step(self.metric)
@@ -210,7 +217,12 @@ class BaseModel(ABC):
         print('learning rate = %.7f' % lr)
 
     def get_current_visuals(self):
-        """Return visualization images. train.py will display these images with visdom, and save the images to a HTML"""
+        
+        """
+        
+        This function returns visualization images. train.py will display these images with visdom, and save the images to a HTML
+        
+        """
         visual_ret = OrderedDict()
         for name in self.visual_names:
             if isinstance(name, str):
