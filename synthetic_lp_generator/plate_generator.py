@@ -8,9 +8,10 @@ class PlateGenerator:
     Plate Generator Class: gets a path to save the generated images, random and transformations options and generates LPs.
     
     Arguments:
-    save_path - a path to save generated images, str;
-    random - randomness option, bool;
-    transformations - transformations option, bool.
+    
+        save_path       - a path to save generated images, str;
+        random          - randomness option, bool;
+        transformations - transformations option, bool.
     
     """
     
@@ -43,9 +44,10 @@ class PlateGenerator:
         Preprocessing function: gets plate, randomness option, and plate types and returns three digit option, plate, plate_type, digits and name of the region.
         
         Arguments:
-        plate - LP, str;
-        random - randomness option, bool;
-        plate_types - types of plates, list.
+        
+            plate       - LP, str;
+            random      - randomness option, bool;
+            plate_types - types of plates, list.
         
         """
         
@@ -81,8 +83,9 @@ class PlateGenerator:
         Gets a region name along with region names list and checks whether the region name in the list of regions.
         
         Arguments:
-        region_name - a name of the region in the plate, str;
-        region_names - names of the regions, list;
+        
+            region_name  - a name of the region in the plate, str;
+            region_names - names of the regions, list;
         
         """
         
@@ -96,10 +99,11 @@ class PlateGenerator:
         Gets plate, save option, plate type, number, and region name and generates synthethic plate(s).
         
         Arguments:
-        plate - LP with digits and letters, str;
-        save - save option, bool;
-        num - number of LPs to be generated, int;
-        region_name - name of a region, str.        
+        
+            plate        - LP with digits and letters, str;
+            save         - save option, bool;
+            num          - number of LPs to be generated, int;
+            region_name  - name of a region, str.        
         
         """
         
