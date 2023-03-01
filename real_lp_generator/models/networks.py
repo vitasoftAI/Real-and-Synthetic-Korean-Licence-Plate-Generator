@@ -120,14 +120,23 @@ class Downsample(nn.Module):
         self.pad = get_pad_layer(pad_type)(self.pad_sizes)
 
     def forward(self, inp):
-        if(self.filt_size == 1):
-            if(self.pad_off == 0):
-                return inp[:, :, ::self.stride, ::self.stride]
-            else:
-                return self.pad(inp)[:, :, ::self.stride, ::self.stride]
-        else:
-            return F.conv2d(self.pad(inp), self.filt, stride=self.stride, groups=inp.shape[1])
-
+        
+        """
+        
+        This function gets input tensor image and does downsampling.
+        
+        Argument:
+        
+            inp - input tensor image.
+        
+        """
+        
+        if (self.filt_size == 1):
+            
+            if (self.pad_off == 0): return inp[:, :, ::self.stride, ::self.stride]
+            else: return self.pad(inp)[:, :, ::self.stride, ::self.stride]
+        
+        else: return F.conv2d(self.pad(inp), self.filt, stride=self.stride, groups=inp.shape[1])
 
 class Upsample2(nn.Module):
     def __init__(self, scale_factor, mode='bilinear'):
