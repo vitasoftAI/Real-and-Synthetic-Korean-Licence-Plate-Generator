@@ -8,9 +8,9 @@ import numpy as np
 from matplotlib import pyplot as plt
 from .stylegan_networks import StyleGAN2Discriminator, StyleGAN2Generator, TileStyleGAN2Discriminator
 
-############################################################################################################################################################################
-################################################################## Helper Functions ########################################################################################
-############################################################################################################################################################################
+##############################################################################################################################################################################
+################################################################### Helper Functions #########################################################################################
+##############################################################################################################################################################################
 
 def pp(var_name, var, shape = False):
     
@@ -84,8 +84,26 @@ class WIBReLU(nn.Module):
         return inplace_str
 
 class Downsample(nn.Module):
-    def __init__(self, channels, pad_type='reflect', filt_size=3, stride=2, pad_off=0):
+    
+    """
+    
+    This class downsamples an input tensor image.
+    
+    Arguments:
+    
+        channels - channels of the convolutioon filter, int;
+        pad_type - padding type, str;
+        filt_size - size of the convolution filter, int;
+        stride - a stride for the convolution filter, int;
+        pad_off - padding off, int.
+    
+    """
+    
+    def __init__(self, channels, pad_type = 'reflect', filt_size = 3, stride = 2, pad_off = 0):
+        
         super(Downsample, self).__init__()
+        
+        # Initialize class arguments
         self.filt_size = filt_size
         self.pad_off = pad_off
         self.pad_sizes = [int(1. * (filt_size - 1) / 2), int(np.ceil(1. * (filt_size - 1) / 2)), int(1. * (filt_size - 1) / 2), int(np.ceil(1. * (filt_size - 1) / 2))]
@@ -94,9 +112,11 @@ class Downsample(nn.Module):
         self.off = int((self.stride - 1) / 2.)
         self.channels = channels
 
+        # Get filters
         filt = get_filter(filt_size=self.filt_size)
         self.register_buffer('filt', filt[None, None, :, :].repeat((self.channels, 1, 1, 1)))
-
+        
+        # Get padding layer
         self.pad = get_pad_layer(pad_type)(self.pad_sizes)
 
     def forward(self, inp):
