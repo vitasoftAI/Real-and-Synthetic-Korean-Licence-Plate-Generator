@@ -1,22 +1,33 @@
-import torch, timm
+# Import libraries
+import torch, timm, functools
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn import init
-import functools
 from torch.optim import lr_scheduler
 import numpy as np
 from matplotlib import pyplot as plt
 from .stylegan_networks import StyleGAN2Discriminator, StyleGAN2Generator, TileStyleGAN2Discriminator
 
-###############################################################################
-# Helper Functions
-###############################################################################
+########################################################################################################################################################################
+################################################################ Helper Functions ######################################################################################
+########################################################################################################################################################################
 
-def pp(var_name, var, shape=False):
-    if shape:
-        print(f"{var_name} -> {var.shape}\n")        
-    else:
-        print(f"{var_name} -> {var}\n")
+def pp(var_name, var, shape = False):
+    
+    """
+    
+    This function gets variable name, variable, and shape option and prints predefined variable with or without its shape.
+    
+    Arguments:
+        
+        var_name - variable name to be printed, str;
+        var - variable to be printed, var;
+        shape - shape option; prints shape of the variable if True else prints variable, bool.
+    
+    """
+    
+    if shape: print(f"{var_name} -> {var.shape}\n")        
+    else: print(f"{var_name} -> {var}\n")
 
 def get_filter(filt_size=3):
     if(filt_size == 1):
