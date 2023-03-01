@@ -355,14 +355,21 @@ class BaseModel(ABC):
                 print(f"{name} model has {num_params / 1e6} M number of parameters!")
         print('-----------------------------------------------')
 
-    def set_requires_grad(self, nets, requires_grad=False):
-        """Set requies_grad=Fasle for all the networks to avoid unnecessary computations
-        Parameters:
-            nets (network list)   -- a list of networks
-            requires_grad (bool)  -- whether the networks require gradients or not
+    def set_requires_grad(self, nets, requires_grad = False):
+        
+        
         """
-        if not isinstance(nets, list):
-            nets = [nets]
+        
+        This function sets requies_grad = False for all the networks to avoid unnecessary computations
+        
+        Arguments:
+        
+            nets - a list of networks, list;
+            requires_grad - whether the networks require gradients or not, bool.
+            
+        """
+        
+        if not isinstance(nets, list): nets = [nets]
         for net in nets:
             if net is not None:
                 for param in net.parameters():
