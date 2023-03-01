@@ -21,8 +21,8 @@ def pp(var_name, var, shape = False):
     Arguments:
         
         var_name - variable name to be printed, str;
-        var - variable to be printed, var;
-        shape - shape option; prints shape of the variable if True else prints variable, bool.
+        var      - variable to be printed, var;
+        shape    - shape option; prints shape of the variable if True else prints variable, bool.
     
     """
     
@@ -91,11 +91,11 @@ class Downsample(nn.Module):
     
     Arguments:
     
-        channels - channels of the convolutioon filter, int;
-        pad_type - padding type, str;
-        filt_size - size of the convolution filter, int;
-        stride - a stride for the convolution filter, int;
-        pad_off - padding off, int.
+        channels    - channels of the convolutioon filter, int;
+        pad_type    - padding type, str;
+        filt_size   - size of the convolution filter, int;
+        stride      - a stride for the convolution filter, int;
+        pad_off     - padding off, int.
     
     """
     
@@ -139,14 +139,36 @@ class Downsample(nn.Module):
         else: return F.conv2d(self.pad(inp), self.filt, stride=self.stride, groups=inp.shape[1])
 
 class Upsample2(nn.Module):
+    
+    """
+    
+    This class upsamples an input tensor image.
+    
+    Arguments:
+    
+        scale_factor - a factor for upsampling, int;
+        mode         - a mode for upsampling, str.
+        
+    """
+    
     def __init__(self, scale_factor, mode='bilinear'):
+        
         super().__init__()
-        self.factor = scale_factor
-        self.mode = mode
+        self.factor, self.mode = scale_factor, mode
 
-    def forward(self, x):
-        return torch.nn.functional.interpolate(x, scale_factor=self.factor, mode=self.mode)
-
+    def forward(self, inp):
+        
+        """
+        
+        This function gets input tensor image and does upsampling.
+        
+        Argument:
+        
+            inp - input tensor image.
+        
+        """
+        
+        return torch.nn.functional.interpolate(inp, scale_factor = self.factor, mode = self.mode)
 
 def get_pad_layer(pad_type):
     if(pad_type in ['refl', 'reflect']):
