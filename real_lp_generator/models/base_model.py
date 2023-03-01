@@ -297,10 +297,17 @@ class BaseModel(ABC):
             self.__patch_instance_norm_state_dict(state_dict, getattr(module, key), keys, i + 1)
 
     def load_networks(self, epoch):
-        """Load all the networks from the disk.
-        Parameters:
-            epoch (int) -- current epoch; used in the file name '%s_net_%s.pth' % (epoch, name)
+        
         """
+        
+        This function loads all the networks from the disk.
+        
+        Arguments:
+        
+            epoch - current epoch, int.
+            
+        """
+        
         for name in self.model_names:
             if isinstance(name, str):
                 load_filename = '%s_net_%s.pth' % (epoch, name)
@@ -326,23 +333,25 @@ class BaseModel(ABC):
                 net.load_state_dict(state_dict)
 
     def print_networks(self, verbose):
-        """Print the total number of parameters in the network and (if verbose) network architecture
-        Parameters:
-            verbose (bool) -- if verbose: print the network architecture
+        
         """
+        
+        This function prints the total number of parameters in the network and (if verbose) network architecture
+        
+        Arguments:
+            verbose - if verbose: print the network architecture, bool.
+        
+        """
+        
         print('---------- Networks initialized -------------')
         for name in self.model_names: # G, F, D
             if isinstance(name, str):
                 net = getattr(self, 'net' + name)
-                # print(net)
-                # print(name)
-                # print(sum(p.numel() for p in net.parameters() if p.requires_grad))
                 num_params = 0
                 for param in net.parameters():
                     num_params += param.numel()
                 if verbose:
                     print(net)
-                # print('[Network %s] Total number of parameters : %.6f M' % (name, num_params / 1e6))
                 print(f"{name} model has {num_params / 1e6} M number of parameters!")
         print('-----------------------------------------------')
 
