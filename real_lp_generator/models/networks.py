@@ -60,6 +60,14 @@ def get_filter(filt_size = 3):
     return filt / torch.sum(filt)
 
 class WIBReLU(nn.Module):
+    
+    
+    """
+    
+    This class gets activations and compute their mean value and subtracts the mean value from the activations.
+    This is implementation of the WiB-ReLU from https://onlinelibrary.wiley.com/doi/abs/10.1002/cpe.6143.
+    
+    """
 
     __constants__ = ['inplace']
     inplace: bool
@@ -68,15 +76,12 @@ class WIBReLU(nn.Module):
         super(WIBReLU, self).__init__()
         self.inplace = inplace
 
-    def forward(self, input: torch.Tensor) -> torch.Tensor:
-        # print(f"mean -> {torch.mean(input)}")
-        # print(f"std -> {torch.std(input)}")
-        return F.relu(input, inplace=self.inplace) - torch.mean(input)
+    def forward(self, input: torch.Tensor) -> torch.Tensor: return F.relu(input, inplace=self.inplace) - torch.mean(input)
 
     def extra_repr(self) -> str:
         inplace_str = 'inplace=True' if self.inplace else ''
+        
         return inplace_str
-
 
 class Downsample(nn.Module):
     def __init__(self, channels, pad_type='reflect', filt_size=3, stride=2, pad_off=0):
