@@ -8,9 +8,9 @@ import numpy as np
 from matplotlib import pyplot as plt
 from .stylegan_networks import StyleGAN2Discriminator, StyleGAN2Generator, TileStyleGAN2Discriminator
 
-########################################################################################################################################################################
-################################################################ Helper Functions ######################################################################################
-########################################################################################################################################################################
+############################################################################################################################################################################
+################################################################## Helper Functions ########################################################################################
+############################################################################################################################################################################
 
 def pp(var_name, var, shape = False):
     
@@ -29,27 +29,35 @@ def pp(var_name, var, shape = False):
     if shape: print(f"{var_name} -> {var.shape}\n")        
     else: print(f"{var_name} -> {var}\n")
 
-def get_filter(filt_size=3):
-    if(filt_size == 1):
-        a = np.array([1., ])
-    elif(filt_size == 2):
-        a = np.array([1., 1.])
-    elif(filt_size == 3):
-        a = np.array([1., 2., 1.])
-    elif(filt_size == 4):
-        a = np.array([1., 3., 3., 1.])
-    elif(filt_size == 5):
-        a = np.array([1., 4., 6., 4., 1.])
-    elif(filt_size == 6):
-        a = np.array([1., 5., 10., 10., 5., 1.])
-    elif(filt_size == 7):
-        a = np.array([1., 6., 15., 20., 15., 6., 1.])
+def get_filter(filt_size = 3):
+    
+     """
+    
+     This function gets filter size and returns tensor filter based on the given variable.
+     
+     Argument:
+         
+         filt_size - filter size, int.
+         
+     Output:
+     
+        filt - filter, tensor.
+     
+    """
+    
+    # Initialize filter array
+    if   (filt_size == 1): arr = np.array([1., ])
+    elif (filt_size == 2): arr = np.array([1., 1.])
+    elif (filt_size == 3): arr = np.array([1., 2., 1.])
+    elif (filt_size == 4): arr = np.array([1., 3., 3., 1.])
+    elif (filt_size == 5): arr = np.array([1., 4., 6., 4., 1.])
+    elif (filt_size == 6): arr = np.array([1., 5., 10., 10., 5., 1.])
+    elif (filt_size == 7): arr = np.array([1., 6., 15., 20., 15., 6., 1.])
 
-    filt = torch.Tensor(a[:, None] * a[None, :])
-    filt = filt / torch.sum(filt)
+    # Get filter
+    filt = torch.Tensor(arr[:, None] * arr[None, :])
 
-    return filt
-
+    return filt / torch.sum(filt)
 
 class WIBReLU(nn.Module):
 
