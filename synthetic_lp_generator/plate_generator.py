@@ -5,7 +5,7 @@ class PlateGenerator:
     
     """
     
-    Plate Generator Class: gets a path to save the generated images, random and transformations options and generates LPs.
+    This class gets a path to save the generated images, random and transformations options and generates LPs.
     
     Arguments:
     
@@ -17,9 +17,10 @@ class PlateGenerator:
     
     def __init__(self, save_path, random, transformations):
         
-        self.save_path = save_path
-        self.random = random
-        self.transformations = transformations
+        # Set class variables
+        self.save_path, self.random, self.transformations = save_path, random, transformations
+        
+        # Initialize plate types list
         self.plate_types = ["basic_europe", "basic_north", "commercial_europe", "commercial_north", "green_old", "green_basic"]
 
         # Basic nums and chars0
