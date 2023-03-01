@@ -1,5 +1,5 @@
-import os
-import torch
+# Import libraries
+import os, torch
 from collections import OrderedDict
 from abc import ABC, abstractmethod
 from . import networks
@@ -339,6 +339,7 @@ class BaseModel(ABC):
         This function prints the total number of parameters in the network and (if verbose) network architecture
         
         Arguments:
+        
             verbose - if verbose: print the network architecture, bool.
         
         """
@@ -375,5 +376,4 @@ class BaseModel(ABC):
                 for param in net.parameters():
                     param.requires_grad = requires_grad
 
-    def generate_visuals_for_evaluation(self, data, mode):
-        return {}
+    def generate_visuals_for_evaluation(self, data, mode): return {}
