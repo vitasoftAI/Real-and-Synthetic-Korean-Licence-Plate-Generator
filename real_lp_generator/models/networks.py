@@ -196,9 +196,7 @@ def get_pad_layer(pad_type):
     return PadLayer
 
 class Identity(nn.Module):
-    def forward(self, x):
-        return x
-
+    def forward(self, x): return x
 
 def get_norm_layer(norm_type='instance'):
     """Return a normalization layer
