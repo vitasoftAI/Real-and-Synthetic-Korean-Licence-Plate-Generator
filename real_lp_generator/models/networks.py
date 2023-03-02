@@ -171,16 +171,29 @@ class Upsample2(nn.Module):
         return torch.nn.functional.interpolate(inp, scale_factor = self.factor, mode = self.mode)
 
 def get_pad_layer(pad_type):
-    if(pad_type in ['refl', 'reflect']):
-        PadLayer = nn.ReflectionPad2d
-    elif(pad_type in ['repl', 'replicate']):
-        PadLayer = nn.ReplicationPad2d
-    elif(pad_type == 'zero'):
-        PadLayer = nn.ZeroPad2d
-    else:
-        print('Pad type [%s] not recognized' % pad_type)
+    
+    """
+    
+    This function gets padding type as input and returns PadLayer.
+    
+    Arguments:
+        
+        pad_type - type of padding, str.
+       
+    Output:
+    
+        PadLayer - padding layer, torch.nn function.
+    
+    """
+    
+    assert pad_type in ['refl', 'reflect', 'repl', 'replicate', 'zero'], "Please choose a proper padding type."
+    
+    if (pad_type in ['refl', 'reflect']): PadLayer = nn.ReflectionPad2d
+    elif(pad_type in ['repl', 'replicate']): PadLayer = nn.ReplicationPad2d
+    elif(pad_type == 'zero'): PadLayer = nn.ZeroPad2d
+    else: print(f'Pad type {pad_type} is not recognized!')
+    
     return PadLayer
-
 
 class Identity(nn.Module):
     def forward(self, x):
