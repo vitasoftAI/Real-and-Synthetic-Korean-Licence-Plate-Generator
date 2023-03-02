@@ -198,22 +198,31 @@ def get_pad_layer(pad_type):
 class Identity(nn.Module):
     def forward(self, x): return x
 
-def get_norm_layer(norm_type='instance'):
-    """Return a normalization layer
-    Parameters:
-        norm_type (str) -- the name of the normalization layer: batch | instance | none
-    For BatchNorm, we use learnable affine parameters and track running statistics (mean/stddev).
-    For InstanceNorm, we do not use learnable affine parameters. We do not track running statistics.
+def get_norm_layer(norm_type = 'instance'):
+        
     """
-    if norm_type == 'batch':
-        norm_layer = functools.partial(nn.BatchNorm2d, affine=True, track_running_stats=True)
-    elif norm_type == 'instance':
-        norm_layer = functools.partial(nn.InstanceNorm2d, affine=False, track_running_stats=False)
+    
+    This function gets normalization type and return a normalization layer.
+    
+    Argument:
+    
+        norm_type - the name of the normalization layer: batch | instance | none, str;
+    
+    Output:
+    
+        norm_layer - a torch.nn Normalization layer.
+        
+    """
+    
+    
+    if norm_type == 'batch': norm_layer = functools.partial(nn.BatchNorm2d, affine=True, track_running_stats=True)
+    elif norm_type == 'instance': norm_layer = functools.partial(nn.InstanceNorm2d, affine=False, track_running_stats=False)
     elif norm_type == 'none':
         def norm_layer(x):
             return Identity()
     else:
         raise NotImplementedError('normalization layer [%s] is not found' % norm_type)
+    
     return norm_layer
 
 
