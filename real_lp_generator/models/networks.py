@@ -214,17 +214,16 @@ def get_norm_layer(norm_type = 'instance'):
         
     """
     
+    assert pad_type in ['batch', 'instance', 'none'], "Please choose a proper norm type."
     
-    if norm_type == 'batch': norm_layer = functools.partial(nn.BatchNorm2d, affine=True, track_running_stats=True)
-    elif norm_type == 'instance': norm_layer = functools.partial(nn.InstanceNorm2d, affine=False, track_running_stats=False)
+    if norm_type == 'batch': norm_layer = functools.partial(nn.BatchNorm2d, affine = True, track_running_stats = True)
+    elif norm_type == 'instance': norm_layer = functools.partial(nn.InstanceNorm2d, affine = False, track_running_stats = False)
     elif norm_type == 'none':
         def norm_layer(x):
             return Identity()
-    else:
-        raise NotImplementedError('normalization layer [%s] is not found' % norm_type)
+    else: raise NotImplementedError('normalization layer [%s] is not found' % norm_type)
     
     return norm_layer
-
 
 def get_scheduler(optimizer, opt):
     """Return a learning rate scheduler
