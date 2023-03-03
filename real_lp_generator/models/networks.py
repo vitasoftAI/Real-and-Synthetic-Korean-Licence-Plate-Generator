@@ -221,7 +221,6 @@ def get_norm_layer(norm_type = 'instance'):
     elif norm_type == 'none':
         def norm_layer(x):
             return Identity()
-    else: raise NotImplementedError('normalization layer [%s] is not found' % norm_type)
     
     return norm_layer
 
@@ -243,6 +242,8 @@ def get_scheduler(optimizer, opt):
 
     """
     
+    assert opt.lr_policy in ['linear', 'step', 'plateau', 'cosine'], "Please choose a proper learning rate scheduler type."
+    
     # Linear LR scheduler
     if opt.lr_policy == 'linear':
         
@@ -253,11 +254,11 @@ def get_scheduler(optimizer, opt):
     elif opt.lr_policy == 'step': scheduler = lr_scheduler.StepLR(optimizer, step_size = opt.lr_decay_iters, gamma = 0.1)
     
     # Plateau LR scheduler
-    elif opt.lr_policy == 'plateau': scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.2, threshold=0.01, patience=5)
-    elif opt.lr_policy == 'cosine':
-        scheduler = lr_scheduler.CosineAnnealingLR(optimizer, T_max=opt.n_epochs, eta_min=0)
-    else:
-        return NotImplementedError('learning rate policy [%s] is not implemented', opt.lr_policy)
+    elif opt.lr_policy == 'plateau': scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, mode = 'min', factor = 0.2, threshold = 0.01, patience = 5)
+    
+    # Cosine LR scheduler
+    elif opt.lr_policy == 'cosine':  scheduler = lr_scheduler.CosineAnnealingLR(optimizer, T_max = opt.n_epochs, eta_min = 0)
+        
     return scheduler
 
 
