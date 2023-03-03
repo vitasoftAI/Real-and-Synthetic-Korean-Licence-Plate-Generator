@@ -262,16 +262,29 @@ def get_scheduler(optimizer, opt):
     return scheduler
 
 
-def init_weights(net, init_type='normal', init_gain=0.02, debug=False):
-    """Initialize network weights.
-    Parameters:
-        net (network)   -- network to be initialized
-        init_type (str) -- the name of an initialization method: normal | xavier | kaiming | orthogonal
-        init_gain (float)    -- scaling factor for normal, xavier and orthogonal.
-    We use 'normal' in the original pix2pix and CycleGAN paper. But xavier and kaiming might
-    work better for some applications. Feel free to try yourself.
+def init_weights(net, init_type = 'normal', init_gain = 0.02, debug = False):
+    
     """
-    def init_func(m):  # define the initialization function
+    
+    This function initializes network weights based on the given initialization type.
+    
+    Arguments:
+    
+        net - model to be initialized, model;
+        init_type - the name of an initialization method;
+        init_gain - scaling factor for normal, xavier and orthogonal, float.
+        
+    """
+    
+    assert init_type in ['normal', 'xavier', 'kaiming', 'orthogonal'], "Please choose a proper initialization type."
+    
+    def init_func(m):
+        
+        """
+        
+        
+        """
+        
         classname = m.__class__.__name__
         if hasattr(m, 'weight') and (classname.find('Conv') != -1 or classname.find('Linear') != -1):
             if debug:
