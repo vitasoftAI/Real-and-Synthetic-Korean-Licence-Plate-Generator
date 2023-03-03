@@ -282,6 +282,11 @@ def init_weights(net, init_type = 'normal', init_gain = 0.02, debug = False):
         
         """
         
+        This function initializes weigths.
+        
+        Argument:
+        
+            m - model to get class name.
         
         """
         
@@ -305,8 +310,8 @@ def init_weights(net, init_type = 'normal', init_gain = 0.02, debug = False):
             init.normal_(m.weight.data, 1.0, init_gain)
             init.constant_(m.bias.data, 0.0)
 
-    net.apply(init_func)  # apply the initialization function <init_func>
-
+    # Apply the initialization function
+    net.apply(init_func)  
 
 def init_net(net, init_type='normal', init_gain=0.02, gpu_ids=[], debug=False, initialize_weights=True):
     """Initialize a network: 1. register CPU/GPU device (with multi-GPU support); 2. initialize the network weights
