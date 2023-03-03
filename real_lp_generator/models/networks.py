@@ -262,7 +262,7 @@ def get_scheduler(optimizer, opt):
     return scheduler
 
 
-def init_weights(net, init_type = 'normal', init_gain = 0.02, debug = False):
+def init_weights(model, init_type = 'normal', init_gain = 0.02, debug = False):
     
     """
     
@@ -270,7 +270,7 @@ def init_weights(net, init_type = 'normal', init_gain = 0.02, debug = False):
     
     Arguments:
     
-        net - model to be initialized, model;
+        model - model to be initialized, model;
         init_type - the name of an initialization method;
         init_gain - scaling factor for normal, xavier and orthogonal, float.
         
@@ -307,25 +307,35 @@ def init_weights(net, init_type = 'normal', init_gain = 0.02, debug = False):
             init.constant_(m.bias.data, 0.0)
 
     # Apply the initialization function
-    net.apply(init_func)  
+    model.apply(init_func)  
 
-def init_net(net, init_type='normal', init_gain=0.02, gpu_ids=[], debug=False, initialize_weights=True):
-    """Initialize a network: 1. register CPU/GPU device (with multi-GPU support); 2. initialize the network weights
-    Parameters:
-        net (network)      -- the network to be initialized
-        init_type (str)    -- the name of an initialization method: normal | xavier | kaiming | orthogonal
-        gain (float)       -- scaling factor for normal, xavier and orthogonal.
-        gpu_ids (int list) -- which GPUs the network runs on: e.g., 0,1,2
-    Return an initialized network.
+def init_net(model, init_type = 'normal', init_gain = 0.02, gpu_ids = [], debug = False, initialize_weights = True):
+    
     """
+    
+    This function initializes a cpu or gpu device model and initializing the model weights.
+    
+    Arguments:
+    
+        model       - the model to be initialized;
+        init_type - the name of an initialization method, str;
+        gain      - scaling factor for normal, xavier and orthogonal, float.
+        gpu_ids   - which GPUs the network runs on, list.
+    
+    Output:
+    
+        an initialized model. 
+    
+    """
+    
     if len(gpu_ids) > 0:
         assert(torch.cuda.is_available())
-        net.to(gpu_ids[0])
+        model.to(gpu_ids[0])
         # if not amp:
         # net = torch.nn.DataParallel(net, gpu_ids)  # multi-GPUs for non-AMP training
     if initialize_weights:
-        init_weights(net, init_type, init_gain=init_gain, debug=debug)
-    return net
+        init_weights(model, init_type, init_gain=init_gain, debug=debug)
+    return model
 
 
 def define_G(input_nc, output_nc, ngf, netG, norm='batch', use_dropout=False, init_type='normal',
