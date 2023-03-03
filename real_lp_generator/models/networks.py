@@ -329,14 +329,14 @@ def init_net(model, init_type = 'normal', init_gain = 0.02, gpu_ids = [], debug 
     """
     
     if len(gpu_ids) > 0:
+        
         assert(torch.cuda.is_available())
         model.to(gpu_ids[0])
         # if not amp:
         # net = torch.nn.DataParallel(net, gpu_ids)  # multi-GPUs for non-AMP training
-    if initialize_weights:
-        init_weights(model, init_type, init_gain=init_gain, debug=debug)
+    if initialize_weights: init_weights(model, init_type, init_gain=init_gain, debug=debug)
+    
     return model
-
 
 def define_G(input_nc, output_nc, ngf, netG, norm='batch', use_dropout=False, init_type='normal',
              init_gain=0.02, no_antialias=False, no_antialias_up=False, gpu_ids=[], opt=None):
