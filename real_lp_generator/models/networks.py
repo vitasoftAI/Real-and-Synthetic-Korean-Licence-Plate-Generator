@@ -226,16 +226,23 @@ def get_norm_layer(norm_type = 'instance'):
     return norm_layer
 
 def get_scheduler(optimizer, opt):
-    """Return a learning rate scheduler
-    Parameters:
-        optimizer          -- the optimizer of the network
-        opt (option class) -- stores all the experiment flags; needs to be a subclass of BaseOptions．　
-                              opt.lr_policy is the name of learning rate policy: linear | step | plateau | cosine
-    For 'linear', we keep the same learning rate for the first <opt.n_epochs> epochs
-    and linearly decay the rate to zero over the next <opt.n_epochs_decay> epochs.
-    For other schedulers (step, plateau, and cosine), we use the default PyTorch schedulers.
-    See https://pytorch.org/docs/stable/optim.html for more details.
+    
+    
     """
+    
+    This function gets optimizer and options and returns a learning rate scheduler.
+    
+    Arguments:
+    
+        optimizer - the optimizer to update trainable parameters of the model.
+        opt       - stores all the experiment flags; needs to be a subclass of BaseOptions．　
+
+    Output:
+        
+        scheduler - learning rate scheduler.
+
+    """
+    
     if opt.lr_policy == 'linear':
         def lambda_rule(epoch):
             lr_l = 1.0 - max(0, epoch + opt.epoch_count - opt.n_epochs) / float(opt.n_epochs_decay + 1)
