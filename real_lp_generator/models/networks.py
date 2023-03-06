@@ -296,7 +296,7 @@ def define_G(input_nc, output_nc, ngf, netG, norm = 'batch', use_dropout = False
     
     """
     
-    assert type in ['real', 'fake', 'mixed'], "Please choose a proper type for gradient penalty."
+    assert netG in ['resnet_9blocks', 'unet_256', 'smallstylegan2', 'resnet_6blocks', 'resnet_4blocks', 'unet_128', 'stylegan2', 'smallstylegan2', 'resnet_cat'], "Please choose a proper name for generator."
     
     net = None
     norm_layer = get_norm_layer(norm_type = norm)
@@ -313,7 +313,6 @@ def define_G(input_nc, output_nc, ngf, netG, norm = 'batch', use_dropout = False
         net = G_Resnet(input_nc, output_nc, opt.nz, num_downs = 2, n_res = n_blocks - 4, ngf = ngf, norm = 'inst', nl_layer = 'relu')
     
     return init_net(net, init_type, init_gain, gpu_ids, initialize_weights=('stylegan2' not in netG))
-
 
 def define_F(input_nc, netF, norm='batch', use_dropout=False, init_type='normal', init_gain=0.02, no_antialias=False, gpu_ids=[], opt=None):
     if netF == 'global_pool':
