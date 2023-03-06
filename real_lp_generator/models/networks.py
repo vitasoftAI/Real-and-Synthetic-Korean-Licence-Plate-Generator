@@ -59,117 +59,6 @@ def get_filter(filt_size = 3):
 
     return filt / torch.sum(filt)
 
-class WIBReLU(nn.Module):
-    
-    
-    """
-    
-    This class gets activations and compute their mean value and subtracts the mean value from the activations.
-    This is implementation of the WiB-ReLU from https://onlinelibrary.wiley.com/doi/abs/10.1002/cpe.6143.
-    
-    """
-
-    __constants__ = ['inplace']
-    inplace: bool
-
-    def __init__(self, inplace: bool = False):
-        super(WIBReLU, self).__init__()
-        self.inplace = inplace
-
-    def forward(self, input: torch.Tensor) -> torch.Tensor: return F.relu(input, inplace=self.inplace) - torch.mean(input)
-
-    def extra_repr(self) -> str:
-        inplace_str = 'inplace=True' if self.inplace else ''
-        
-        return inplace_str
-
-class Downsample(nn.Module):
-    
-    """
-    
-    This class downsamples an input tensor image.
-    
-    Arguments:
-    
-        channels    - channels of the convolutioon filter, int;
-        pad_type    - padding type, str;
-        filt_size   - size of the convolution filter, int;
-        stride      - a stride for the convolution filter, int;
-        pad_off     - padding off, int.
-    
-    """
-    
-    def __init__(self, channels, pad_type = 'reflect', filt_size = 3, stride = 2, pad_off = 0):
-        
-        super(Downsample, self).__init__()
-        
-        # Initialize class arguments
-        self.filt_size = filt_size
-        self.pad_off = pad_off
-        self.pad_sizes = [int(1. * (filt_size - 1) / 2), int(np.ceil(1. * (filt_size - 1) / 2)), int(1. * (filt_size - 1) / 2), int(np.ceil(1. * (filt_size - 1) / 2))]
-        self.pad_sizes = [pad_size + pad_off for pad_size in self.pad_sizes]
-        self.stride = stride
-        self.off = int((self.stride - 1) / 2.)
-        self.channels = channels
-
-        # Get filters
-        filt = get_filter(filt_size=self.filt_size)
-        self.register_buffer('filt', filt[None, None, :, :].repeat((self.channels, 1, 1, 1)))
-        
-        # Get padding layer
-        self.pad = get_pad_layer(pad_type)(self.pad_sizes)
-
-    def forward(self, inp):
-        
-        """
-        
-        This function gets input tensor image and does downsampling.
-        
-        Argument:
-        
-            inp - input tensor image.
-        
-        """
-        
-        if (self.filt_size == 1):
-            
-            if (self.pad_off == 0): return inp[:, :, ::self.stride, ::self.stride]
-            else: return self.pad(inp)[:, :, ::self.stride, ::self.stride]
-        
-        else: return F.conv2d(self.pad(inp), self.filt, stride=self.stride, groups=inp.shape[1])
-
-class Upsample2(nn.Module):
-    
-    """
-    
-    This class upsamples an input tensor image.
-    
-    Arguments:
-    
-        scale_factor - a factor for upsampling, int;
-        mode         - a mode for upsampling, str.
-        
-    """
-    
-    def __init__(self, scale_factor, mode='bilinear'):
-        
-        super().__init__()
-        self.factor, self.mode = scale_factor, mode
-
-    def forward(self, inp):
-        
-        """
-        
-        This function gets input tensor image and does upsampling.
-        
-        Argument:
-        
-            inp - input tensor image.
-        
-        """
-        
-        return torch.nn.functional.interpolate(inp, scale_factor = self.factor, mode = self.mode)
-
 def get_pad_layer(pad_type):
     
     """
@@ -194,9 +83,6 @@ def get_pad_layer(pad_type):
     else: print(f'Pad type {pad_type} is not recognized!')
     
     return PadLayer
-
-class Identity(nn.Module):
-    def forward(self, x): return x
 
 def get_norm_layer(norm_type = 'instance'):
         
@@ -447,6 +333,123 @@ def define_D(input_nc, ndf, netD, n_layers_D=3, norm='batch', init_type='normal'
 ##############################################################################
 # Classes
 ##############################################################################
+
+class Identity(nn.Module):
+    def forward(self, x): return x
+
+class WIBReLU(nn.Module):
+    
+    
+    """
+    
+    This class gets activations and compute their mean value and subtracts the mean value from the activations.
+    This is implementation of the WiB-ReLU from https://onlinelibrary.wiley.com/doi/abs/10.1002/cpe.6143.
+    
+    """
+
+    __constants__ = ['inplace']
+    inplace: bool
+
+    def __init__(self, inplace: bool = False):
+        super(WIBReLU, self).__init__()
+        self.inplace = inplace
+
+    def forward(self, input: torch.Tensor) -> torch.Tensor: return F.relu(input, inplace=self.inplace) - torch.mean(input)
+
+    def extra_repr(self) -> str:
+        inplace_str = 'inplace=True' if self.inplace else ''
+        
+        return inplace_str
+
+class Downsample(nn.Module):
+    
+    """
+    
+    This class downsamples an input tensor image.
+    
+    Arguments:
+    
+        channels    - channels of the convolutioon filter, int;
+        pad_type    - padding type, str;
+        filt_size   - size of the convolution filter, int;
+        stride      - a stride for the convolution filter, int;
+        pad_off     - padding off, int.
+    
+    """
+    
+    def __init__(self, channels, pad_type = 'reflect', filt_size = 3, stride = 2, pad_off = 0):
+        
+        super(Downsample, self).__init__()
+        
+        # Initialize class arguments
+        self.filt_size = filt_size
+        self.pad_off = pad_off
+        self.pad_sizes = [int(1. * (filt_size - 1) / 2), int(np.ceil(1. * (filt_size - 1) / 2)), int(1. * (filt_size - 1) / 2), int(np.ceil(1. * (filt_size - 1) / 2))]
+        self.pad_sizes = [pad_size + pad_off for pad_size in self.pad_sizes]
+        self.stride = stride
+        self.off = int((self.stride - 1) / 2.)
+        self.channels = channels
+
+        # Get filters
+        filt = get_filter(filt_size=self.filt_size)
+        self.register_buffer('filt', filt[None, None, :, :].repeat((self.channels, 1, 1, 1)))
+        
+        # Get padding layer
+        self.pad = get_pad_layer(pad_type)(self.pad_sizes)
+
+    def forward(self, inp):
+        
+        """
+        
+        This function gets input tensor image and does downsampling.
+        
+        Argument:
+        
+            inp - input tensor image.
+        
+        """
+        
+        if (self.filt_size == 1):
+            
+            if (self.pad_off == 0): return inp[:, :, ::self.stride, ::self.stride]
+            else: return self.pad(inp)[:, :, ::self.stride, ::self.stride]
+        
+        else: return F.conv2d(self.pad(inp), self.filt, stride=self.stride, groups=inp.shape[1])
+
+class Upsample2(nn.Module):
+    
+    """
+    
+    This class upsamples an input tensor image.
+    
+    Arguments:
+    
+        scale_factor - a factor for upsampling, int;
+        mode         - a mode for upsampling, str.
+        
+    """
+    
+    def __init__(self, scale_factor, mode='bilinear'):
+        
+        super().__init__()
+        self.factor, self.mode = scale_factor, mode
+
+    def forward(self, inp):
+        
+        """
+        
+        This function gets input tensor image and does upsampling.
+        
+        Argument:
+        
+            inp - input tensor image.
+        
+        """
+        
+        return torch.nn.functional.interpolate(inp, scale_factor = self.factor, mode = self.mode)
+
+
+
 
 def cal_gradient_penalty(netD, real_data, fake_data, device, type='mixed', constant=1.0, lambda_gp=10.0):
     """Calculate the gradient penalty loss, used in WGAN-GP paper https://arxiv.org/abs/1704.00028
