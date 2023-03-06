@@ -203,7 +203,7 @@ def init_net(model, init_type = 'normal', init_gain = 0.02, gpu_ids = [], debug 
     
     Arguments:
     
-        model       - the model to be initialized;
+        model     - the model to be initialized;
         init_type - the name of an initialization method, str;
         gain      - scaling factor for normal, xavier and orthogonal, float.
         gpu_ids   - which GPUs the network runs on, list.
@@ -232,15 +232,20 @@ def cal_gradient_penalty(netD, real_data, fake_data, device, type='mixed', const
     
     Arguments:
     
-        netD             - discriminator network, model;
+        netD          - discriminator network, model;
         real_data     - real images, tensor;
         fake_data     - generated images from the generator, tensor;
         device        - gpu or cpu device, str;
-        type (str)                  -- if we mix real and fake data or not [real | fake | mixed].
-        constant (float)            -- the constant used in formula ( | |gradient||_2 - constant)^2
-        lambda_gp (float)           -- weight for this loss
-    Returns the gradient penalty loss
+        type          - if we mix real and fake data or not [real | fake | mixed], str;
+        constant      - the constant used in formula ( | |gradient||_2 - constant)^2, float;
+        lambda_gp     - weight for this loss, float.
+    
+    Output:
+    
+        Gradient penalty loss.
+    
     """
+    
     if lambda_gp > 0.0:
         if type == 'real':   # either use real images, fake images, or a linear interpolation of two.
             interpolatesv = real_data
