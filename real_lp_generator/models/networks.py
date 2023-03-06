@@ -270,10 +270,16 @@ def cal_gradient_penalty(netD, real_data, fake_data, device, type = 'mixed', con
     
     else: return 0.0, None
 
-def define_G(input_nc, output_nc, ngf, netG, norm='batch', use_dropout=False, init_type='normal',
-             init_gain=0.02, no_antialias=False, no_antialias_up=False, gpu_ids=[], opt=None):
-    """Create a generator
-    Parameters:
+def define_G(input_nc, output_nc, ngf, netG, norm = 'batch', use_dropout = False, init_type = 'normal',
+             init_gain = 0.02, no_antialias = False, no_antialias_up = False, gpu_ids = [], opt = None):
+    
+    
+    """
+    
+    This function creates a generator.
+    
+    Arguments:
+    
         input_nc (int) -- the number of channels in input images
         output_nc (int) -- the number of channels in output images
         ngf (int) -- the number of filters in the last conv layer
