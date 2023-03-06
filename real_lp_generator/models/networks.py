@@ -225,12 +225,17 @@ def init_net(model, init_type = 'normal', init_gain = 0.02, gpu_ids = [], debug 
     return model
 
 def cal_gradient_penalty(netD, real_data, fake_data, device, type='mixed', constant=1.0, lambda_gp=10.0):
-    """Calculate the gradient penalty loss, used in WGAN-GP paper https://arxiv.org/abs/1704.00028
+    
+    """
+    
+    This function calculates the gradient penalty loss, used in WGAN-GP paper. 
+    
     Arguments:
-        netD (network)              -- discriminator network
-        real_data (tensor array)    -- real images
-        fake_data (tensor array)    -- generated images from the generator
-        device (str)                -- GPU / CPU: from torch.device('cuda:{}'.format(self.gpu_ids[0])) if self.gpu_ids else torch.device('cpu')
+    
+        netD             - discriminator network, model;
+        real_data     - real images, tensor;
+        fake_data     - generated images from the generator, tensor;
+        device        - gpu or cpu device, str;
         type (str)                  -- if we mix real and fake data or not [real | fake | mixed].
         constant (float)            -- the constant used in formula ( | |gradient||_2 - constant)^2
         lambda_gp (float)           -- weight for this loss
