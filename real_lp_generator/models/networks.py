@@ -296,29 +296,22 @@ def define_G(input_nc, output_nc, ngf, netG, norm = 'batch', use_dropout = False
     
     """
     
+    assert type in ['real', 'fake', 'mixed'], "Please choose a proper type for gradient penalty."
+    
     net = None
-    norm_layer = get_norm_layer(norm_type=norm)
+    norm_layer = get_norm_layer(norm_type = norm)
 
-    if netG == 'resnet_9blocks':
-        ngf = 32
-        net = ResnetGenerator(input_nc, output_nc, ngf, norm_layer=norm_layer, use_dropout=use_dropout, no_antialias=no_antialias, no_antialias_up=no_antialias_up, n_blocks=9, opt=opt)
-    elif netG == 'resnet_6blocks':
-        net = ResnetGenerator(input_nc, output_nc, ngf, norm_layer=norm_layer, use_dropout=use_dropout, no_antialias=no_antialias, no_antialias_up=no_antialias_up, n_blocks=6, opt=opt)
-    elif netG == 'resnet_4blocks':
-        net = ResnetGenerator(input_nc, output_nc, ngf, norm_layer=norm_layer, use_dropout=use_dropout, no_antialias=no_antialias, no_antialias_up=no_antialias_up, n_blocks=4, opt=opt)
-    elif netG == 'unet_128':
-        net = UnetGenerator(input_nc, output_nc, 7, ngf, norm_layer=norm_layer, use_dropout=use_dropout)
-    elif netG == 'unet_256':
-        net = UnetGenerator(input_nc, output_nc, 8, ngf, norm_layer=norm_layer, use_dropout=use_dropout)
-    elif netG == 'stylegan2':
-        net = StyleGAN2Generator(input_nc, output_nc, ngf, use_dropout=use_dropout, opt=opt)
-    elif netG == 'smallstylegan2':
-        net = StyleGAN2Generator(input_nc, output_nc, ngf, use_dropout=use_dropout, n_blocks=2, opt=opt)
+    if netG == 'resnet_9blocks': net = ResnetGenerator(input_nc, output_nc, ngf, norm_layer = norm_layer, use_dropout = use_dropout, no_antialias = no_antialias, no_antialias_up = no_antialias_up, n_blocks = 9, opt = opt)
+    elif netG == 'resnet_6blocks': net = ResnetGenerator(input_nc, output_nc, ngf, norm_layer = norm_layer, use_dropout = use_dropout, no_antialias = no_antialias, no_antialias_up = no_antialias_up, n_blocks = 6, opt = opt)
+    elif netG == 'resnet_4blocks': net = ResnetGenerator(input_nc, output_nc, ngf, norm_layer = norm_layer, use_dropout = use_dropout, no_antialias = no_antialias, no_antialias_up = no_antialias_up, n_blocks = 4, opt = opt)
+    elif netG == 'unet_128': net = UnetGenerator(input_nc, output_nc, 7, ngf, norm_layer = norm_layer, use_dropout = use_dropout)
+    elif netG == 'unet_256': net = UnetGenerator(input_nc, output_nc, 8, ngf, norm_layer = norm_layer, use_dropout = use_dropout)
+    elif netG == 'stylegan2': net = StyleGAN2Generator(input_nc, output_nc, ngf, use_dropout = use_dropout, opt = opt)
+    elif netG == 'smallstylegan2': net = StyleGAN2Generator(input_nc, output_nc, ngf, use_dropout = use_dropout, n_blocks = 2, opt = opt)
     elif netG == 'resnet_cat':
         n_blocks = 8
-        net = G_Resnet(input_nc, output_nc, opt.nz, num_downs=2, n_res=n_blocks - 4, ngf=ngf, norm='inst', nl_layer='relu')
-    else:
-        raise NotImplementedError('Generator model name [%s] is not recognized' % netG)
+        net = G_Resnet(input_nc, output_nc, opt.nz, num_downs = 2, n_res = n_blocks - 4, ngf = ngf, norm = 'inst', nl_layer = 'relu')
+    
     return init_net(net, init_type, init_gain, gpu_ids, initialize_weights=('stylegan2' not in netG))
 
 
