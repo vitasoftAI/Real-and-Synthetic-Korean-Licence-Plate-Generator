@@ -285,7 +285,7 @@ def define_G(input_nc, output_nc, ngf, netG, norm = 'batch', use_dropout = False
         ngf          - the number of filters in the last conv layer, int;
         netG         - the architecture's name: resnet_9blocks | resnet_6blocks | unet_256 | unet_128, str;
         norm         - the name of normalization layers used in the network: batch | instance | none, str;
-        use_dropout  - if use dropout layers, bool;
+        use_dropout  - dropout option for the layers, bool;
         init_type    - the name of our initialization method; str;
         init_gain    - scaling factor for normal, xavier and orthogonal, float;
         gpu_ids      - gpu device name, list.
@@ -301,7 +301,7 @@ def define_G(input_nc, output_nc, ngf, netG, norm = 'batch', use_dropout = False
     net = None
     norm_layer = get_norm_layer(norm_type = norm)
 
-    if netG == 'resnet_9blocks': net = ResnetGenerator(input_nc, output_nc, ngf, norm_layer = norm_layer, use_dropout = use_dropout, no_antialias = no_antialias, no_antialias_up = no_antialias_up, n_blocks = 9, opt = opt)
+    if   netG == 'resnet_9blocks': net = ResnetGenerator(input_nc, output_nc, ngf, norm_layer = norm_layer, use_dropout = use_dropout, no_antialias = no_antialias, no_antialias_up = no_antialias_up, n_blocks = 9, opt = opt)
     elif netG == 'resnet_6blocks': net = ResnetGenerator(input_nc, output_nc, ngf, norm_layer = norm_layer, use_dropout = use_dropout, no_antialias = no_antialias, no_antialias_up = no_antialias_up, n_blocks = 6, opt = opt)
     elif netG == 'resnet_4blocks': net = ResnetGenerator(input_nc, output_nc, ngf, norm_layer = norm_layer, use_dropout = use_dropout, no_antialias = no_antialias, no_antialias_up = no_antialias_up, n_blocks = 4, opt = opt)
     elif netG == 'unet_128': net = UnetGenerator(input_nc, output_nc, 7, ngf, norm_layer = norm_layer, use_dropout = use_dropout)
@@ -314,7 +314,28 @@ def define_G(input_nc, output_nc, ngf, netG, norm = 'batch', use_dropout = False
     
     return init_net(net, init_type, init_gain, gpu_ids, initialize_weights=('stylegan2' not in netG))
 
-def define_F(input_nc, netF, norm='batch', use_dropout=False, init_type='normal', init_gain=0.02, no_antialias=False, gpu_ids=[], opt=None):
+def define_F(input_nc, netF, norm = 'batch', use_dropout = False, init_type = 'normal', init_gain = 0.02, no_antialias = False, gpu_ids = [], opt = None):
+    
+    """
+    
+    This function creates F network.
+    
+    Arguments:
+    
+        input_nc     - the number of channels in input images, int;
+        netF         - F network name, str; 
+        norm         - the name of normalization layers used in the network: batch | instance | none, str;
+        use_dropout  - dropout option for the layers, bool;
+        init_type    - the name of our initialization method; str;
+        init_gain    - scaling factor for normal, xavier and orthogonal, float;
+        gpu_ids      - gpu device name, list.
+        
+    Output:
+    
+        F Network.
+    
+    """
+    
     if netF == 'global_pool':
         net = PoolingF()
     elif netF == 'reshape':
