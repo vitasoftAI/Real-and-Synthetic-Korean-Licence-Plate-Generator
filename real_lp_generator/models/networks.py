@@ -280,16 +280,18 @@ def define_G(input_nc, output_nc, ngf, netG, norm = 'batch', use_dropout = False
     
     Arguments:
     
-        input_nc (int) -- the number of channels in input images
-        output_nc (int) -- the number of channels in output images
-        ngf (int) -- the number of filters in the last conv layer
-        netG (str) -- the architecture's name: resnet_9blocks | resnet_6blocks | unet_256 | unet_128
-        norm (str) -- the name of normalization layers used in the network: batch | instance | none
-        use_dropout (bool) -- if use dropout layers.
-        init_type (str)    -- the name of our initialization method.
-        init_gain (float)  -- scaling factor for normal, xavier and orthogonal.
-        gpu_ids (int list) -- which GPUs the network runs on: e.g., 0,1,2
+        input_nc     - the number of channels in input images, int;
+        output_nc    - the number of channels in output images, int;
+        ngf          - the number of filters in the last conv layer, int;
+        netG         - the architecture's name: resnet_9blocks | resnet_6blocks | unet_256 | unet_128, str;
+        norm         - the name of normalization layers used in the network: batch | instance | none, str;
+        use_dropout  - if use dropout layers, bool;
+        init_type    - the name of our initialization method; str;
+        init_gain    - scaling factor for normal, xavier and orthogonal, float;
+        gpu_ids      - gpu device name, list.
+        
     Returns a generator
+    
     Our current implementation provides two types of generators:
         U-Net: [unet_128] (for 128x128 input images) and [unet_256] (for 256x256 input images)
         The original U-Net paper: https://arxiv.org/abs/1505.04597
