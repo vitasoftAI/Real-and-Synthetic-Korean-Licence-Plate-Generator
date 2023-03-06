@@ -290,16 +290,12 @@ def define_G(input_nc, output_nc, ngf, netG, norm = 'batch', use_dropout = False
         init_gain    - scaling factor for normal, xavier and orthogonal, float;
         gpu_ids      - gpu device name, list.
         
-    Returns a generator
+    Output:
     
-    Our current implementation provides two types of generators:
-        U-Net: [unet_128] (for 128x128 input images) and [unet_256] (for 256x256 input images)
-        The original U-Net paper: https://arxiv.org/abs/1505.04597
-        Resnet-based generator: [resnet_6blocks] (with 6 Resnet blocks) and [resnet_9blocks] (with 9 Resnet blocks)
-        Resnet-based generator consists of several Resnet blocks between a few downsampling/upsampling operations.
-        We adapt Torch code from Justin Johnson's neural style transfer project (https://github.com/jcjohnson/fast-neural-style).
-    The generator has been initialized by <init_net>. It uses RELU for non-linearity.
+        Generator.
+    
     """
+    
     net = None
     norm_layer = get_norm_layer(norm_type=norm)
 
