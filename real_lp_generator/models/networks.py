@@ -367,7 +367,7 @@ def define_D(input_nc, ndf, netD, n_layers_D = 3, norm = 'batch', init_type = 'n
     
     """
 
-    assert netF in ['global_pool', 'reshape', 'sample', 'mlp_sample', 'strided_conv'], "Please choose a proper name for F network."
+    assert netD in ['basic', 'n_layers', 'pixel', 'stylegan2', 'strided_conv'], "Please choose a proper name for the discriminator network."
     disc = None
     norm_layer = get_norm_layer(norm_type = norm)
 
@@ -377,12 +377,10 @@ def define_D(input_nc, ndf, netD, n_layers_D = 3, norm = 'batch', init_type = 'n
     elif netD == 'n_layers':  disc = NLayerDiscriminator(input_nc, ndf, n_layers_D, norm_layer = norm_layer, no_antialias = no_antialias)
     # Pixel-based
     elif netD == 'pixel':     disc = PixelDiscriminator(input_nc, ndf, norm_layer = norm_layer)
+    # StyleGAN
     elif 'stylegan2' in netD: disc = StyleGAN2Discriminator(input_nc, ndf, n_layers_D, no_antialias = no_antialias, opt = opt)
-    else:
-        raise NotImplementedError('Discriminator model name [%s] is not recognized' % netD)
-    return init_net(disc, init_type, init_gain, gpu_ids,
-                    initialize_weights=('stylegan2' not in netD))
-
+    
+    return init_net(disc, init_type, init_gain, gpu_ids, initialize_weights = ('stylegan2' not in netD))
 
 ##############################################################################################################################################################################
 ######################################################################## Classes #############################################################################################
