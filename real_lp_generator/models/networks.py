@@ -367,21 +367,21 @@ def define_D(input_nc, ndf, netD, n_layers_D = 3, norm = 'batch', init_type = 'n
     
     """
 
-    net = None
+    disc = None
     norm_layer = get_norm_layer(norm_type=norm)
 
     if netD == 'basic':  # default PatchGAN classifier
-        net = NLayerDiscriminator(input_nc, ndf, n_layers=2, norm_layer=norm_layer, no_antialias=no_antialias,)
+        disc = NLayerDiscriminator(input_nc, ndf, n_layers=2, norm_layer=norm_layer, no_antialias=no_antialias,)
         # net = NLayerDiscriminator("rexnet_150", 1)
     elif netD == 'n_layers':  # more options
-        net = NLayerDiscriminator(input_nc, ndf, n_layers_D, norm_layer=norm_layer, no_antialias=no_antialias,)
+        disc = NLayerDiscriminator(input_nc, ndf, n_layers_D, norm_layer=norm_layer, no_antialias=no_antialias,)
     elif netD == 'pixel':     # classify if each pixel is real or fake
-        net = PixelDiscriminator(input_nc, ndf, norm_layer=norm_layer)
+        disc = PixelDiscriminator(input_nc, ndf, norm_layer=norm_layer)
     elif 'stylegan2' in netD:
-        net = StyleGAN2Discriminator(input_nc, ndf, n_layers_D, no_antialias=no_antialias, opt=opt)
+        disc = StyleGAN2Discriminator(input_nc, ndf, n_layers_D, no_antialias=no_antialias, opt=opt)
     else:
         raise NotImplementedError('Discriminator model name [%s] is not recognized' % netD)
-    return init_net(net, init_type, init_gain, gpu_ids,
+    return init_net(disc, init_type, init_gain, gpu_ids,
                     initialize_weights=('stylegan2' not in netD))
 
 
