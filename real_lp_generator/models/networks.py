@@ -345,7 +345,7 @@ def define_F(input_nc, netF, norm = 'batch', use_dropout = False, init_type = 'n
 
     return init_net(net, init_type, init_gain, gpu_ids)
 
-def define_D(input_nc, ndf, netD, n_layers_D=3, norm='batch', init_type='normal', init_gain=0.02, no_antialias=False, gpu_ids=[], opt=None):
+def define_D(input_nc, ndf, netD, n_layers_D = 3, norm = 'batch', init_type = 'normal', init_gain = 0.02, no_antialias = False, gpu_ids = [], opt = None):
     
     """
     
@@ -355,8 +355,8 @@ def define_D(input_nc, ndf, netD, n_layers_D=3, norm='batch', init_type='normal'
     
         input_nc     - the number of channels in input images, int;
         ndf          - the number of filters in the first conv layer, int;
-        netG         - the architecture's name: resnet_9blocks | resnet_6blocks | unet_256 | unet_128, str;
-        norm         - the name of normalization layers used in the network: batch | instance | none, str;
+        netD         - the architecture's name: basic | n_layers | pixel, str;
+        norm         - the type of normalization layers used in the model, str;
         use_dropout  - dropout option for the layers, bool;
         init_type    - the name of our initialization method; str;
         init_gain    - scaling factor for normal, xavier and orthogonal, float;
