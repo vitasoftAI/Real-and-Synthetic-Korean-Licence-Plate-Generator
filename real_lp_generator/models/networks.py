@@ -335,9 +335,9 @@ def define_F(input_nc, netF, norm = 'batch', use_dropout = False, init_type = 'n
     
     """
     
-    assert netG in ['global_pool', 'reshape', 'sample', 'mlp_sample', 'strided_conv'], "Please choose a proper name for F network."
+    assert netF in ['global_pool', 'reshape', 'sample', 'mlp_sample', 'strided_conv'], "Please choose a proper name for F network."
     
-    if netF == 'global_pool': net = PoolingF()
+    if   netF == 'global_pool': net = PoolingF()
     elif netF == 'reshape': net = ReshapeF()
     elif netF == 'sample': net = PatchSampleF(use_mlp = False, init_type = init_type, init_gain = init_gain, gpu_ids = gpu_ids, nc = opt.netF_nc)
     elif netF == 'mlp_sample': net = PatchSampleF(use_mlp = True, init_type = init_type, init_gain = init_gain, gpu_ids = gpu_ids, nc = opt.netF_nc)
@@ -367,17 +367,17 @@ def define_D(input_nc, ndf, netD, n_layers_D = 3, norm = 'batch', init_type = 'n
     
     """
 
+    assert netF in ['global_pool', 'reshape', 'sample', 'mlp_sample', 'strided_conv'], "Please choose a proper name for F network."
     disc = None
     norm_layer = get_norm_layer(norm_type = norm)
 
     # Default PatchGAN classifier
-    if netD == 'basic':      disc = NLayerDiscriminator(input_nc, ndf, n_layers = 2, norm_layer = norm_layer, no_antialias = no_antialias)
+    if netD == 'basic':       disc = NLayerDiscriminator(input_nc, ndf, n_layers = 2, norm_layer = norm_layer, no_antialias = no_antialias)
     # Layer-based
-    elif netD == 'n_layers': disc = NLayerDiscriminator(input_nc, ndf, n_layers_D, norm_layer = norm_layer, no_antialias = no_antialias)
-    elif netD == 'pixel':     # classify if each pixel is real or fake
-        disc = PixelDiscriminator(input_nc, ndf, norm_layer=norm_layer)
-    elif 'stylegan2' in netD:
-        disc = StyleGAN2Discriminator(input_nc, ndf, n_layers_D, no_antialias=no_antialias, opt=opt)
+    elif netD == 'n_layers':  disc = NLayerDiscriminator(input_nc, ndf, n_layers_D, norm_layer = norm_layer, no_antialias = no_antialias)
+    # Pixel-based
+    elif netD == 'pixel':     disc = PixelDiscriminator(input_nc, ndf, norm_layer = norm_layer)
+    elif 'stylegan2' in netD: disc = StyleGAN2Discriminator(input_nc, ndf, n_layers_D, no_antialias = no_antialias, opt = opt)
     else:
         raise NotImplementedError('Discriminator model name [%s] is not recognized' % netD)
     return init_net(disc, init_type, init_gain, gpu_ids,
