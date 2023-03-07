@@ -368,13 +368,12 @@ def define_D(input_nc, ndf, netD, n_layers_D = 3, norm = 'batch', init_type = 'n
     """
 
     disc = None
-    norm_layer = get_norm_layer(norm_type=norm)
+    norm_layer = get_norm_layer(norm_type = norm)
 
-    if netD == 'basic':  # default PatchGAN classifier
-        disc = NLayerDiscriminator(input_nc, ndf, n_layers=2, norm_layer=norm_layer, no_antialias=no_antialias,)
-        # net = NLayerDiscriminator("rexnet_150", 1)
-    elif netD == 'n_layers':  # more options
-        disc = NLayerDiscriminator(input_nc, ndf, n_layers_D, norm_layer=norm_layer, no_antialias=no_antialias,)
+    # Default PatchGAN classifier
+    if netD == 'basic':      disc = NLayerDiscriminator(input_nc, ndf, n_layers = 2, norm_layer = norm_layer, no_antialias = no_antialias)
+    # Layer-based
+    elif netD == 'n_layers': disc = NLayerDiscriminator(input_nc, ndf, n_layers_D, norm_layer = norm_layer, no_antialias = no_antialias)
     elif netD == 'pixel':     # classify if each pixel is real or fake
         disc = PixelDiscriminator(input_nc, ndf, norm_layer=norm_layer)
     elif 'stylegan2' in netD:
