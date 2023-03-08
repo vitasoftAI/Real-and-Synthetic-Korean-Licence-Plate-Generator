@@ -534,17 +534,16 @@ class PatchSampleF(nn.Module):
     
     Arguments:
     
-        use_mlp   - option to use MLP or not, bool;
-        init_type - initializer type, str;
-        init_gain - weight for initialization, float;
-        nc        - number of hidden layer neurons, int;
-        gpu_ids   - gpu device ids, list.
+        use_mlp      - option to use MLP or not, bool;
+        init_type    - initializer type, str;
+        init_gain    - weight for initialization, float;
+        nc           - number of hidden layer neurons, int;
+        gpu_ids      - gpu device ids, list.
         
     Outputs:
     
-        return_feats, return_ids
-    
-        
+        return_feats - features to return, list; 
+        return_ids   - indices of the features, list.
     
     """
     
