@@ -610,38 +610,52 @@ class PatchSampleF(nn.Module):
         
         """
         
-        return_ids = []
-        return_feats = []
-        if self.use_mlp and not self.mlp_init:
-            self.create_mlp(feats)
+        # Initialize lists
+        return_ids, return_feats = [], []
+        
+        # Create MLP
+        if self.use_mlp and not self.mlp_init: self.create_mlp(feats)
+            
+        # Go through the features list    
         for feat_id, feat in enumerate(feats):
+            
             # if feat.shape[1] == 3:
                 # plt.imshow((feat[0]).detach().cpu().permute(1,2,0).numpy().astype(np.uint8))
                 # plt.savefig("sample.png")
+            
+            # Get batch, image height, and image width
             B, H, W = feat.shape[0], feat.shape[2], feat.shape[3]
+            
+            # Reshape the feature map and flatten
             feat_reshape = feat.permute(0, 2, 3, 1).flatten(1, 2)
             if num_patches > 0:
-                if patch_ids is not None:
-                    patch_id = patch_ids[feat_id]
+                
+                # Get the patch id
+                if patch_ids is not None: patch_id = patch_ids[feat_id]
                 else:
-                    # torch.randperm produces cudaErrorIllegalAddress for newer versions of PyTorch. https://github.com/taesungp/contrastive-unpaired-translation/issues/83
-                    #patch_id = torch.randperm(feat_reshape.shape[1], device=feats[0].device)
+                    # Get the patch id
                     patch_id = np.random.permutation(feat_reshape.shape[1])
                     patch_id = patch_id[:int(min(num_patches, patch_id.shape[0]))]  # .to(patch_ids.device)
-                patch_id = torch.tensor(patch_id, dtype=torch.long, device=feat.device)
-                x_sample = feat_reshape[:, patch_id, :].flatten(0, 1)  # reshape(-1, x.shape[1])
+                patch_id = torch.tensor(patch_id, dtype = torch.long, device = feat.device)
+                
+                # Get the sample
+                x_sample = feat_reshape[:, patch_id, :].flatten(0, 1) 
             else:
+                # Get the sample
                 x_sample = feat_reshape
                 patch_id = []
             if self.use_mlp:
+                # Get the sample from MLP
                 mlp = getattr(self, 'mlp_%d' % feat_id)
                 x_sample = mlp(x_sample)
+            
             return_ids.append(patch_id)
             x_sample = self.l2norm(x_sample)
 
             if num_patches == 0:
                 x_sample = x_sample.permute(0, 2, 1).reshape([B, x_sample.shape[-1], H, W])
             return_feats.append(x_sample)
+            
         return return_feats, return_ids
 
 class LinearBlock(nn.Module):
