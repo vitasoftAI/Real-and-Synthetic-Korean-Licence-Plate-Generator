@@ -547,21 +547,43 @@ class PatchSampleF(nn.Module):
     
     """
     
-    def __init__(self, use_mlp=False, init_type='normal', init_gain=0.02, nc=256, gpu_ids=[]):
-        # potential issues: currently, we use the same patch_ids for multiple images in the batch
+    def __init__(self, use_mlp = False, init_type = 'normal', init_gain = 0.02, nc = 256, gpu_ids = []):
+
         super(PatchSampleF, self).__init__()
-        self.l2norm = Normalize(2)
-        self.use_mlp = use_mlp
-        self.nc = nc  # hard-coded
-        self.mlp_init = False
+        self.l2norm    = Normalize(2)
+        self.use_mlp   = use_mlp
+        self.nc        = nc  
+        self.mlp_init  = False
         self.init_type = init_type
         self.init_gain = init_gain
-        self.gpu_ids = gpu_ids
+        self.gpu_ids   = gpu_ids
 
     def create_mlp(self, feats):
+        
+        """
+        
+        This function gets features and creates multilayer perceptron.
+        
+        Argument:
+        
+            feats - features, list.
+            
+        Output:
+        
+            MLP network, model.
+        
+        """
+        
+        # Go through the features list
         for mlp_id, feat in enumerate(feats):
+            
+            # Get input channels
             input_nc = feat.shape[1]
+            
+            # Initialize MLP
             mlp = nn.Sequential(*[nn.Linear(input_nc, self.nc), nn.ReLU(), nn.Linear(self.nc, self.nc)])
+            
+            # Move to GPU
             if len(self.gpu_ids) > 0:
                 mlp.cuda()
             setattr(self, 'mlp_%d' % mlp_id, mlp)
