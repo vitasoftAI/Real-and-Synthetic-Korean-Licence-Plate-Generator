@@ -524,9 +524,30 @@ class Normalize(nn.Module):
 
         norm = x.pow(self.power).sum(1, keepdim = True).pow(1. / self.power)
         
-        \
+        return x.div(norm + 1e-7)
 
 class PatchSampleF(nn.Module):
+    
+    """
+    
+    This class creates patches and return features along with the corresponding positions.
+    
+    Arguments:
+    
+        use_mlp   - option to use MLP or not, bool;
+        init_type - initializer type, str;
+        init_gain - weight for initialization, float;
+        nc        - number of hidden layer neurons, int;
+        gpu_ids   - gpu device ids, list.
+        
+    Outputs:
+    
+        return_feats, return_ids
+    
+        
+    
+    """
+    
     def __init__(self, use_mlp=False, init_type='normal', init_gain=0.02, nc=256, gpu_ids=[]):
         # potential issues: currently, we use the same patch_ids for multiple images in the batch
         super(PatchSampleF, self).__init__()
@@ -583,7 +604,6 @@ class PatchSampleF(nn.Module):
                 x_sample = x_sample.permute(0, 2, 1).reshape([B, x_sample.shape[-1], H, W])
             return_feats.append(x_sample)
         return return_feats, return_ids
-
 
 class LinearBlock(nn.Module):
     def __init__(self, input_dim, output_dim, norm='none', activation='relu'):
