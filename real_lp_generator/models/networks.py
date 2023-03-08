@@ -587,11 +587,29 @@ class PatchSampleF(nn.Module):
             if len(self.gpu_ids) > 0:
                 mlp.cuda()
             setattr(self, 'mlp_%d' % mlp_id, mlp)
+        
+        # Initialize the network
         init_net(self, self.init_type, self.init_gain, self.gpu_ids)
         self.mlp_init = True
 
-    def forward(self, feats, num_patches=64, patch_ids=None):
-        # pp("feats_shape", feats, False)
+    def forward(self, feats, num_patches = 64, patch_ids = None):
+        
+        """
+        
+        This function gets features, number of patches and patch indices and returns features and their corresponding indices.
+        
+        Arguments:
+        
+            feats       - features, list;
+            num_patches - number of patches, int;
+            patch_ids   - patch indices, dict.
+            
+        Output:
+        
+            MLP network, model.
+        
+        """
+        
         return_ids = []
         return_feats = []
         if self.use_mlp and not self.mlp_init:
