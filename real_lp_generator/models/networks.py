@@ -501,15 +501,30 @@ class Upsample2(nn.Module):
         return torch.nn.functional.interpolate(inp, scale_factor = self.factor, mode = self.mode)
 
 class Normalize(nn.Module):
+    
+    """
+    
+    This class normalizes an input tensor image.
+    
+    Argument:
+    
+        x - an input image, tensor;
+        
+    Output:
 
-    def __init__(self, power=2):
+        a normalized output image, tensor;
+        
+    """
+
+    def __init__(self, power = 2):
         super(Normalize, self).__init__()
         self.power = power
 
     def forward(self, x):
+
         norm = x.pow(self.power).sum(1, keepdim = True).pow(1. / self.power)
-        out = x.div(norm + 1e-7)
-        return out
+        
+        \
 
 class PatchSampleF(nn.Module):
     def __init__(self, use_mlp=False, init_type='normal', init_gain=0.02, nc=256, gpu_ids=[]):
