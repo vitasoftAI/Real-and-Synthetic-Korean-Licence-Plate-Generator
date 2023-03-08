@@ -466,7 +466,7 @@ class Downsample(nn.Module):
             if (self.pad_off == 0): return inp[:, :, ::self.stride, ::self.stride]
             else: return self.pad(inp)[:, :, ::self.stride, ::self.stride]
         
-        else: return F.conv2d(self.pad(inp), self.filt, stride=self.stride, groups=inp.shape[1])
+        else: return F.conv2d(self.pad(inp), self.filt, stride = self.stride, groups = inp.shape[1])
 
 class Upsample2(nn.Module):
     
@@ -507,10 +507,9 @@ class Normalize(nn.Module):
         self.power = power
 
     def forward(self, x):
-        norm = x.pow(self.power).sum(1, keepdim=True).pow(1. / self.power)
+        norm = x.pow(self.power).sum(1, keepdim = True).pow(1. / self.power)
         out = x.div(norm + 1e-7)
         return out
-
 
 class PatchSampleF(nn.Module):
     def __init__(self, use_mlp=False, init_type='normal', init_gain=0.02, nc=256, gpu_ids=[]):
