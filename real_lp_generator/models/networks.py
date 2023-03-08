@@ -659,10 +659,26 @@ class PatchSampleF(nn.Module):
         return return_feats, return_ids
 
 class LinearBlock(nn.Module):
-    def __init__(self, input_dim, output_dim, norm='none', activation='relu'):
+    
+    """
+    
+    This class creates a fully connected layer and passes the input through it.
+    
+    Arguments:
+    
+        input_dim  - input dimension of the fully connected layer;
+        output_dim - output dimension of the fully connected layer;
+        norm       - normalization type, str;
+        activation - activation function name, str.
+    
+    """
+    
+    
+    def __init__(self, input_dim, output_dim, norm = 'none', activation = 'relu'):
         super(LinearBlock, self).__init__()
         use_bias = True
-        # initialize fully connected layer
+        
+        # Initialize fully connected layer
         self.fc = nn.Linear(input_dim, output_dim, bias=use_bias)
 
         # initialize normalization
