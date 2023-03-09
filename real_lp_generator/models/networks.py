@@ -759,28 +759,18 @@ class ResnetGenerator(nn.Module):
     """
 
     def __init__(self, input_nc, output_nc, ngf = 64, norm_layer = nn.BatchNorm2d, use_dropout = False, n_blocks = 6, padding_type = 'reflect', no_antialias = False, no_antialias_up = False, opt = None):
-        """Construct a Resnet-based generator
-        Parameters:
-            input_nc (int)      -- the number of channels in input images
-            output_nc (int)     -- the number of channels in output images
-            ngf (int)           -- the number of filters in the last conv layer
-            norm_layer          -- normalization layer
-            use_dropout (bool)  -- if use dropout layers
-            n_blocks (int)      -- the number of ResNet blocks
-            padding_type (str)  -- the name of padding layer in conv layers: reflect | replicate | zero
-        """
-        assert(n_blocks >= 0)
+        
+        # At least one ResNet block must be formulated
+        assert(n_blocks >= 0), "At least one ResNet block must be initialized"
+        
         super(ResnetGenerator, self).__init__()
+        
+        # Get options
         self.opt = opt
-        if type(norm_layer) == functools.partial:
-            use_bias = norm_layer.func == nn.InstanceNorm2d
-        else:
-            use_bias = norm_layer == nn.InstanceNorm2d
+        if type(norm_layer) == functools.partial: use_bias = norm_layer.func == nn.InstanceNorm2d
+        else: use_bias = norm_layer == nn.InstanceNorm2d
 
-        model = [nn.ReflectionPad2d(3),
-                 nn.Conv2d(input_nc, ngf // 2, kernel_size=5, padding=0, bias=use_bias), WIBReLU(True),
-                 nn.Conv2d(ngf // 2, ngf, kernel_size=3, padding=0, bias=use_bias), WIBReLU(True),
-                 ]
+        model = [nn.ReflectionPad2d(3), nn.Conv2d(input_nc, ngf // 2, kernel_size = 5, padding = 0, bias = use_bias), WIBReLU(True), nn.Conv2d(ngf // 2, ngf, kernel_size = 3, padding = 0, bias = use_bias), WIBReLU(True)]
 
         n_downsampling = 2
         for i in range(n_downsampling):  # add downsampling layers
