@@ -31,7 +31,7 @@ def pp(var_name, var, shape = False):
 
 def get_filter(filt_size = 3):
     
-     """
+    """
     
      This function gets filter size and returns tensor filter based on the given variable.
      
@@ -44,7 +44,7 @@ def get_filter(filt_size = 3):
         filt - filter, tensor.
      
     """
-    
+
     # Initialize filter array
     if   (filt_size == 1): arr = np.array([1., ])
     elif (filt_size == 2): arr = np.array([1., 1.])
@@ -56,7 +56,7 @@ def get_filter(filt_size = 3):
 
     # Get filter
     filt = torch.Tensor(arr[:, None] * arr[None, :])
-
+    
     return filt / torch.sum(filt)
 
 def get_pad_layer(pad_type):
