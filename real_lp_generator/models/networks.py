@@ -735,11 +735,30 @@ class LinearBlock(nn.Module):
         return out
 
 class ResnetGenerator(nn.Module):
-    """Resnet-based generator that consists of Resnet blocks between a few downsampling/upsampling operations.
-    We adapt Torch code and idea from Justin Johnson's neural style transfer project(https://github.com/jcjohnson/fast-neural-style)
+    
+    
+    """
+    
+    This class creates Resnet-based generator that consists of Resnet blocks between a few downsampling and upsampling operations.
+    The code is adapted from Justin Johnson's neural style transfer project(https://github.com/jcjohnson/fast-neural-style).
+    
+    Arguments:
+    
+        input_nc     - the number of channels in input images, int;
+        ndf          - the number of filters in the first conv layer, int;
+        netD         - the architecture's name: basic | n_layers | pixel, str;
+        norm         - the type of normalization layers used in the model, str;
+        init_type    - the name of our initialization method; str;
+        init_gain    - scaling factor for normal, xavier and orthogonal, float;
+        gpu_ids      - gpu device name, list.
+        
+    Output:
+    
+        Discriminator.
+    
     """
 
-    def __init__(self, input_nc, output_nc, ngf=64, norm_layer=nn.BatchNorm2d, use_dropout=False, n_blocks=6, padding_type='reflect', no_antialias=False, no_antialias_up=False, opt=None):
+    def __init__(self, input_nc, output_nc, ngf = 64, norm_layer = nn.BatchNorm2d, use_dropout = False, n_blocks = 6, padding_type = 'reflect', no_antialias = False, no_antialias_up = False, opt = None):
         """Construct a Resnet-based generator
         Parameters:
             input_nc (int)      -- the number of channels in input images
