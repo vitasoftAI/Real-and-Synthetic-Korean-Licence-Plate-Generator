@@ -744,17 +744,20 @@ class ResnetGenerator(nn.Module):
     
     Arguments:
     
-        input_nc     - the number of channels in input images, int;
-        ndf          - the number of filters in the first conv layer, int;
-        netD         - the architecture's name: basic | n_layers | pixel, str;
-        norm         - the type of normalization layers used in the model, str;
-        init_type    - the name of our initialization method; str;
-        init_gain    - scaling factor for normal, xavier and orthogonal, float;
-        gpu_ids      - gpu device name, list.
+        input_nc      - the number of channels in input volumes, int;
+        output_nc     - the number of channels in output volumes, int;
+        ngf           - the number of filters in the last convolution layer, int;
+        
+        
+        netD          - the architecture's name: basic | n_layers | pixel, str;
+        norm          - the type of normalization layers used in the model, str;
+        init_type     - the name of our initialization method; str;
+        init_gain     - scaling factor for normal, xavier and orthogonal, float;
+        gpu_ids       - gpu device name, list.
         
     Output:
     
-        Discriminator.
+        ResNet-based Generator model.
     
     """
 
