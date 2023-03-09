@@ -461,7 +461,11 @@ class Downsample(nn.Module):
         
         Argument:
         
-            inp - input tensor image.
+            inp - input image, tensor.
+            
+        Output:
+    
+            downsampled tensor volume.
         
         """
         
