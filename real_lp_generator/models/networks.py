@@ -747,13 +747,10 @@ class ResnetGenerator(nn.Module):
         input_nc      - the number of channels in input volumes, int;
         output_nc     - the number of channels in output volumes, int;
         ngf           - the number of filters in the last convolution layer, int;
-        
-        
-        netD          - the architecture's name: basic | n_layers | pixel, str;
-        norm          - the type of normalization layers used in the model, str;
-        init_type     - the name of our initialization method; str;
-        init_gain     - scaling factor for normal, xavier and orthogonal, float;
-        gpu_ids       - gpu device name, list.
+        norm_layer    - normalization layer name, torch class;
+        use_dropout   - option to use dropout layers, bool;
+        n_blocks      - the number of ResNet blocks, int;
+        padding_type  - padding layer type name, str.
         
     Output:
     
