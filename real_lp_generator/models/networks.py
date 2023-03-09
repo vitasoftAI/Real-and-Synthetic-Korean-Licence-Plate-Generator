@@ -417,7 +417,7 @@ class Downsample(nn.Module):
     
     """
     
-    This class downsamples an input tensor image.
+    This class downsamples an input tensor volume.
     
     Arguments:
     
@@ -457,7 +457,7 @@ class Downsample(nn.Module):
         
         """
         
-        This function gets input tensor image and does downsampling.
+        This function gets input tensor volume and does downsampling.
         
         Argument:
         
@@ -480,12 +480,16 @@ class Upsample2(nn.Module):
     
     """
     
-    This class upsamples an input tensor image.
+    This class upsamples an input tensor tensor.
     
     Arguments:
     
         scale_factor - a factor for upsampling, int;
         mode         - a mode for upsampling, str.
+        
+    Output:
+    
+        upsampled tensor volume.
         
     """
     
@@ -502,8 +506,12 @@ class Upsample2(nn.Module):
         
         Argument:
         
-            inp - input tensor image.
+            inp - input tensor volume, tensor.
         
+        Output:
+    
+            upsampled tensor volume, tensor.
+            
         """
         
         return torch.nn.functional.interpolate(inp, scale_factor = self.factor, mode = self.mode)
