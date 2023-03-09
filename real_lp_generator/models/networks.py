@@ -480,7 +480,7 @@ class Upsample2(nn.Module):
     
     """
     
-    This class upsamples an input tensor tensor.
+    This class upsamples an input tensor volume.
     
     Arguments:
     
@@ -493,7 +493,7 @@ class Upsample2(nn.Module):
         
     """
     
-    def __init__(self, scale_factor, mode='bilinear'):
+    def __init__(self, scale_factor, mode = 'bilinear'):
         
         super().__init__()
         self.factor, self.mode = scale_factor, mode
@@ -502,7 +502,7 @@ class Upsample2(nn.Module):
         
         """
         
-        This function gets input tensor image and does upsampling.
+        This function gets input tensor volume and does upsampling.
         
         Argument:
         
