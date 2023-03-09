@@ -426,6 +426,10 @@ class Downsample(nn.Module):
         filt_size   - size of the convolution filter, int;
         stride      - a stride for the convolution filter, int;
         pad_off     - padding off, int.
+        
+    Output:
+    
+        downsampled tensor volume.
     
     """
     
