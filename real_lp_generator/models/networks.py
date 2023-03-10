@@ -786,7 +786,7 @@ class ResnetGenerator(nn.Module):
                           Downsample(ngf * mult * 2)]
 
         mult = 2 ** n_downsampling
-        for i in range(n_blocks):       # add ResNet blocks
+        for i in range(n_blocks):       
 
             model += [ResnetBlock(ngf * mult, padding_type=padding_type, norm_layer=norm_layer, use_dropout=use_dropout, use_bias=use_bias)]
 
@@ -810,15 +810,6 @@ class ResnetGenerator(nn.Module):
                           norm_layer(int(ngf * mult / 2)),
                           WIBReLU(True)]
                 
-                
-                # model += [nn.Upsample(scale_factor=2, mode='bilinear', align_corners=None, recompute_scale_factor=None),
-                #           nn.Conv2d(ngf * mult, int(ngf * mult / 2),
-                #                     kernel_size=3, stride=1,
-                #                     padding=1,  # output_padding=1,
-                #                     bias=use_bias),
-                #           norm_layer(int(ngf * mult / 2)),
-                #           WIBReLU(True)]
-                          
         model += [nn.ReflectionPad2d(3)]
         model += [nn.Conv2d(ngf, ngf // 2, kernel_size=5, padding=0, bias=use_bias), WIBReLU(True),
                    nn.Conv2d(ngf // 2, output_nc, kernel_size=3, padding=0, bias=use_bias)]
