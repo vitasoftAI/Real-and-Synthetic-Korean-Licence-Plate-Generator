@@ -796,37 +796,32 @@ class ResnetGenerator(nn.Module):
                       Downsample(ngf * mult * 2)]
 
         mult = 2 ** n_downsampling
+        # Create a model based on the number of ResNet blocks
         for i in range(n_blocks):       
 
             model += [ResnetBlock(ngf * mult, padding_type=padding_type, norm_layer=norm_layer, use_dropout=use_dropout, use_bias=use_bias)]
 
-        for i in range(n_downsampling):  # add upsampling layers
+        # Create a model for upsampling
+        for i in range(n_downsampling):  
             mult = 2 ** (n_downsampling - i)
-            if no_antialias_up:
-                
-                model += [nn.ConvTranspose2d(ngf * mult, int(ngf * mult / 2),
-                                             kernel_size=3, stride=2,
-                                             padding=1, output_padding=1,
-                                             bias=use_bias),
-                          norm_layer(int(ngf * mult / 2)),
-                          WIBReLU(True)]
-            else:
-                
-                model += [Upsample2(2),
-                          nn.Conv2d(ngf * mult, int(ngf * mult / 2),
-                                    kernel_size=3, stride=1,
-                                    padding=1,  # output_padding=1,
-                                    bias=use_bias),
-                          norm_layer(int(ngf * mult / 2)),
-                          WIBReLU(True)]
-                
+            model += [Upsample2(2),
+                      nn.Conv2d(ngf * mult, int(ngf * mult / 2),
+                                kernel_size=3, stride=1,
+                                padding=1,  # output_padding=1,
+                                bias=use_bias),
+                      norm_layer(int(ngf * mult / 2)),
+                      WIBReLU(True)]
+        
+        # Add padding layer
         model += [nn.ReflectionPad2d(3)]
+        # Add final conv layer
         model += [nn.Conv2d(ngf, ngf // 2, kernel_size=5, padding=0, bias=use_bias), WIBReLU(True),
                    nn.Conv2d(ngf // 2, output_nc, kernel_size=3, padding=0, bias=use_bias)]
+        # Add activation function
         model += [nn.Tanh()]
         
+        # Formulate a final model
         self.model = nn.Sequential(*model)
-        # print(self.model)
     
     def forward(self, input, layers=[], encode_only=False):
         if -1 in layers:
