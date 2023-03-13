@@ -775,23 +775,25 @@ class ResnetGenerator(nn.Module):
         
         # Get options
         self.opt = opt
+        # Get normalization layer
         if type(norm_layer) == functools.partial: use_bias = norm_layer.func == nn.InstanceNorm2d
+        # Get use bias flag
         else: use_bias = norm_layer == nn.InstanceNorm2d
 
         model = [nn.ReflectionPad2d(3), nn.Conv2d(input_nc, ngf // 2, kernel_size = 5, padding = 0, bias = use_bias), WIBReLU(True), nn.Conv2d(ngf // 2, ngf, kernel_size = 3, padding = 0, bias = use_bias), WIBReLU(True)]
 
+        # Initialize depth for downsampling
         n_downsampling = 2
-        for i in range(n_downsampling):  # add downsampling layers
+        
+        # Create a model for downsampling 
+        for i in range(n_downsampling):
+            
             mult = 2 ** i
-            if(no_antialias):
-                model += [nn.Conv2d(ngf * mult, ngf * mult * 2, kernel_size=3, stride=2, padding=1, bias=use_bias),
-                          norm_layer(ngf * mult * 2),
-                          nn.ReLU(True)]
-            else:
-                model += [nn.Conv2d(ngf * mult, ngf * mult * 2, kernel_size=3, stride=1, padding=1, bias=use_bias),
-                          norm_layer(ngf * mult * 2),
-                          nn.ReLU(True),
-                          Downsample(ngf * mult * 2)]
+            model += [nn.Conv2d(ngf * mult, ngf * mult * 2, kernel_size=3, 
+                                stride=1, padding=1, bias=use_bias),
+                      norm_layer(ngf * mult * 2),
+                      nn.ReLU(True),
+                      Downsample(ngf * mult * 2)]
 
         mult = 2 ** n_downsampling
         for i in range(n_blocks):       
