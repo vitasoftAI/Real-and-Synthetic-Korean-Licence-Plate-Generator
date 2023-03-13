@@ -717,12 +717,29 @@ class LinearBlock(nn.Module):
         elif activation == 'wib':  self.activation = WIBReLU()
         elif activation == 'none':  self.activation = None
 
-    def forward(self, x):
-        out = self.fc(x)
-        if self.norm:
-            out = self.norm(out)
-        if self.activation:
-            out = self.activation(out)
+    def forward(self, inp):
+        
+        """
+        
+        This function gets input volume, passes it through MLP layer, applies normalization and activation (if defined) and returns the output volume.
+        
+        Arguments:
+        
+            inp - input volume, tensor.
+            
+        Output:
+        
+            out - output volume, tensor.
+        
+        """
+        
+        # MLP
+        out = self.fc(inp)
+        # Normalization
+        if self.norm:       out = self.norm(out)
+        # Activation
+        if self.activation: out = self.activation(out)
+        
         return out
 
 class ResnetGenerator(nn.Module):
