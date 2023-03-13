@@ -699,30 +699,23 @@ class LinearBlock(nn.Module):
 
         # Make sure the normalization and the activation function is one of the pre-defined normalizations, activation functions
         assert norm in ['batch', 'inst', 'ln', 'none'], "Please choose a proper normalization."
-        assert activation in ['relu', 'lrelu', 'prelu', 'selu', 'tanh', 'none'], "Please choose a proper normalization."
+        assert activation in ['relu', 'lrelu', 'prelu', 'selu', 'tanh', 'wib', 'none'], "Please choose a proper activation function."
         
-        # initialize normalization
+        # Initialize normalization
         norm_dim = output_dim
         if norm   == 'batch':self.norm = nn.BatchNorm1d(norm_dim)
         elif norm == 'inst': self.norm = nn.InstanceNorm1d(norm_dim)
         elif norm == 'ln':   self.norm = LayerNorm(norm_dim)
         elif norm == 'none': self.norm = None
 
-        # initialize activation
-        if activation == 'relu':
-            self.activation = nn.ReLU(inplace=True)
-        elif activation == 'lrelu':
-            self.activation = nn.LeakyReLU(0.2, inplace=True)
-        elif activation == 'prelu':
-            self.activation = nn.PReLU()
-        elif activation == 'selu':
-            self.activation = nn.SELU(inplace=True)
-        elif activation == 'tanh':
-            self.activation = nn.Tanh()
-        elif activation == 'none':
-            self.activation = None
-        else:
-            assert 0, "Unsupported activation: {}".format(activation)
+        # Initialize activation function
+        if activation == 'relu':    self.activation = nn.ReLU(inplace = True)
+        elif activation == 'lrelu': self.activation = nn.LeakyReLU(0.2, inplace = True)
+        elif activation == 'prelu': self.activation = nn.PReLU()
+        elif activation == 'selu':  self.activation = nn.SELU(inplace = True)
+        elif activation == 'tanh':  self.activation = nn.Tanh()
+        elif activation == 'wib':  self.activation = WIBReLU()
+        elif activation == 'none':  self.activation = None
 
     def forward(self, x):
         out = self.fc(x)
