@@ -695,20 +695,18 @@ class LinearBlock(nn.Module):
         use_bias = True
         
         # Initialize fully connected layer
-        self.fc = nn.Linear(input_dim, output_dim, bias=use_bias)
+        self.fc = nn.Linear(input_dim, output_dim, bias = use_bias)
 
+        # Make sure the normalization and the activation function is one of the pre-defined normalizations, activation functions
+        assert norm in ['batch', 'inst', 'ln', 'none'], "Please choose a proper normalization."
+        assert activation in ['relu', 'lrelu', 'prelu', 'selu', 'tanh', 'none'], "Please choose a proper normalization."
+        
         # initialize normalization
         norm_dim = output_dim
-        if norm == 'batch':
-            self.norm = nn.BatchNorm1d(norm_dim)
-        elif norm == 'inst':
-            self.norm = nn.InstanceNorm1d(norm_dim)
-        elif norm == 'ln':
-            self.norm = LayerNorm(norm_dim)
-        elif norm == 'none':
-            self.norm = None
-        else:
-            assert 0, "Unsupported normalization: {}".format(norm)
+        if norm   == 'batch':self.norm = nn.BatchNorm1d(norm_dim)
+        elif norm == 'inst': self.norm = nn.InstanceNorm1d(norm_dim)
+        elif norm == 'ln':   self.norm = LayerNorm(norm_dim)
+        elif norm == 'none': self.norm = None
 
         # initialize activation
         if activation == 'relu':
