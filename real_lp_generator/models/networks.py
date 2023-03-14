@@ -893,15 +893,27 @@ class ResnetBlock(nn.Module):
         self.conv_block = self.build_conv_block(dim, padding_type, norm_layer, use_dropout, use_bias)
 
     def build_conv_block(self, dim, padding_type, norm_layer, use_dropout, use_bias):
-        """Construct a convolutional block.
-        Parameters:
-            dim (int)           -- the number of channels in the conv layer.
-            padding_type (str)  -- the name of padding layer: reflect | replicate | zero
-            norm_layer          -- normalization layer
-            use_dropout (bool)  -- if use dropout layers.
-            use_bias (bool)     -- if the conv layer uses bias or not
-        Returns a conv block (with a conv layer, a normalization layer, and a non-linearity layer (ReLU))
-        """
+        
+     """
+
+     This function builds a convolution block.
+ 
+     Arguments:
+ 
+         dim          - the number of channels in the convolution layer, int;
+         padding_type - a padding layer type, str;
+         norm_layer   - a normalization layer;
+         use_dropout  - an option to use dropout, bool;
+         use_bias     - an option to use bias in the convolution layers, bool.
+ 
+     Output:
+ 
+         a ResNet block, torch Sequential model.
+ 
+      """
+        
+        assert padding_type in ['reflect', 'replicate', 'zero'], "Please choose a proper padding type."
+        
         conv_block = []
         p = 0
         if padding_type == 'reflect':
@@ -910,10 +922,7 @@ class ResnetBlock(nn.Module):
             conv_block += [nn.ReplicationPad2d(1)]
         elif padding_type == 'zero':
             p = 1
-        else:
-            raise NotImplementedError('padding [%s] is not implemented' % padding_type)
 
-        # conv_block += [nn.Conv2d(dim, dim, kernel_size=3, padding=p, bias=use_bias), norm_layer(dim), WIBReLU(True)]
         conv_block += [nn.Conv2d(dim, dim, kernel_size=3, padding=p, bias=use_bias), nn.ReLU(True)]
         if use_dropout:
             conv_block += [nn.Dropout(0.5)]
