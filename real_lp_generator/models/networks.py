@@ -930,10 +930,24 @@ class ResnetBlock(nn.Module):
 
         return nn.Sequential(*conv_block)
 
-    def forward(self, x):
-        """Forward function (with skip connections)"""
-        out = x + self.conv_block(x)  # add skip connections
-        return out
+    def forward(self, input):
+        
+        """
+        
+        This function gets input volume and passes it through the pre-defined residual block.
+        
+        Arguments:
+        
+            input       - input volume, tensor;
+            
+        Output:
+        
+            out        - output tensor after the residual block, tensor.
+        
+        """
+        
+        # Residual connection
+        return input + self.conv_block(input)  
 
 class NLayerDiscriminator(nn.Module):
     """Defines a PatchGAN discriminator"""
