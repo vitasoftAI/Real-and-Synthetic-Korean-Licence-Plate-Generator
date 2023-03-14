@@ -875,21 +875,20 @@ class ResnetBlock(nn.Module):
     
     Arguments:
     
-        dim          - 
-        padding_type - 
-        norm_layer   - 
-        use_dropout  - 
-        use_bias     - 
+        dim          - the number of channels in the convolution layer, int;
+        padding_type - a padding layer type, str;
+        norm_layer   - a normalization layer;
+        use_dropout  - an option to use dropout, bool;
+        use_bias     - an option to use bias in the convolution layers, bool.
+        
+    Output:
+    
+        a ResNet block, torch Sequential model.
     
     """
 
     def __init__(self, dim, padding_type, norm_layer, use_dropout, use_bias):
-        """Initialize the Resnet block
-        A resnet block is a conv block with skip connections
-        We construct a conv block with build_conv_block function,
-        and implement skip connections in <forward> function.
-        Original Resnet paper: https://arxiv.org/pdf/1512.03385.pdf
-        """
+        
         super(ResnetBlock, self).__init__()
         self.conv_block = self.build_conv_block(dim, padding_type, norm_layer, use_dropout, use_bias)
 
