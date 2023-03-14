@@ -867,7 +867,21 @@ class ResnetGenerator(nn.Module):
             return fake
 
 class ResnetBlock(nn.Module):
-    """Define a Resnet block"""
+    
+    
+    """
+    
+    This class creates a Resnet block.
+    
+    Arguments:
+    
+        dim          - 
+        padding_type - 
+        norm_layer   - 
+        use_dropout  - 
+        use_bias     - 
+    
+    """
 
     def __init__(self, dim, padding_type, norm_layer, use_dropout, use_bias):
         """Initialize the Resnet block
