@@ -868,7 +868,6 @@ class ResnetGenerator(nn.Module):
 
 class ResnetBlock(nn.Module):
     
-    
     """
     
     This class creates a Resnet block.
@@ -936,7 +935,7 @@ class ResnetBlock(nn.Module):
         
         This function gets input volume and passes it through the pre-defined residual block.
         
-        Arguments:
+        Argument:
         
             input       - input volume, tensor;
             
@@ -950,6 +949,27 @@ class ResnetBlock(nn.Module):
         return input + self.conv_block(input)  
 
 class NLayerDiscriminator(nn.Module):
+    
+    """
+    
+    This class creates a discrimination network.
+    
+    Arguments:
+    
+        input_nc     - input image channels, int;
+        ndf          - number of channels in the first convolution layer, int;
+        n_layers     - a normalization layer;
+        norm_layer   - an option to use dropout, bool;
+        no_antialias - an option to use bias in the convolution layers, bool.
+        
+    Output:
+    
+        a ResNet block, torch Sequential model.
+    
+    """
+    
+    
+    
     """Defines a PatchGAN discriminator"""
     
     def __init__(self, input_nc, ndf=64, n_layers=3, norm_layer=nn.BatchNorm2d, no_antialias=False):
