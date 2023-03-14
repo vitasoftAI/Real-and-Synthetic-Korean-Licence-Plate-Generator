@@ -914,30 +914,19 @@ class ResnetBlock(nn.Module):
         
         assert padding_type in ['reflect', 'replicate', 'zero'], "Please choose a proper padding type."
         
-        conv_block = []
-        p = 0
-        if padding_type == 'reflect':
-            conv_block += [nn.ReflectionPad2d(1)]
-        elif padding_type == 'replicate':
-            conv_block += [nn.ReplicationPad2d(1)]
-        elif padding_type == 'zero':
-            p = 1
-
-        conv_block += [nn.Conv2d(dim, dim, kernel_size=3, padding=p, bias=use_bias), nn.ReLU(True)]
-        if use_dropout:
-            conv_block += [nn.Dropout(0.5)]
-
-        p = 0
-        if padding_type == 'reflect':
-            conv_block += [nn.ReflectionPad2d(1)]
-        elif padding_type == 'replicate':
-            conv_block += [nn.ReplicationPad2d(1)]
-        elif padding_type == 'zero':
-            p = 1
-        else:
-            raise NotImplementedError('padding [%s] is not implemented' % padding_type)
-        # conv_block += [nn.Conv2d(dim, dim, kernel_size=3, padding=p, bias=use_bias), norm_layer(dim)]
-        conv_block += [nn.Conv2d(dim, dim, kernel_size=3, padding=p, bias=use_bias)]
+        # Initialize a list and padding variable
+        conv_block, p = [], 0
+        
+        # Add padding layer
+        if padding_type == 'reflect': conv_block += [nn.ReflectionPad2d(1)]
+        elif padding_type == 'replicate': conv_block += [nn.ReplicationPad2d(1)]
+        elif padding_type == 'zero': p = 1
+        
+        # Add conv blocks
+        conv_block += [nn.Conv2d(dim, dim, kernel_size = 3, padding = p, bias = use_bias), nn.ReLU(True)]
+        
+        # Add dropout layer
+        if use_dropout: conv_block += [nn.Dropout(0.5)]
 
         return nn.Sequential(*conv_block)
 
