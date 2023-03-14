@@ -952,25 +952,21 @@ class NLayerDiscriminator(nn.Module):
     
     """
     
-    This class creates a discrimination network.
+    This class creates a discriminator network.
     
     Arguments:
     
         input_nc     - input image channels, int;
         ndf          - number of channels in the first convolution layer, int;
-        n_layers     - a normalization layer;
-        norm_layer   - an option to use dropout, bool;
-        no_antialias - an option to use bias in the convolution layers, bool.
+        n_layers     - number of layers in the discriminator, int;
+        norm_layer   - a normalization layer, torch method;
+        no_antialias - an option for antialias, bool.
         
     Output:
     
-        a ResNet block, torch Sequential model.
+        a discriminator model, torch Sequential model.
     
     """
-    
-    
-    
-    """Defines a PatchGAN discriminator"""
     
     def __init__(self, input_nc, ndf=64, n_layers=3, norm_layer=nn.BatchNorm2d, no_antialias=False):
         """Construct a PatchGAN discriminator
