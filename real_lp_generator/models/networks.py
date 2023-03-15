@@ -992,10 +992,12 @@ class NLayerDiscriminator(nn.Module):
                         nn.Conv2d(prev_channels // 2, prev_channels * 4, kernel_size = ks, stride = 2, padding = padw, bias = use_bias), WIBReLU(True)
                         ]
             
-        sequence += [nn.Conv2d(prev_channels * 4, prev_channels // 2, kernel_size=1, stride=1, padding=0, bias=use_bias), WIBReLU(True),
-                     nn.Conv2d(prev_channels // 2, prev_channels * 8, kernel_size=ks, stride=1, padding=padw, bias=use_bias), WIBReLU(True), 
-                     nn.Conv2d(prev_channels * 8, prev_channels // 2, kernel_size=1, stride=1, padding=0, bias=use_bias), WIBReLU(True),
-                     nn.Conv2d(prev_channels // 2, 1, kernel_size=ks, stride=1, padding=padw)]  # output 1 channel prediction map
+        sequence += [
+                        nn.Conv2d(prev_channels * 4, prev_channels // 2, kernel_size = 1, stride = 1, padding = 0, bias = use_bias), WIBReLU(True),
+                        nn.Conv2d(prev_channels // 2, prev_channels * 8, kernel_size = ks, stride = 1, padding = padw, bias = use_bias), WIBReLU(True), 
+                        nn.Conv2d(prev_channels * 8, prev_channels // 2, kernel_size = 1, stride = 1, padding = 0, bias = use_bias), WIBReLU(True),
+                        nn.Conv2d(prev_channels // 2, 1, kernel_size = ks, stride = 1, padding = padw)
+                    ] 
         self.model = nn.Sequential(*sequence)
 
     def forward(self, input):
