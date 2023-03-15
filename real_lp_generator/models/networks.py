@@ -823,7 +823,7 @@ class ResnetGenerator(nn.Module):
         # Formulate a final model
         self.model = nn.Sequential(*model)
     
-    def forward(self, input, layers=[], encode_only=False):
+    def forward(self, input, layers = [], encode_only = False):
         
         """
         
@@ -842,29 +842,27 @@ class ResnetGenerator(nn.Module):
         
         """
         
-        if -1 in layers:
-            layers.append(len(self.model))
+        if -1 in layers: layers.append(len(self.model))
         if len(layers) > 0:
             feat = input
             feats = []
             for layer_id, layer in enumerate(self.model):
-                # print(layer_id, layer)
                 feat = layer(feat)
                 if layer_id in layers:
-                    # print("%d: adding the output of %s %d" % (layer_id, layer.__class__.__name__, feat.size(1)))
                     feats.append(feat)
                 else:
                     # print("%d: skipping %s %d" % (layer_id, layer.__class__.__name__, feat.size(1)))
                     pass
                 if layer_id == layers[-1] and encode_only:
-                    # print('encoder only return features')
-                    return feats  # return intermediate features alone; stop in the last layers
+                    
+                    # Return intermediate features only
+                    return feats  
 
-            return feat, feats  # return both output and intermediate features
-        else:
-            """Standard forward"""
-            fake = self.model(input)
-            return fake
+            # Return both output and intermediate features
+            return feat, feats  
+        
+        # Standard feed forward network
+        else: self.model(input)
 
 class ResnetBlock(nn.Module):
     
