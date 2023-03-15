@@ -986,14 +986,11 @@ class NLayerDiscriminator(nn.Module):
             prev_channels = ndf * n if n == 1 else ndf * (n*2)
             
             sequence += [
-                nn.Conv2d(prev_channels, prev_channels // 4, kernel_size=1, stride=1, padding=0, bias=use_bias), WIBReLU(True),
-                nn.Conv2d(prev_channels // 4, prev_channels * 2, kernel_size=ks, stride=1, padding=padw, bias=use_bias),
-                # norm_layer(prev_channels * 2),
-                WIBReLU(True),
-                nn.Conv2d(prev_channels * 2, prev_channels // 2, kernel_size=1, stride=1, padding=0, bias=use_bias), WIBReLU(True),
-                nn.Conv2d(prev_channels // 2, prev_channels * 4, kernel_size=ks, stride=2, padding=padw, bias=use_bias),
-                # norm_layer(prev_channels * 4),
-                WIBReLU(True)] # shape = 32, channels = 1024;
+                        nn.Conv2d(prev_channels, prev_channels // 4, kernel_size = 1, stride = 1, padding = 0, bias = use_bias), WIBReLU(True),
+                        nn.Conv2d(prev_channels // 4, prev_channels * 2, kernel_size = ks, stride = 1, padding = padw, bias = use_bias), WIBReLU(True),
+                        nn.Conv2d(prev_channels * 2, prev_channels // 2, kernel_size = 1, stride = 1, padding = 0, bias = use_bias), WIBReLU(True),
+                        nn.Conv2d(prev_channels // 2, prev_channels * 4, kernel_size = ks, stride = 2, padding = padw, bias = use_bias), WIBReLU(True)
+                        ]
             
         sequence += [nn.Conv2d(prev_channels * 4, prev_channels // 2, kernel_size=1, stride=1, padding=0, bias=use_bias), WIBReLU(True),
                      nn.Conv2d(prev_channels // 2, prev_channels * 8, kernel_size=ks, stride=1, padding=padw, bias=use_bias), WIBReLU(True), 
