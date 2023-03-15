@@ -974,27 +974,28 @@ class NLayerDiscriminator(nn.Module):
         else:
             use_bias = norm_layer == nn.InstanceNorm2d
 
-        kw = 3
-        padw = 1
-        sequence = [nn.Conv2d(input_nc, ndf // 2, kernel_size=kw, stride=1, padding=padw), WIBReLU(True), nn.Conv2d(ndf // 2, ndf, kw, stride=2, padding=padw), WIBReLU(True)] # 3, 64, 3, 1, 1 -> shape=(128, 128); channels=64
+        ks, padw = 3, 1
+        # 3, 64, 3, 1, 1 -> shape=(128, 128); channels=64
+        sequence = [nn.Conv2d(input_nc, ndf // 2, kernel_size = ks, stride = 1, padding = padw), 
+                    WIBReLU(True), nn.Conv2d(ndf // 2, ndf, ks, stride = 2, padding = padw), WIBReLU(True)] 
         
         for n in range(1, n_layers):  # gradually increase the number of filters; twice 1, 2
             prev_channels = ndf * n if n == 1 else ndf * (n*2)
             
             sequence += [
                 nn.Conv2d(prev_channels, prev_channels // 4, kernel_size=1, stride=1, padding=0, bias=use_bias), WIBReLU(True),
-                nn.Conv2d(prev_channels // 4, prev_channels * 2, kernel_size=kw, stride=1, padding=padw, bias=use_bias),
+                nn.Conv2d(prev_channels // 4, prev_channels * 2, kernel_size=ks, stride=1, padding=padw, bias=use_bias),
                 # norm_layer(prev_channels * 2),
                 WIBReLU(True),
                 nn.Conv2d(prev_channels * 2, prev_channels // 2, kernel_size=1, stride=1, padding=0, bias=use_bias), WIBReLU(True),
-                nn.Conv2d(prev_channels // 2, prev_channels * 4, kernel_size=kw, stride=2, padding=padw, bias=use_bias),
+                nn.Conv2d(prev_channels // 2, prev_channels * 4, kernel_size=ks, stride=2, padding=padw, bias=use_bias),
                 # norm_layer(prev_channels * 4),
                 WIBReLU(True)] # shape = 32, channels = 1024;
             
         sequence += [nn.Conv2d(prev_channels * 4, prev_channels // 2, kernel_size=1, stride=1, padding=0, bias=use_bias), WIBReLU(True),
-                     nn.Conv2d(prev_channels // 2, prev_channels * 8, kernel_size=kw, stride=1, padding=padw, bias=use_bias), WIBReLU(True), 
+                     nn.Conv2d(prev_channels // 2, prev_channels * 8, kernel_size=ks, stride=1, padding=padw, bias=use_bias), WIBReLU(True), 
                      nn.Conv2d(prev_channels * 8, prev_channels // 2, kernel_size=1, stride=1, padding=0, bias=use_bias), WIBReLU(True),
-                     nn.Conv2d(prev_channels // 2, 1, kernel_size=kw, stride=1, padding=padw)]  # output 1 channel prediction map
+                     nn.Conv2d(prev_channels // 2, 1, kernel_size=ks, stride=1, padding=padw)]  # output 1 channel prediction map
         self.model = nn.Sequential(*sequence)
 
     def forward(self, input):
