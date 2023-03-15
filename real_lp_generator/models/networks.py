@@ -979,7 +979,10 @@ class NLayerDiscriminator(nn.Module):
         sequence = [nn.Conv2d(input_nc, ndf // 2, kernel_size = ks, stride = 1, padding = padw), 
                     WIBReLU(True), nn.Conv2d(ndf // 2, ndf, ks, stride = 2, padding = padw), WIBReLU(True)] 
         
-        for n in range(1, n_layers):  # gradually increase the number of filters; twice 1, 2
+        # Go through the number of layers and gradually increase the number of filters
+        for n in range(1, n_layers): 
+            
+            # Track the number of filters in the output of the previous convolution operation
             prev_channels = ndf * n if n == 1 else ndf * (n*2)
             
             sequence += [
