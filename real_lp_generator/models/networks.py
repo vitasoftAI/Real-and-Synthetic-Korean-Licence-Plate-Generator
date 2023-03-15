@@ -998,12 +998,23 @@ class NLayerDiscriminator(nn.Module):
                         nn.Conv2d(prev_channels * 8, prev_channels // 2, kernel_size = 1, stride = 1, padding = 0, bias = use_bias), WIBReLU(True),
                         nn.Conv2d(prev_channels // 2, 1, kernel_size = ks, stride = 1, padding = padw)
                     ] 
+        # Create a final model
         self.model = nn.Sequential(*sequence)
 
     def forward(self, input):
         
-        """Standard forward."""
-        # print("discriminator is here")
-        out = self.model(input)
+        """
+        
+        This function gets input volume and passes it through the pre-defined discriminator model.
+        
+        Argument:
+        
+            input       - input volume, tensor;
+            
+        Output:
+        
+            out        - output tensor after the residual block, tensor.
+        
+        """
 
-        return out
+        return self.model(input)
