@@ -4,9 +4,8 @@ import numpy as np
 from torch import nn
 from torch.nn import functional as F
 
-def upfirdn2d_native(
-    input, kernel, up_x, up_y, down_x, down_y, pad_x0, pad_x1, pad_y0, pad_y1
-):
+def upfirdn2d_native(input, kernel, up_x, up_y, down_x, down_y, pad_x0, pad_x1, pad_y0, pad_y1):
+    
     _, minor, in_h, in_w = input.shape
     kernel_h, kernel_w = kernel.shape
 
