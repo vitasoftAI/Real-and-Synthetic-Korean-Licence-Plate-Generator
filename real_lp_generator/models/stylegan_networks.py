@@ -1,38 +1,8 @@
-"""
-The network architectures is based on PyTorch implemenation of StyleGAN2Encoder.
-Original PyTorch repo: https://github.com/rosinality/style-based-gan-pytorch
-Origianl StyelGAN2 paper: https://github.com/NVlabs/stylegan2
-We　use the network architeture for our single-image traning setting.
-"""
-
-import math
+# Import libraries
+import torch, math, random
 import numpy as np
-import random
-
-import torch
 from torch import nn
 from torch.nn import functional as F
-
-
-def fused_leaky_relu(input, bias, negative_slope=0.2, scale=2 ** 0.5):
-    return F.leaky_relu(input + bias, negative_slope) * scale
-
-
-class FusedLeakyReLU(nn.Module):
-    def __init__(self, channel, negative_slope=0.2, scale=2 ** 0.5):
-        super().__init__()
-        self.bias = nn.Parameter(torch.zeros(1, channel, 1, 1))
-        self.negative_slope = negative_slope
-        self.scale = scale
-
-    def forward(self, input):
-        # print("FusedLeakyReLU: ", input.abs().mean())
-        out = fused_leaky_relu(input, self.bias,
-                               self.negative_slope,
-                               self.scale)
-        # print("FusedLeakyReLU: ", out.abs().mean())
-        return out
-
 
 def upfirdn2d_native(
     input, kernel, up_x, up_y, down_x, down_y, pad_x0, pad_x1, pad_y0, pad_y1
@@ -70,21 +40,19 @@ def upfirdn2d_native(
 
     return out[:, :, ::down_y, ::down_x]
 
-
-def upfirdn2d(input, kernel, up=1, down=1, pad=(0, 0)):
+def upfirdn2d(input, kernel, up = 1, down = 1, pad = (0, 0)):
     return upfirdn2d_native(input, kernel, up, up, down, down, pad[0], pad[1], pad[0], pad[1])
 
-
 class PixelNorm(nn.Module):
+    
     def __init__(self):
         super().__init__()
 
     def forward(self, input):
         return input * torch.rsqrt(torch.mean(input ** 2, dim=1, keepdim=True) + 1e-8)
 
-
 def make_kernel(k):
-    k = torch.tensor(k, dtype=torch.float32)
+    k = torch.tensor(k, dtype = torch.float32)
 
     if len(k.shape) == 1:
         k = k[None, :] * k[:, None]
@@ -93,9 +61,8 @@ def make_kernel(k):
 
     return k
 
-
 class Upsample(nn.Module):
-    def __init__(self, kernel, factor=2):
+    def __init__(self, kernel, factor = 2):
         super().__init__()
 
         self.factor = factor
@@ -109,11 +76,7 @@ class Upsample(nn.Module):
 
         self.pad = (pad0, pad1)
 
-    def forward(self, input):
-        out = upfirdn2d(input, self.kernel, up=self.factor, down=1, pad=self.pad)
-
-        return out
-
+    def forward(self, input): return upfirdn2d(input, self.kernel, up = self.factor, down = 1, pad = self.pad)
 
 class Downsample(nn.Module):
     def __init__(self, kernel, factor=2):
