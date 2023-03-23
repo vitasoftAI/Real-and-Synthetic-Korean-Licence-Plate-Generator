@@ -25,7 +25,7 @@ class GANLoss(nn.Module):
         
         super(GANLoss, self).__init__()
         
-        assert pad_type in ['lsgan', 'vanilla', 'wgangp', 'nonsaturating'], "Please choose a proper loss type for GAN loss."
+        assert gan_mode in ['lsgan', 'vanilla', 'wgangp', 'nonsaturating'], "Please choose a proper loss type for GAN loss."
         
         self.register_buffer('real_label', torch.tensor(target_real_label))
         self.register_buffer('fake_label', torch.tensor(target_fake_label))
@@ -34,14 +34,18 @@ class GANLoss(nn.Module):
         if gan_mode == 'lsgan': self.loss = nn.MSELoss()
         elif gan_mode == 'vanilla': self.loss = nn.BCEWithLogitsLoss()
         elif gan_mode in ['wgangp', 'nonsaturating']: self.loss = None
-        else:
-            raise NotImplementedError('gan mode %s not implemented' % gan_mode)
 
     def get_target_tensor(self, prediction, target_is_real):
-        """Create label tensors with the same size as the input.
-        Parameters:
-            prediction (tensor) - - tpyically the prediction from a discriminator
-            target_is_real (bool) - - if the ground truth label is for real images or fake images
+        
+        """
+        
+        This function gets prediction and is real option and tensor with the ground truth label. 
+        
+        Arguments:
+        
+            prediction      - predicted value for the discrimination, tensor;
+            target_is_real  - whether ground truth label is for real or fake images. 
+            
         Returns:
             A label tensor filled with ground truth label, and with the size of the input
         """
