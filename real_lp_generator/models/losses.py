@@ -17,28 +17,23 @@ class GANLoss(nn.Module):
         
     Output:
     
+        loss              - loss value, float.
     
     """
 
-    def __init__(self, gan_mode, target_real_label=1.0, target_fake_label=0.0):
-        """ Initialize the GANLoss class.
-        Parameters:
-            gan_mode (str) - - the type of GAN objective. It currently supports vanilla, lsgan, and wgangp.
-            target_real_label (bool) - - label for a real image
-            target_fake_label (bool) - - label of a fake image
-        Note: Do not use sigmoid as the last layer of Discriminator.
-        LSGAN needs no sigmoid. vanilla GANs will handle it with BCEWithLogitsLoss.
-        """
+    def __init__(self, gan_mode, target_real_label = 1.0, target_fake_label = 0.0):
+        
         super(GANLoss, self).__init__()
+        
+        assert pad_type in ['lsgan', 'vanilla', 'wgangp', 'nonsaturating'], "Please choose a proper loss type for GAN loss."
+        
         self.register_buffer('real_label', torch.tensor(target_real_label))
         self.register_buffer('fake_label', torch.tensor(target_fake_label))
         self.gan_mode = gan_mode
-        if gan_mode == 'lsgan':
-            self.loss = nn.MSELoss()
-        elif gan_mode == 'vanilla':
-            self.loss = nn.BCEWithLogitsLoss()
-        elif gan_mode in ['wgangp', 'nonsaturating']:
-            self.loss = None
+        
+        if gan_mode == 'lsgan': self.loss = nn.MSELoss()
+        elif gan_mode == 'vanilla': self.loss = nn.BCEWithLogitsLoss()
+        elif gan_mode in ['wgangp', 'nonsaturating']: self.loss = None
         else:
             raise NotImplementedError('gan mode %s not implemented' % gan_mode)
 
