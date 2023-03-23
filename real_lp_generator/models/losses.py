@@ -3,10 +3,21 @@ import torch.nn as nn
 import torch.nn.functional as F
 from packaging import version
 
-class GANLoss(nn.Module): # move to losses
-    """Define different GAN objectives.
-    The GANLoss class abstracts away the need to create the target label tensor
-    that has the same size as the input.
+class GANLoss(nn.Module): 
+    
+    """
+    
+    This class gets several arguments and initialize GAN loss function.
+    
+    Arguments:
+    
+        gan_mode          - type of the loss function, str;
+        target_real_label - label for a real image, int;
+        target_fake_label - label for a fake image, int.
+        
+    Output:
+    
+    
     """
 
     def __init__(self, gan_mode, target_real_label=1.0, target_fake_label=0.0):
