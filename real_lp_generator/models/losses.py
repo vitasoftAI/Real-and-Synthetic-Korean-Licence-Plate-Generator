@@ -44,16 +44,16 @@ class GANLoss(nn.Module):
         Arguments:
         
             prediction      - predicted value for the discrimination, tensor;
-            target_is_real  - whether ground truth label is for real or fake images. 
+            target_is_real  - whether ground truth label is for real or fake images, bool. 
             
-        Returns:
-            A label tensor filled with ground truth label, and with the size of the input
+        Output:
+        
+            target_tensor   - a label tensor with ground truth label, tensor.
+            
         """
 
-        if target_is_real:
-            target_tensor = self.real_label
-        else:
-            target_tensor = self.fake_label
+        target_tensor = self.real_label if target_is_real else self.fake_label
+        
         return target_tensor.expand_as(prediction)
 
     def __call__(self, prediction, target_is_real):
