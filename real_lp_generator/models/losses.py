@@ -57,13 +57,22 @@ class GANLoss(nn.Module):
         return target_tensor.expand_as(prediction)
 
     def __call__(self, prediction, target_is_real):
-        """Calculate loss given Discriminator's output and grount truth labels.
-        Parameters:
-            prediction (tensor) - - tpyically the prediction output from a discriminator
-            target_is_real (bool) - - if the ground truth label is for real images or fake images
-        Returns:
-            the calculated loss.
+        
         """
+        
+        This function gets prediction and is real option and computes the loss value. 
+        
+        Arguments:
+        
+            prediction      - predicted value for the discrimination, tensor;
+            target_is_real  - whether ground truth label is for real or fake images, bool. 
+            
+        Output:
+        
+            loss            - loss value, tensor float.
+            
+        """
+        
         bs = prediction.size(0)
         if self.gan_mode in ['lsgan', 'vanilla']:
             target_tensor = self.get_target_tensor(prediction, target_is_real)
