@@ -100,12 +100,30 @@ class PatchNCELoss(nn.Module):
     """
     
     def __init__(self, opt):
+        
         super().__init__()
         self.opt = opt
+        # Loss function
         self.cross_entropy_loss = torch.nn.CrossEntropyLoss(reduction='none')
+        # Mask type
         self.mask_dtype = torch.uint8 if version.parse(torch.__version__) < version.parse('1.2.0') else torch.bool
 
     def forward(self, feat_q, feat_k):
+        
+        """
+        This function gets query and key features and computes loss.
+        
+        Arguments:
+        
+            feat_q - features of query value, tensor;
+            feat_k - features of key value, tensor.
+            
+        Output:
+        
+            loss   - computed loss value, tensor float.
+        
+        """ 
+        
         num_patches = feat_q.shape[0]
         dim = feat_q.shape[1]
         feat_k = feat_k.detach()
