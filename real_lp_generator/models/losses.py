@@ -1,3 +1,4 @@
+# Import libraries
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -124,29 +125,16 @@ class PatchNCELoss(nn.Module):
         
         """ 
         
-        num_patches = feat_q.shape[0]
-        dim = feat_q.shape[1]
+        # Get number of patches and dimensions
+        num_patches, dim = feat_q.shape[0], feat_q.shape[1]
         feat_k = feat_k.detach()
 
         # pos logit
-        l_pos = torch.bmm(
-            feat_q.view(num_patches, 1, -1), feat_k.view(num_patches, -1, 1))
+        l_pos = torch.bmm(feat_q.view(num_patches, 1, -1), feat_k.view(num_patches, -1, 1))
         l_pos = l_pos.view(num_patches, 1)
 
         # neg logit
-
-        # Should the negatives from the other samples of a minibatch be utilized?
-        # In CUT and FastCUT, we found that it's best to only include negatives
-        # from the same image. Therefore, we set
-        # --nce_includes_all_negatives_from_minibatch as False
-        # However, for single-image translation, the minibatch consists of
-        # crops from the "same" high-resolution image.
-        # Therefore, we will include the negatives from the entire minibatch.
-        if self.opt.nce_includes_all_negatives_from_minibatch:
-            # reshape features as if they are all negatives of minibatch of size 1.
-            batch_dim_for_bmm = 1
-        else:
-            batch_dim_for_bmm = self.opt.batch_size
+        batch_dim_for_bmm = 1 if self.opt.nce_includes_all_negatives_from_minibatch else self.opt.batch_size
 
         # reshape features to batch size
         feat_q = feat_q.view(batch_dim_for_bmm, -1, dim)
