@@ -76,14 +76,29 @@ class GANLoss(nn.Module):
         # Get batch size
         bs = prediction.size(0)
         
+        # Compute loss based on the GAN mode
         if self.gan_mode in ['lsgan', 'vanilla']: loss = self.loss(prediction, self.get_target_tensor(prediction, target_is_real))
         elif self.gan_mode == 'wgangp': loss = -prediction.mean() if target_is_real else prediction.mean()
         elif self.gan_mode == 'nonsaturating': loss = F.softplus(-prediction).view(bs, -1).mean(dim=1) if target_is_real else F.softplus(prediction).view(bs, -1).mean(dim=1)
         
         return loss
     
-    
 class PatchNCELoss(nn.Module):
+    
+    """
+    
+    This class gets options and computes PatchNCE loss value.
+    
+    Arguments:
+    
+        opt  - train options, parser.
+        
+    Output:
+    
+        loss - computed loss value, tensor float;
+    
+    """
+    
     def __init__(self, opt):
         super().__init__()
         self.opt = opt
