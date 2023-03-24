@@ -73,20 +73,13 @@ class GANLoss(nn.Module):
             
         """
         
+        # Get batch size
         bs = prediction.size(0)
-        if self.gan_mode in ['lsgan', 'vanilla']:
-            target_tensor = self.get_target_tensor(prediction, target_is_real)
-            loss = self.loss(prediction, target_tensor)
-        elif self.gan_mode == 'wgangp':
-            if target_is_real:
-                loss = -prediction.mean()
-            else:
-                loss = prediction.mean()
-        elif self.gan_mode == 'nonsaturating':
-            if target_is_real:
-                loss = F.softplus(-prediction).view(bs, -1).mean(dim=1)
-            else:
-                loss = F.softplus(prediction).view(bs, -1).mean(dim=1)
+        
+        if self.gan_mode in ['lsgan', 'vanilla']: loss = self.loss(prediction, self.get_target_tensor(prediction, target_is_real))
+        elif self.gan_mode == 'wgangp': loss = -prediction.mean() if target_is_real else prediction.mean()
+        elif self.gan_mode == 'nonsaturating': loss = F.softplus(-prediction).view(bs, -1).mean(dim=1) if target_is_real else F.softplus(prediction).view(bs, -1).mean(dim=1)
+        
         return loss
     
     
