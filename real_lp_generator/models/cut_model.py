@@ -65,9 +65,12 @@ class CUTModel(BaseModel):
     def __init__(self, opt):
         BaseModel.__init__(self, opt)
 
-        # specify the training losses you want to print out.
-        # The training/test scripts will call <BaseModel.get_current_losses>
+        # Train losses to print out during training
+        
+        # Losses list
         self.loss_names = ['G_GAN', 'D_real', 'D_fake', 'G', 'NCE']
+        
+        # Names to be displayed
         self.visual_names = ['real_A', 'fake_B', 'real_B']
         self.nce_layers = [int(i) for i in self.opt.nce_layers.split(',')]
 
@@ -75,10 +78,8 @@ class CUTModel(BaseModel):
             self.loss_names += ['NCE_Y']
             self.visual_names += ['idt_B']
 
-        if self.isTrain:
-            self.model_names = ['G', 'F', 'D']
-        else:  # during test time, only load G
-            self.model_names = ['G']
+        # Model names list
+        self.model_names = ['G', 'F', 'D'] if self.isTrain else ['G']
 
         # define networks (both generator and discriminator)
         self.netG = networks.define_G(opt.input_nc, opt.output_nc, opt.ngf, opt.netG, opt.normG, not opt.no_dropout, opt.init_type, opt.init_gain, opt.no_antialias, opt.no_antialias_up, self.gpu_ids, opt)
