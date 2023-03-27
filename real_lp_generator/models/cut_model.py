@@ -16,7 +16,18 @@ class CUTModel(BaseModel):
     
     @staticmethod
     def modify_commandline_options(parser, is_train = True):
-        """  Configures options specific for CUT model
+        
+        """  
+        
+        This function adds arguments and returns parser based on the train options. 
+        
+        Arguments:
+        
+            parser   - initialized parser, parser object;
+            is_train - option for training bool. 
+            
+            
+            
         """
         parser.add_argument('--CUT_mode', type=str, default="CUT", choices='(CUT, cut, FastCUT, fastcut)')
 
