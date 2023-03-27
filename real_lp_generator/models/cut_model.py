@@ -105,17 +105,31 @@ class CUTModel(BaseModel):
             self.optimizers.append(self.optimizer_D)
 
     def data_dependent_initialize(self, data):
+        
+        
         """
-        The feature network netF is defined in terms of the shape of the intermediate, extracted
-        features of the encoder portion of netG. Because of this, the weights of netF are
-        initialized at the first feedforward pass with some input images.
-        Please also see PatchSampleF.create_mlp(), which is called at the first forward() call.
+        
+        Feature network (netF) is initialized based on the shape of the intermediate features of the backbone (encoder) 
+        Therefore, the weights of the feature network are initialized at the first feedforward pass with some input images.
+        
+        Arguments:
+        
+            data - input data, tensor.
+        
         """
+        
+        # Get batch size
         bs_per_gpu = data["A"].size(0) // max(len(self.opt.gpu_ids), 1)
+        
+        # Process the input data
         self.set_input(data)
+        
+        # Get real images from domain A and B
         self.real_A = self.real_A[:bs_per_gpu]
         self.real_B = self.real_B[:bs_per_gpu]
-        self.forward()                     # compute fake images: G(A)
+        
+        # Get generated images
+        self.forward()
         if self.opt.isTrain:
             self.compute_D_loss().backward()                  # calculate gradients for D
             self.compute_G_loss().backward()                   # calculate graidents for G
