@@ -153,16 +153,25 @@ class CUTModel(BaseModel):
         # Discriminator network update
         self.set_requires_grad(self.netD, True)
         self.optimizer_D.zero_grad()
+        
+        # Discriminator loss
         self.loss_D = self.compute_D_loss()
+        
+        # Discriminator loss backpropagation
         self.loss_D.backward()
+        
+        # Discriminator optimizer step
         self.optimizer_D.step()
 
-        # update G
-        self.set_requires_grad(self.netD, False)
+        # Generator network update
+        self.set_requires_grad(self.netD, False) # turn off gradient computation for discriminator
         self.optimizer_G.zero_grad()
-        if self.opt.netF == 'mlp_sample':
-            self.optimizer_F.zero_grad()
+        if self.opt.netF == 'mlp_sample': self.optimizer_F.zero_grad()
+        
+        # Generator loss
         self.loss_G = self.compute_G_loss()
+        
+        # Generator loss backropagation
         self.loss_G.backward()
         self.optimizer_G.step()
         if self.opt.netF == 'mlp_sample':
