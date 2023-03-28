@@ -65,8 +65,6 @@ class CUTModel(BaseModel):
     def __init__(self, opt):
         BaseModel.__init__(self, opt)
 
-        # Train losses to print out during training
-        
         # Losses list
         self.loss_names = ['G_GAN', 'D_real', 'D_fake', 'G', 'NCE']
         
@@ -106,7 +104,6 @@ class CUTModel(BaseModel):
 
     def data_dependent_initialize(self, data):
         
-        
         """
         
         Feature network (netF) is initialized based on the shape of the intermediate features of the backbone (encoder) 
@@ -143,10 +140,17 @@ class CUTModel(BaseModel):
                 self.optimizers.append(self.optimizer_F)
 
     def optimize_parameters(self):
-        # forward
+        
+        """
+        
+        This function updates trainable parameters based-on the backpropagation results.
+        
+        """
+        
+        # Feed forward
         self.forward()
 
-        # update D
+        # Discriminator network update
         self.set_requires_grad(self.netD, True)
         self.optimizer_D.zero_grad()
         self.loss_D = self.compute_D_loss()
