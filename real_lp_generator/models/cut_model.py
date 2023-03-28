@@ -194,22 +194,36 @@ class CUTModel(BaseModel):
         
         # Get real images from domain A and move them to device
         self.real_A = input['A' if AtoB else 'B'].to(self.device)
+        
         # Get real images from domain B and move them to device
         self.real_B = input['B' if AtoB else 'A'].to(self.device)
+        
+        # Get images paths
         self.image_paths = input['A_paths' if AtoB else 'B_paths']
 
     def forward(self):
-        """Run forward pass; called by both functions <optimize_parameters> and <test>."""
-        self.real = torch.cat((self.real_A, self.real_B), dim=0) if self.opt.nce_idt and self.opt.isTrain else self.real_A
+        
+        """
+        
+        This function does feed forward of the network.
+        
+        """
+        
+        # Concatenate real images from domain A and B
+        self.real = torch.cat((self.real_A, self.real_B), dim = 0) if self.opt.nce_idt and self.opt.isTrain else self.real_A
+        
+        # Apply flip
         if self.opt.flip_equivariance:
             self.flipped_for_equivariance = self.opt.isTrain and (np.random.random() < 0.5)
             if self.flipped_for_equivariance:
                 self.real = torch.flip(self.real, [3])
 
+        # Generate fake images based on the real ones
         self.fake = self.netG(self.real)
+        
+        # Generate fake image for domain B
         self.fake_B = self.fake[:self.real_A.size(0)]
-        if self.opt.nce_idt:
-            self.idt_B = self.fake[self.real_A.size(0):]
+        if self.opt.nce_idt: self.idt_B = self.fake[self.real_A.size(0):]
 
     def compute_D_loss(self):
         """Calculate GAN loss for the discriminator"""
