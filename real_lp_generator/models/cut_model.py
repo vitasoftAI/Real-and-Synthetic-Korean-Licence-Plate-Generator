@@ -171,20 +171,30 @@ class CUTModel(BaseModel):
         # Generator loss
         self.loss_G = self.compute_G_loss()
         
-        # Generator loss backropagation
+        # Generator loss backpropagation
         self.loss_G.backward()
+        
+        # Generator optimizer step
         self.optimizer_G.step()
-        if self.opt.netF == 'mlp_sample':
-            self.optimizer_F.step()
+        if self.opt.netF == 'mlp_sample': self.optimizer_F.step()
 
     def set_input(self, input):
-        """Unpack input data from the dataloader and perform necessary pre-processing steps.
-        Parameters:
-            input (dict): include the data itself and its metadata information.
-        The option 'direction' can be used to swap domain A and domain B.
+        
         """
+        
+        This function gets input tensor and does pre-preprocessing steps required for training.
+        
+        Arguments:
+        
+            input - input data, dictionary.
+            
+        """
+        
         AtoB = self.opt.direction == 'AtoB'
+        
+        # Get real images from domain A and move them to device
         self.real_A = input['A' if AtoB else 'B'].to(self.device)
+        # Get real images from domain B and move them to device
         self.real_B = input['B' if AtoB else 'A'].to(self.device)
         self.image_paths = input['A_paths' if AtoB else 'B_paths']
 
