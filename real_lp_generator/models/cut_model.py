@@ -226,13 +226,25 @@ class CUTModel(BaseModel):
         if self.opt.nce_idt: self.idt_B = self.fake[self.real_A.size(0):]
 
     def compute_D_loss(self):
-        """Calculate GAN loss for the discriminator"""
+        
+        """
+        
+        This function computes loss value for the discriminator.
+        
+        """
+        
+        # Detach a generated image for domain B
         fake = self.fake_B.detach()
-        # Fake; stop backprop to the generator by detaching fake_B
+        
+        # Input the generated image through the discriminator
         pred_fake = self.netD(fake)
+        
+        # Get discriminator loss value
         self.loss_D_fake = self.criterionGAN(pred_fake, False).mean()
-        # Real
+        
+        # Input a real image through the discriminator
         self.pred_real = self.netD(self.real_B)
+        
         loss_D_real = self.criterionGAN(self.pred_real, True)
         self.loss_D_real = loss_D_real.mean()
 
