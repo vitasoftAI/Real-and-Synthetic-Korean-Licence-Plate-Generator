@@ -298,13 +298,19 @@ class CUTModel(BaseModel):
         
         # Get number of layers
         n_layers = len(self.nce_layers)
-        feat_q = self.netG(tgt, self.nce_layers, encode_only=True)
+        
+        # Query generation
+        feat_q = self.netG(tgt, self.nce_layers, encode_only = True)
 
-        if self.opt.flip_equivariance and self.flipped_for_equivariance:
-            feat_q = [torch.flip(fq, [3]) for fq in feat_q]
+        if self.opt.flip_equivariance and self.flipped_for_equivariance: feat_q = [torch.flip(fq, [3]) for fq in feat_q]
 
-        feat_k = self.netG(src, self.nce_layers, encode_only=True)
+        # Key generation
+        feat_k = self.netG(src, self.nce_layers, encode_only = True)
+        
+        # Get key features and indices from the feature network
         feat_k_pool, sample_ids = self.netF(feat_k, self.opt.num_patches, None)
+        
+        # Get query features from the feature network
         feat_q_pool, _ = self.netF(feat_q, self.opt.num_patches, sample_ids)
 
         total_nce_loss = 0.0
