@@ -239,18 +239,17 @@ class CUTModel(BaseModel):
         # Input the generated image through the discriminator
         pred_fake = self.netD(fake)
         
-        # Get discriminator loss value
+        # Get discriminator loss value for the generated image
         self.loss_D_fake = self.criterionGAN(pred_fake, False).mean()
         
         # Input a real image through the discriminator
         self.pred_real = self.netD(self.real_B)
         
-        loss_D_real = self.criterionGAN(self.pred_real, True)
-        self.loss_D_real = loss_D_real.mean()
+        # Get discriminator loss value for the real image
+        self.loss_D_real = self.criterionGAN(self.pred_real, True).mean()
 
-        # combine loss and calculate gradients
-        self.loss_D = (self.loss_D_fake + self.loss_D_real) * 0.5
-        return self.loss_D
+        # Compute and return discriminator loss
+        return (self.loss_D_fake + self.loss_D_real) * 0.5
 
     def compute_G_loss(self):
         """Calculate GAN and NCE loss for the generator"""
