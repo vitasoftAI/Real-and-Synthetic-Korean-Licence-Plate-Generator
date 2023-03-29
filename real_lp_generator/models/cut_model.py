@@ -287,12 +287,16 @@ class CUTModel(BaseModel):
         
         Arguments:
         
+            src      - a source image, tensor;
+            tgt      - a target image, tensor.
             
+        Output:
+        
+            loss     - loss value, tensor float.
         
         """
         
-        
-        
+        # Get number of layers
         n_layers = len(self.nce_layers)
         feat_q = self.netG(tgt, self.nce_layers, encode_only=True)
 
