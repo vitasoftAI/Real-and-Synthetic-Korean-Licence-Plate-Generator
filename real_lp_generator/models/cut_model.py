@@ -252,30 +252,47 @@ class CUTModel(BaseModel):
         return (self.loss_D_fake + self.loss_D_real) * 0.5
 
     def compute_G_loss(self):
-        """Calculate GAN and NCE loss for the generator"""
+        
+        """
+        
+        This function computes loss value for the generator.
+        
+        """
+        
+        # Get a fake image from domain B
         fake = self.fake_B
-        # First, G(A) should fake the discriminator
+        # G(A) tries should fake the discriminator
         if self.opt.lambda_GAN > 0.0:
+            # Generate a fake image
             pred_fake = self.netD(fake)
+            # Compute loss for the generator
             self.loss_G_GAN = self.criterionGAN(pred_fake, True).mean() * self.opt.lambda_GAN
-        else:
-            self.loss_G_GAN = 0.0
+        else: self.loss_G_GAN = 0.0
 
-        if self.opt.lambda_NCE > 0.0:
-            self.loss_NCE = self.calculate_NCE_loss(self.real_A, self.fake_B)
-        else:
-            self.loss_NCE, self.loss_NCE_bd = 0.0, 0.0
+        if self.opt.lambda_NCE > 0.0: self.loss_NCE = self.calculate_NCE_loss(self.real_A, self.fake_B)
+        else: self.loss_NCE, self.loss_NCE_bd = 0.0, 0.0
 
         if self.opt.nce_idt and self.opt.lambda_NCE > 0.0:
             self.loss_NCE_Y = self.calculate_NCE_loss(self.real_B, self.idt_B)
             loss_NCE_both = (self.loss_NCE + self.loss_NCE_Y) * 0.5
-        else:
-            loss_NCE_both = self.loss_NCE
+        else: loss_NCE_both = self.loss_NCE
 
-        self.loss_G = self.loss_G_GAN + loss_NCE_both
-        return self.loss_G
+        return self.loss_G_GAN + loss_NCE_both
 
     def calculate_NCE_loss(self, src, tgt):
+        
+        """
+        
+        This function computes NCE loss value .
+        
+        Arguments:
+        
+            
+        
+        """
+        
+        
+        
         n_layers = len(self.nce_layers)
         feat_q = self.netG(tgt, self.nce_layers, encode_only=True)
 
