@@ -77,12 +77,12 @@ class BaseModel(ABC):
         
         Arguments:
         
-            parser          - original option parser;
-            is_train (bool) - whether training phase or test phase. You can use this flag to add training-specific or test-specific options.
+            parser          - original option parser, parser object;
+            is_train        - whether training phase or test phase, bool.
         
         Output:
         
-            the modified parser.
+            parser          - the modified parser, parser object.
             
         """
         
@@ -91,14 +91,16 @@ class BaseModel(ABC):
     @abstractmethod
     def set_input(self, input):
         
-        
         """
         
         This function unpacks input data from the dataloader and perform necessary pre-processing steps.
+        
         Argument:
-            input (dict): includes the data itself and its metadata information.
+        
+            input          - includes the data itself and its metadata information, dictionary.
         
         """
+        
         pass
 
     @abstractmethod
