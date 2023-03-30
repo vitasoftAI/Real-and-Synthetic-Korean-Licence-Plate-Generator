@@ -11,15 +11,15 @@ def pp(var_name, var, shape = False):
     This is a debugging function that gets variable and returns print with (or without) its shape
     
     Arguments:
-        var_name - name of the variable to be printed, str;
-        var - variable;
-        shape - whether or not to print the shape of the variable, bool;
+    
+        var_name     - name of the variable to be printed, str;
+        var          - variable, various type;
+        shape        - whether or not to print the shape of the variable, bool;
         
     """
     
     if shape: print(f"{var_name} -> {var.shape}\n")        
     else: print(f"{var_name} -> {var}\n")
-
 
 class BaseModel(ABC):
     
@@ -37,7 +37,8 @@ class BaseModel(ABC):
         
         This function initializes the BaseModel class.
         
-        Arguments:
+        Argument:
+        
             opt - stores all the experiment flags; needs to be a subclass of BaseOptions;
 
         """
