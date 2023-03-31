@@ -134,7 +134,6 @@ class Downsample(nn.Module):
     
     """
     
-    
     def __init__(self, kernel, factor = 2):
         super().__init__()
 
@@ -152,23 +151,35 @@ class Downsample(nn.Module):
     def forward(self, input): return upfirdn2d(input, self.kernel, up = 1, down = self.factor, pad = self.pad)
 
 class Blur(nn.Module):
+    
+    """
+    
+    This class gets input tensor volume and does blur operation.
+    
+    Arguments:
+    
+        kernel          - size of the kernel;
+        pad             - padding function;
+        upsample_factor - a factor size to upsample, int.
+        
+    Output:
+    
+        output - blurred output volume, tensor.
+    
+    """
+    
     def __init__(self, kernel, pad, upsample_factor=1):
         super().__init__()
 
         kernel = make_kernel(kernel)
 
-        if upsample_factor > 1:
-            kernel = kernel * (upsample_factor ** 2)
+        if upsample_factor > 1: kernel = kernel * (upsample_factor ** 2)
 
         self.register_buffer('kernel', kernel)
 
         self.pad = pad
 
-    def forward(self, input):
-        out = upfirdn2d(input, self.kernel, pad=self.pad)
-
-        return out
-
+    def forward(self, input): return upfirdn2d(input, self.kernel, pad=self.pad)
 
 class EqualConv2d(nn.Module):
     def __init__(
