@@ -45,7 +45,7 @@ class PixelNorm(nn.Module):
     
     Argument:
     
-        input       - input volume, tensorrr.r
+        input       - input volume, tensor.
         
     Output:
     
@@ -60,10 +60,25 @@ class PixelNorm(nn.Module):
         return input * torch.rsqrt(torch.mean(input ** 2, dim = 1, keepdim = True) + 1e-8)
 
 def make_kernel(k):
+    
+    """
+    
+    This function makes kernel.
+    
+    Argument:
+    
+        k - kernel array, array.
+        
+    Output:
+    
+        k - kernel tensor, tensor.
+    
+    """
+    
+    # Change to tensor
     k = torch.tensor(k, dtype = torch.float32)
 
-    if len(k.shape) == 1:
-        k = k[None, :] * k[:, None]
+    if len(k.shape) == 1: k = k[None, :] * k[:, None]
 
     k /= k.sum()
 
