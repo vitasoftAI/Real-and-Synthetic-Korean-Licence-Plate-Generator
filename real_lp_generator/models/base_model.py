@@ -244,7 +244,8 @@ class BaseModel(ABC):
         errors_ret = OrderedDict()
         for name in self.loss_names:
             if isinstance(name, str):
-                errors_ret[name] = float(getattr(self, 'loss_' + name))  # float(...) works for both scalar tensor and float number
+                errors_ret[name] = float(getattr(self, 'loss_' + name))  
+                
         return errors_ret
 
     def save_networks(self, epoch):
@@ -273,7 +274,6 @@ class BaseModel(ABC):
 
     def __patch_instance_norm_state_dict(self, state_dict, module, keys, i=0):
         
-        
         """
         
         This function fixes InstanceNorm checkpoints incompatibility (prior to 0.4)
@@ -296,8 +296,7 @@ class BaseModel(ABC):
             if module.__class__.__name__.startswith('InstanceNorm') and \
                (key == 'num_batches_tracked'):
                 state_dict.pop('.'.join(keys))
-        else:
-            self.__patch_instance_norm_state_dict(state_dict, getattr(module, key), keys, i + 1)
+        else: self.__patch_instance_norm_state_dict(state_dict, getattr(module, key), keys, i + 1)
 
     def load_networks(self, epoch):
         
@@ -316,23 +315,16 @@ class BaseModel(ABC):
                 load_filename = '%s_net_%s.pth' % (epoch, name)
                 if self.opt.isTrain and self.opt.pretrained_name is not None:
                     load_dir = os.path.join(self.opt.checkpoints_dir, self.opt.pretrained_name)
-                else:
-                    load_dir = self.save_dir
+                else: load_dir = self.save_dir
 
                 load_path = os.path.join(load_dir, load_filename)
                 net = getattr(self, 'net' + name)
                 if isinstance(net, torch.nn.DataParallel):
                     net = net.module
                 print('loading the model from %s' % load_path)
-                # if you are using PyTorch newer than 0.4 (e.g., built from
-                # GitHub source), you can remove str() on self.device
-                state_dict = torch.load(load_path, map_location=str(self.device))
-                if hasattr(state_dict, '_metadata'):
-                    del state_dict._metadata
+                state_dict = torch.load(load_path, map_location = str(self.device))
+                if hasattr(state_dict, '_metadata'): del state_dict._metadata
 
-                # patch InstanceNorm checkpoints prior to 0.4
-                # for key in list(state_dict.keys()):  # need to copy keys here because we mutate in loop
-                #    self.__patch_instance_norm_state_dict(state_dict, net, key.split('.'))
                 net.load_state_dict(state_dict)
 
     def print_networks(self, verbose):
@@ -348,6 +340,7 @@ class BaseModel(ABC):
         """
         
         print('---------- Networks initialized -------------')
+        
         for name in self.model_names: # G, F, D
             if isinstance(name, str):
                 net = getattr(self, 'net' + name)
@@ -357,10 +350,10 @@ class BaseModel(ABC):
                 if verbose:
                     print(net)
                 print(f"{name} model has {num_params / 1e6} M number of parameters!")
+        
         print('-----------------------------------------------')
 
     def set_requires_grad(self, nets, requires_grad = False):
-        
         
         """
         
