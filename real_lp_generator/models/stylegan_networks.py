@@ -13,9 +13,7 @@ def upfirdn2d_native(input, kernel, up_x, up_y, down_x, down_y, pad_x0, pad_x1, 
     out = F.pad(out, [0, up_x - 1, 0, 0, 0, up_y - 1, 0, 0])
     out = out.view(-1, minor, in_h * up_y, in_w * up_x)
 
-    out = F.pad(
-        out, [max(pad_x0, 0), max(pad_x1, 0), max(pad_y0, 0), max(pad_y1, 0)]
-    )
+    out = F.pad(out, [max(pad_x0, 0), max(pad_x1, 0), max(pad_y0, 0), max(pad_y1, 0)])
     out = out[
         :,
         :,
@@ -24,9 +22,7 @@ def upfirdn2d_native(input, kernel, up_x, up_y, down_x, down_y, pad_x0, pad_x1, 
     ]
 
     # out = out.permute(0, 3, 1, 2)
-    out = out.reshape(
-        [-1, 1, in_h * up_y + pad_y0 + pad_y1, in_w * up_x + pad_x0 + pad_x1]
-    )
+    out = out.reshape([-1, 1, in_h * up_y + pad_y0 + pad_y1, in_w * up_x + pad_x0 + pad_x1])
     w = torch.flip(kernel, [0, 1]).view(1, 1, kernel_h, kernel_w)
     out = F.conv2d(out, w)
     out = out.reshape(
@@ -39,16 +35,29 @@ def upfirdn2d_native(input, kernel, up_x, up_y, down_x, down_y, pad_x0, pad_x1, 
 
     return out[:, :, ::down_y, ::down_x]
 
-def upfirdn2d(input, kernel, up = 1, down = 1, pad = (0, 0)):
-    return upfirdn2d_native(input, kernel, up, up, down, down, pad[0], pad[1], pad[0], pad[1])
+def upfirdn2d(input, kernel, up = 1, down = 1, pad = (0, 0)): return upfirdn2d_native(input, kernel, up, up, down, down, pad[0], pad[1], pad[0], pad[1])
 
 class PixelNorm(nn.Module):
+    
+    """
+    
+    This class computes pixel norm.
+    
+    Argument:
+    
+        input       - input volume, tensorrr.r
+        
+    Output:
+    
+        pixel_norm  - pixel norm value, tensor.
+    
+    """
     
     def __init__(self):
         super().__init__()
 
     def forward(self, input):
-        return input * torch.rsqrt(torch.mean(input ** 2, dim=1, keepdim=True) + 1e-8)
+        return input * torch.rsqrt(torch.mean(input ** 2, dim = 1, keepdim = True) + 1e-8)
 
 def make_kernel(k):
     k = torch.tensor(k, dtype = torch.float32)
