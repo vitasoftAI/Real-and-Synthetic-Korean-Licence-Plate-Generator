@@ -118,7 +118,24 @@ class Upsample(nn.Module):
     def forward(self, input): return upfirdn2d(input, self.kernel, up = self.factor, down = 1, pad = self.pad)
 
 class Downsample(nn.Module):
-    def __init__(self, kernel, factor=2):
+    
+    """
+    
+    This class gets input tensor volume and decreases its dimensions by a factor of 2.
+    
+    Arguments:
+    
+        kernel - size of the kernel;
+        factor - a factor size to downsample, int.
+        
+    Output:
+    
+        output - downsampled output volume, tensor.
+    
+    """
+    
+    
+    def __init__(self, kernel, factor = 2):
         super().__init__()
 
         self.factor = factor
@@ -132,11 +149,7 @@ class Downsample(nn.Module):
 
         self.pad = (pad0, pad1)
 
-    def forward(self, input):
-        out = upfirdn2d(input, self.kernel, up=1, down=self.factor, pad=self.pad)
-
-        return out
-
+    def forward(self, input): return upfirdn2d(input, self.kernel, up = 1, down = self.factor, pad = self.pad)
 
 class Blur(nn.Module):
     def __init__(self, kernel, pad, upsample_factor=1):
