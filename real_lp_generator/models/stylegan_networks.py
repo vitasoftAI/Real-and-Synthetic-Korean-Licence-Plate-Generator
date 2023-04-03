@@ -182,6 +182,23 @@ class Blur(nn.Module):
     def forward(self, input): return upfirdn2d(input, self.kernel, pad=self.pad)
 
 class EqualConv2d(nn.Module):
+    
+    """
+    
+    This class conducts equal convolution operation. 
+    
+    Arguments:
+    
+        in_channel    - number of channels of an input volume, int;
+        out_channel   - number of channels of an output volume, int;
+        kernel_size   - kernel size of the convolution operation, int.
+        
+    Output:
+    
+        out           - output volume from the class, tensor.
+    
+    """
+    
     def __init__(
         self, in_channel, out_channel, kernel_size, stride=1, padding=0, bias=True
     ):
