@@ -216,22 +216,11 @@ class EqualConv2d(nn.Module):
 
     def forward(self, input):
         # print("Before EqualConv2d: ", input.abs().mean())
-        out = F.conv2d(
-            input,
-            self.weight * self.scale,
-            bias=self.bias,
-            stride=self.stride,
-            padding=self.padding,
-        )
+        out = F.conv2d(input, self.weight * self.scale, bias = self.bias, stride = self.stride, padding = self.padding)
         # print("After EqualConv2d: ", out.abs().mean(), (self.weight * self.scale).abs().mean())
-
         return out
 
-    def __repr__(self):
-        return (
-            f'{self.__class__.__name__}({self.weight.shape[1]}, {self.weight.shape[0]},'
-            f' {self.weight.shape[2]}, stride={self.stride}, padding={self.padding})'
-        )
+    def __repr__(self): return (f'{self.__class__.__name__}({self.weight.shape[1]}, {self.weight.shape[0]},' f' {self.weight.shape[2]}, stride={self.stride}, padding={self.padding})')
 
 
 class EqualLinear(nn.Module):
