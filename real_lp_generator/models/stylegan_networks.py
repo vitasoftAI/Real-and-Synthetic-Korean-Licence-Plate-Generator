@@ -204,19 +204,15 @@ class EqualConv2d(nn.Module):
     ):
         super().__init__()
 
-        self.weight = nn.Parameter(
-            torch.randn(out_channel, in_channel, kernel_size, kernel_size)
-        )
+        # Get weights and scale value
+        self.weight = nn.Parameter(torch.randn(out_channel, in_channel, kernel_size, kernel_size))
         self.scale = math.sqrt(1) / math.sqrt(in_channel * (kernel_size ** 2))
 
-        self.stride = stride
-        self.padding = padding
+        # Get stride and padding values
+        self.stride, self.padding = stride, padding
 
-        if bias:
-            self.bias = nn.Parameter(torch.zeros(out_channel))
-
-        else:
-            self.bias = None
+        # Initialize bias parameter
+        self.bias = nn.Parameter(torch.zeros(out_channel)) if bias else None
 
     def forward(self, input):
         # print("Before EqualConv2d: ", input.abs().mean())
