@@ -224,41 +224,46 @@ class EqualConv2d(nn.Module):
 
 
 class EqualLinear(nn.Module):
-    def __init__(
-        self, in_dim, out_dim, bias=True, bias_init=0, lr_mul=1, activation=None
-    ):
+    
+    """
+    
+    This class conducts equal linear matrix multiplication operation. 
+    
+    Arguments:
+    
+        in_dim    - number of dimensions of an input volume, int;
+        out_dim   - number of dimensions of an output volume, int;
+        
+    Output:
+    
+        out       - output volume from the class, tensor.
+    
+    """
+    
+    def __init__(self, in_dim, out_dim, bias = True, bias_init = 0, lr_mul = 1, activation = None):
         super().__init__()
 
+        # Get weight parameter
         self.weight = nn.Parameter(torch.randn(out_dim, in_dim).div_(lr_mul))
+        
+        # Get bias parameter
+        self.bias = nn.Parameter(torch.zeros(out_dim).fill_(bias_init)) if bias else None
 
-        if bias:
-            self.bias = nn.Parameter(torch.zeros(out_dim).fill_(bias_init))
+        # Get activation and multiply factor
+        self.activation, self.lr_mul = activation, lr_mul
 
-        else:
-            self.bias = None
-
-        self.activation = activation
-
+        # Get scale
         self.scale = (math.sqrt(1) / math.sqrt(in_dim)) * lr_mul
-        self.lr_mul = lr_mul
 
     def forward(self, input):
         if self.activation:
             out = F.linear(input, self.weight * self.scale)
             out = fused_leaky_relu(out, self.bias * self.lr_mul)
-
         else:
-            out = F.linear(
-                input, self.weight * self.scale, bias=self.bias * self.lr_mul
-            )
-
+            out = F.linear(input, self.weight * self.scale, bias=self.bias * self.lr_mul)
         return out
 
-    def __repr__(self):
-        return (
-            f'{self.__class__.__name__}({self.weight.shape[1]}, {self.weight.shape[0]})'
-        )
-
+    def __repr__(self): return (f'{self.__class__.__name__}({self.weight.shape[1]}, {self.weight.shape[0]})')
 
 class ScaledLeakyReLU(nn.Module):
     def __init__(self, negative_slope=0.2):
