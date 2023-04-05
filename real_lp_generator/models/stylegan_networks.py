@@ -288,16 +288,38 @@ class ScaledLeakyReLU(nn.Module):
     def forward(self, input): F.leaky_relu(input, negative_slope = self.negative_slope) * math.sqrt(2)
 
 class ModulatedConv2d(nn.Module):
+    
+    """
+    
+    This class performs modulated convolution operation. 
+    
+    Arguments:
+    
+        in_channel        - number of channels for the input volume to the convolution operation, int;
+        out_channel       - number of channels for the out volume from the convolution operation, int;
+        kernel_size       - size of the filter of the convolution operation, int;
+        style_dim         - style dimension, int;
+        demodulate        - whether or not to use demoluated convolution, bool;
+        upsample          - whether or not to use upsampling, bool;
+        downsample        - whether or not to use downsampling, bool;
+        blur_kernel       - kernel size for blurring, list -> int.
+        
+    Output:
+    
+        out               - output from the scaled leaky ReLU, tensor.
+    
+    """
+    
     def __init__(
         self,
         in_channel,
         out_channel,
         kernel_size,
         style_dim,
-        demodulate=True,
-        upsample=False,
-        downsample=False,
-        blur_kernel=[1, 3, 3, 1],
+        demodulate = True,
+        upsample = False,
+        downsample = False,
+        blur_kernel = [1, 3, 3, 1],
     ):
         super().__init__()
 
