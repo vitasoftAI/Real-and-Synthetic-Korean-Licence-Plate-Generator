@@ -266,16 +266,26 @@ class EqualLinear(nn.Module):
     def __repr__(self): return (f'{self.__class__.__name__}({self.weight.shape[1]}, {self.weight.shape[0]})')
 
 class ScaledLeakyReLU(nn.Module):
-    def __init__(self, negative_slope=0.2):
-        super().__init__()
+    
+    """
+    
+    This class performs leaky ReLU activate function with a pre-defined scale. 
+    
+    Arguments:
+    
+        negative_slope    - value for leaky ReLU's negative slope, float;
+        
+    Output:
+    
+        out               - output from the scaled leaky ReLU, tensor.
+    
+    """
 
+    def __init__(self, negative_slope = 0.2):
+        super().__init__()
         self.negative_slope = negative_slope
 
-    def forward(self, input):
-        out = F.leaky_relu(input, negative_slope=self.negative_slope)
-
-        return out * math.sqrt(2)
-
+    def forward(self, input): F.leaky_relu(input, negative_slope = self.negative_slope) * math.sqrt(2)
 
 class ModulatedConv2d(nn.Module):
     def __init__(
