@@ -323,13 +323,8 @@ class ModulatedConv2d(nn.Module):
     ):
         super().__init__()
 
-        self.eps = 1e-8
-        self.kernel_size = kernel_size
-        self.in_channel = in_channel
-        self.out_channel = out_channel
-        self.upsample = upsample
-        self.downsample = downsample
-
+        self.eps, self.kernel_size,  self.in_channel, self.out_channel, self.upsample, self.downsample = 1e-8, kernel_size, in_channel, out_channel, upsample, downsample
+        
         if upsample:
             factor = 2
             p = (len(blur_kernel) - factor) - (kernel_size - 1)
