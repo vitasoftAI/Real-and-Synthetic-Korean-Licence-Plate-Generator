@@ -355,19 +355,14 @@ class ModulatedConv2d(nn.Module):
     def forward(self, input, style):
         batch, in_channel, height, width = input.shape
 
-        if style is not None:
-            style = self.modulation(style).view(batch, 1, in_channel, 1, 1)
-        else:
-            style = torch.ones(batch, 1, in_channel, 1, 1).cuda()
+        style = self.modulation(style).view(batch, 1, in_channel, 1, 1) if style is not None else torch.ones(batch, 1, in_channel, 1, 1).cuda()
         weight = self.scale * self.weight * style
 
         if self.demodulate:
             demod = torch.rsqrt(weight.pow(2).sum([2, 3, 4]) + 1e-8)
             weight = weight * demod.view(batch, self.out_channel, 1, 1, 1)
 
-        weight = weight.view(
-            batch * self.out_channel, in_channel, self.kernel_size, self.kernel_size
-        )
+        weight = weight.view(batch * self.out_channel, in_channel, self.kernel_size, self.kernel_size)
 
         if self.upsample:
             input = input.view(1, batch * in_channel, height, width)
