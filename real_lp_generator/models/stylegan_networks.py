@@ -325,13 +325,13 @@ class ModulatedConv2d(nn.Module):
 
         self.eps, self.kernel_size,  self.in_channel, self.out_channel, self.upsample, self.downsample = 1e-8, kernel_size, in_channel, out_channel, upsample, downsample
         
+        # Upsample
         if upsample:
             factor = 2
             p = (len(blur_kernel) - factor) - (kernel_size - 1)
             pad0 = (p + 1) // 2 + factor - 1
             pad1 = p // 2 + 1
-
-            self.blur = Blur(blur_kernel, pad=(pad0, pad1), upsample_factor=factor)
+            self.blur = Blur(blur_kernel, pad = (pad0, pad1), upsample_factor = factor)
 
         if downsample:
             factor = 2
@@ -345,12 +345,9 @@ class ModulatedConv2d(nn.Module):
         self.scale = math.sqrt(1) / math.sqrt(fan_in)
         self.padding = kernel_size // 2
 
-        self.weight = nn.Parameter(
-            torch.randn(1, out_channel, in_channel, kernel_size, kernel_size)
-        )
+        self.weight = nn.Parameter(torch.randn(1, out_channel, in_channel, kernel_size, kernel_size))
 
-        if style_dim is not None and style_dim > 0:
-            self.modulation = EqualLinear(style_dim, in_channel, bias_init=1)
+        if style_dim is not None and style_dim > 0: self.modulation = EqualLinear(style_dim, in_channel, bias_init = 1)
 
         self.demodulate = demodulate
 
