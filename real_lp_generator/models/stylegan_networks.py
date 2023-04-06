@@ -348,14 +348,9 @@ class ModulatedConv2d(nn.Module):
         self.weight = nn.Parameter(torch.randn(1, out_channel, in_channel, kernel_size, kernel_size))
 
         if style_dim is not None and style_dim > 0: self.modulation = EqualLinear(style_dim, in_channel, bias_init = 1)
-
         self.demodulate = demodulate
 
-    def __repr__(self):
-        return (
-            f'{self.__class__.__name__}({self.in_channel}, {self.out_channel}, {self.kernel_size}, '
-            f'upsample={self.upsample}, downsample={self.downsample})'
-        )
+    def __repr__(self): return (f'{self.__class__.__name__}({self.in_channel}, {self.out_channel}, {self.kernel_size}, ' f'upsample = {self.upsample}, downsample = {self.downsample})')
 
     def forward(self, input, style):
         batch, in_channel, height, width = input.shape
