@@ -380,7 +380,6 @@ class ModulatedConv2d(nn.Module):
             out = F.conv2d(input, weight, padding = 0, stride = 2, groups = batch)
             _, _, height, width = out.shape
             out = out.view(batch, self.out_channel, height, width)
-
         else:
             input = input.view(1, batch * in_channel, height, width)
             out = F.conv2d(input, weight, padding=self.padding, groups=batch)
@@ -389,14 +388,24 @@ class ModulatedConv2d(nn.Module):
 
         return out
 
-
 class NoiseInjection(nn.Module):
+    
+    """
+    
+    This class applies Noise to an input image.
+    
+    Arguments:
+    
+        image    - input image, tensor;
+        noise    - noise level, float.
+    
+    """
+    
     def __init__(self):
         super().__init__()
-
         self.weight = nn.Parameter(torch.zeros(1))
 
-    def forward(self, image, noise=None):
+    def forward(self, image, noise = None):
         if noise is None:
             batch, _, height, width = image.shape
             noise = image.new_empty(batch, 1, height, width).normal_()
