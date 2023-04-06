@@ -366,13 +366,9 @@ class ModulatedConv2d(nn.Module):
 
         if self.upsample:
             input = input.view(1, batch * in_channel, height, width)
-            weight = weight.view(
-                batch, self.out_channel, in_channel, self.kernel_size, self.kernel_size
-            )
-            weight = weight.transpose(1, 2).reshape(
-                batch * in_channel, self.out_channel, self.kernel_size, self.kernel_size
-            )
-            out = F.conv_transpose2d(input, weight, padding=0, stride=2, groups=batch)
+            weight = weight.view(batch, self.out_channel, in_channel, self.kernel_size, self.kernel_size)
+            weight = weight.transpose(1, 2).reshape(batch * in_channel, self.out_channel, self.kernel_size, self.kernel_size)
+            out = F.conv_transpose2d(input, weight, padding = 0, stride = 2, groups = batch)
             _, _, height, width = out.shape
             out = out.view(batch, self.out_channel, height, width)
             out = self.blur(out)
@@ -381,7 +377,7 @@ class ModulatedConv2d(nn.Module):
             input = self.blur(input)
             _, _, height, width = input.shape
             input = input.view(1, batch * in_channel, height, width)
-            out = F.conv2d(input, weight, padding=0, stride=2, groups=batch)
+            out = F.conv2d(input, weight, padding = 0, stride = 2, groups = batch)
             _, _, height, width = out.shape
             out = out.view(batch, self.out_channel, height, width)
 
