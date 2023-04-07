@@ -464,17 +464,7 @@ class StyledConv(nn.Module):
     
     """
     
-    def __init__(
-        self,
-        in_channel,
-        out_channel,
-        kernel_size,
-        style_dim=None,
-        upsample=False,
-        blur_kernel=[1, 3, 3, 1],
-        demodulate=True,
-        inject_noise=True,
-    ):
+    def __init__(self, in_channel, out_channel, kernel_size, style_dim = None, upsample = False, blur_kernel = [1, 3, 3, 1], demodulate = True, inject_noise = True):
         super().__init__()
 
         self.inject_noise = inject_noise
@@ -483,9 +473,9 @@ class StyledConv(nn.Module):
             out_channel,
             kernel_size,
             style_dim,
-            upsample=upsample,
-            blur_kernel=blur_kernel,
-            demodulate=demodulate,
+            upsample = upsample,
+            blur_kernel = blur_kernel,
+            demodulate = demodulate,
         )
 
         self.noise = NoiseInjection()
