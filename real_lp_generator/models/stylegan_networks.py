@@ -259,8 +259,7 @@ class EqualLinear(nn.Module):
         if self.activation:
             out = F.linear(input, self.weight * self.scale)
             out = fused_leaky_relu(out, self.bias * self.lr_mul)
-        else:
-            out = F.linear(input, self.weight * self.scale, bias=self.bias * self.lr_mul)
+        else: out = F.linear(input, self.weight * self.scale, bias = self.bias * self.lr_mul)
         return out
 
     def __repr__(self): return (f'{self.__class__.__name__}({self.weight.shape[1]}, {self.weight.shape[0]})')
@@ -414,6 +413,22 @@ class NoiseInjection(nn.Module):
 
 
 class ConstantInput(nn.Module):
+    
+    """
+    
+    This class creates and returns constant input parameter.
+    
+    Arguments:
+    
+        channel   - channel size, int;
+        size      - size of the input to be created, int.
+        
+    Output:
+    
+        out      - constant input, tensor.
+    
+    """
+    
     def __init__(self, channel, size=4):
         super().__init__()
 
