@@ -444,6 +444,26 @@ class ConstantInput(nn.Module):
         return self.input.repeat(batch, 1, 1, 1)
 
 class StyledConv(nn.Module):
+    
+    
+    """
+    
+    This class creates styles and conducts styled convolution operation.
+    
+    Arguments:
+    
+        in_channel        - number of channels for the input volume to the convolution operation, int;
+        out_channel       - number of channels for the out volume from the convolution operation, int;
+        kernel_size       - size of the filter of the convolution operation, int;
+        style_dim         - style dimension, int;
+        demodulate        - whether or not to use demoluated convolution, bool;
+        upsample          - whether or not to use upsampling, bool;
+        downsample        - whether or not to use downsampling, bool;
+        blur_kernel       - kernel size for blurring, list -> int;
+        inject_noise      - whether or not to add noise, bool.
+    
+    """
+    
     def __init__(
         self,
         in_channel,
