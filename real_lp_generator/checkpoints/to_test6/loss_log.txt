@@ -1,0 +1,3 @@
+================ Training Loss (Mon Apr 10 10:59:46 2023) ================
+(epoch: 5, iters: 8, time: 0.106, data: 0.334) G_GAN: 0.305 D_real: 0.231 D_fake: 0.218 G: 4.459 NCE: 4.203 NCE_Y: 4.105 
+(epoch: 9, iters: 16, time: 0.099, data: 0.008) G_GAN: 0.368 D_real: 0.226 D_fake: 0.238 G: 4.201 NCE: 3.971 NCE_Y: 3.695 
