@@ -9,9 +9,9 @@ class PlateGenerator:
     
     Arguments:
     
-        save_path       - a path to save generated images, str;
-        random          - randomness option, bool;
-        transformations - transformations option, bool.
+        save_path          - a path to save generated images, str;
+        random             - randomness option, bool;
+        transformations    - transformations option, bool.
     
     """
     
@@ -46,9 +46,9 @@ class PlateGenerator:
         
         Arguments:
         
-            plate       - LP, str;
-            random      - randomness option, bool;
-            plate_types - types of plates, list.
+            plate          - LP, str;
+            random         - randomness option, bool;
+            plate_types    - types of plates, list.
         
         """
         
@@ -60,11 +60,9 @@ class PlateGenerator:
             three_digit = True if init_digit == "three" else False
 
             plate = "경기01마0101" if plate_type in ["commercial_europe", "commercial_north", "green_old"] else "01마0000"
-            if plate_type in ["commercial_europe", "commercial_north", "green_old", "green_basic"]:
-                three_digit = False
+            if plate_type in ["commercial_europe", "commercial_north", "green_old", "green_basic"]: three_digit = False
         else:
-            if plate[0].isalpha(): 
-                three_digit, plate_type = False, "commercial_europe"
+            if plate[0].isalpha(): three_digit, plate_type = False, "commercial_europe"
             elif plate[0].isdigit():
                 three_digit, plate_type = True if len(plate) > 7 else False, "basic_europe"
         
