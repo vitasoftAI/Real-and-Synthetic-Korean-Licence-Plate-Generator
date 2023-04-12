@@ -15,14 +15,24 @@ class BaseOptions():
     """
 
     def __init__(self, cmd_line = None):
-        """Reset the class; indicates the class hasn't been initailized"""
-        self.initialized = False
-        self.cmd_line = None
-        if cmd_line is not None:
-            self.cmd_line = cmd_line.split()
+        
+        """
+        
+        This function initializes and resets the class; it also indicates the class hasn't been initailized.
+        
+        """
+        
+        self.initialized, self.cmd_line = False, None
+        
+        if cmd_line is not None: self.cmd_line = cmd_line.split()
 
     def initialize(self, parser):
-        """Define the common options that are used in both training and test."""
+        
+        """
+        
+        This class 
+        
+        Define the common options that are used in both training and test."""
         # basic parameters
         parser.add_argument('--dataroot', default='placeholder', help='path to images (should have subfolders trainA, trainB, valA, valB, etc)')
         parser.add_argument('--name', type=str, default='experiment_name', help='name of the experiment. It decides where to store samples and models')
