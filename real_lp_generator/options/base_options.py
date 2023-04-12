@@ -1,19 +1,20 @@
-import argparse
-import os
+import torch, argparse, os, models, data
 from util import util
-import torch
-import models
-import data
-
 
 class BaseOptions():
-    """This class defines options used during both training and test time.
-
-    It also implements several helper functions such as parsing, printing, and saving the options.
+    
+    """
+    
+    This class defines options used during both training and test time. It also implements several helper functions such as parsing, printing, and saving the options.
     It also gathers additional options defined in <modify_commandline_options> functions in both dataset class and model class.
+    
+    Output:
+    
+       options - options to be used during test time, argparse object.
+    
     """
 
-    def __init__(self, cmd_line=None):
+    def __init__(self, cmd_line = None):
         """Reset the class; indicates the class hasn't been initailized"""
         self.initialized = False
         self.cmd_line = None
