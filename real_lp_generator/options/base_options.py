@@ -85,37 +85,36 @@ class BaseOptions():
         parser.add_argument('--suffix', default = '', type = str, help = 'customized suffix: opt.name = opt.name + suffix: e.g., {model}_{netG}_size{load_size}')
 
         # Parameters for StyleGAN2-based networks 
-        parser.add_argument('--stylegan2_G_num_downsampling', default = 1, type=int,
-                            help='Number of downsampling layers used by StyleGAN2Generator')
-
+        parser.add_argument('--stylegan2_G_num_downsampling', default = 1, type=int, help = 'Number of downsampling layers used by StyleGAN2Generator')
         self.initialized = True
+        
         return parser
 
     def gather_options(self):
-        """Initialize our parser with basic options(only once).
-        Add additional model-specific and dataset-specific options.
-        These options are defined in the <modify_commandline_options> function
-        in model and dataset classes.
+        
+        
         """
-        if not self.initialized:  # check if it has been initialized
-            parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        
+        This function initializes the parser with basic options. It also adds additional model-specific and dataset-specific options.
+        These options are defined in the <modify_commandline_options> function in model and dataset classes.
+        
+        """
+        
+        if not self.initialized: 
+            parser = argparse.ArgumentParser(formatter_class = argparse.ArgumentDefaultsHelpFormatter)
             parser = self.initialize(parser)
 
-        # get the basic options
-        if self.cmd_line is None:
-            opt, _ = parser.parse_known_args()
-        else:
-            opt, _ = parser.parse_known_args(self.cmd_line)
+        # Get the basic options
+        opt, _ = parser.parse_known_args() if self.cmd_line is None else parser.parse_known_args(self.cmd_line)
 
-        # modify model-related parser options
+        # Modify model-related parser options
         model_name = opt.model
         model_option_setter = models.get_option_setter(model_name)
         parser = model_option_setter(parser, self.isTrain)
-        if self.cmd_line is None:
-            opt, _ = parser.parse_known_args()  # parse again with new defaults
-        else:
-            opt, _ = parser.parse_known_args(self.cmd_line)  # parse again with new defaults
-
+        
+        # Parse again with new defaults
+        opt, _ = parser.parse_known_args() if self.cmd_line is None else parser.parse_known_args(self.cmd_line)
+              
         # modify dataset-related parser options
         dataset_name = opt.dataset_mode
         dataset_option_setter = data.get_option_setter(dataset_name)
