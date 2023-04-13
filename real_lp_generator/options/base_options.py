@@ -70,15 +70,16 @@ class BaseOptions():
         parser.add_argument('--direction', type = str, default = 'AtoB', help = 'AtoB or BtoA')
         parser.add_argument('--serial_batches', action = 'store_true', help = 'if true, takes images in order to make batches, otherwise takes them randomly')
         parser.add_argument('--num_threads', default = 8, type = int, help = '# threads for loading data')
-        parser.add_argument('--load_size', type=int, default=286, help='scale images to this size')
-        parser.add_argument('--crop_size', type=int, default=256, help='then crop to this size')
-        parser.add_argument('--max_dataset_size', type=int, default=float("inf"), help='Maximum number of samples allowed per dataset. If the dataset directory contains more than max_dataset_size, only a subset is loaded.')
-        parser.add_argument('--preprocess', type=str, default='resize_and_crop', help='scaling and cropping of images at load time [resize_and_crop | crop | scale_width | scale_width_and_crop | none]')
-        parser.add_argument('--no_flip', action='store_true', help='if specified, do not flip the images for data augmentation')
-        parser.add_argument('--display_winsize', type=int, default=256, help='display window size for both visdom and HTML')
-        parser.add_argument('--random_scale_max', type=float, default=3.0,
-                            help='(used for single image translation) Randomly scale the image by the specified factor as data augmentation.')
-        # additional parameters
+        parser.add_argument('--load_size', type = int, default = 286, help = 'scale images to this size')
+        parser.add_argument('--crop_size', type = int, default = 256, help = 'then crop to this size')
+        parser.add_argument('--max_dataset_size', type = int, default = float("inf"), help = 'Maximum number of samples allowed per dataset. If the dataset directory contains more than max_dataset_size, only a subset is loaded.')
+        parser.add_argument('--preprocess', type = str, default = 'resize_and_crop', help = 'scaling and cropping of images at load time [resize_and_crop | crop | scale_width | scale_width_and_crop | none]')
+        parser.add_argument('--no_flip', action = 'store_true', help = 'if specified, do not flip the images for data augmentation')
+        parser.add_argument('--display_winsize', type = int, default = 256, help = 'display window size for both visdom and HTML')
+        parser.add_argument('--random_scale_max', type = float, default = 3.0, help = '(used for single image translation) Randomly scale the image by the specified factor as data augmentation.')
+        
+        # Additional Parameters
+        
         parser.add_argument('--epoch', type=str, default='latest', help='which epoch to load? set to latest to use latest cached model')
         parser.add_argument('--verbose', action='store_true', default=False, help='if specified, print more debugging information')
         parser.add_argument('--suffix', default='', type=str, help='customized suffix: opt.name = opt.name + suffix: e.g., {model}_{netG}_size{load_size}')
