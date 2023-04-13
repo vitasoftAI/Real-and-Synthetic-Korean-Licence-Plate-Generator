@@ -115,24 +115,29 @@ class BaseOptions():
         # Parse again with new defaults
         opt, _ = parser.parse_known_args() if self.cmd_line is None else parser.parse_known_args(self.cmd_line)
               
-        # modify dataset-related parser options
+        # Modify dataset-related parser options
         dataset_name = opt.dataset_mode
         dataset_option_setter = data.get_option_setter(dataset_name)
         parser = dataset_option_setter(parser, self.isTrain)
 
-        # save and return the parser
+        # Save and return the parser
         self.parser = parser
-        if self.cmd_line is None:
-            return parser.parse_args()
-        else:
-            return parser.parse_args(self.cmd_line)
+        if self.cmd_line is None: return parser.parse_args()
+        else: return parser.parse_args(self.cmd_line)
 
     def print_options(self, opt):
-        """Print and save options
-
-        It will print both current options and default values(if different).
-        It will save options into a text file / [checkpoints_dir] / opt.txt
+        
+        
         """
+        
+        This function prints and saves options.  It will print both current options and default values(if different). It will save options into a text file / [checkpoints_dir] / opt.txt.
+        
+        Argument:
+        
+            opt     - options, parser object.
+        
+        """
+        
         message = ''
         message += '----------------- Options ---------------\n'
         for k, v in sorted(vars(opt).items()):
@@ -144,7 +149,7 @@ class BaseOptions():
         message += '----------------- End -------------------'
         print(message)
 
-        # save to the disk
+        # Save to the disk
         expr_dir = os.path.join(opt.checkpoints_dir, opt.name)
         util.mkdirs(expr_dir)
         file_name = os.path.join(expr_dir, '{}_opt.txt'.format(opt.phase))
@@ -153,22 +158,29 @@ class BaseOptions():
                 opt_file.write(message)
                 opt_file.write('\n')
         except PermissionError as error:
-            print("permission error {}".format(error))
+            print("Permission error {}".format(error))
             pass
 
     def parse(self):
-        """Parse our options, create checkpoints directory suffix, and set up gpu device."""
+        
+        """
+        
+        This function parses the options, creates checkpoints directory suffix, and sets up a gpu device.
+        
+        """
+        
         opt = self.gather_options()
-        opt.isTrain = self.isTrain   # train or test
+        # Set wheter it is train or test phase
+        opt.isTrain = self.isTrain   
 
-        # process opt.suffix
+        # Process opt.suffix
         if opt.suffix:
             suffix = ('_' + opt.suffix.format(**vars(opt))) if opt.suffix != '' else ''
             opt.name = opt.name + suffix
 
         self.print_options(opt)
 
-        # set gpu ids
+        # Set gpu ids
         str_ids = opt.gpu_ids.split(',')
         opt.gpu_ids = []
         for str_id in str_ids:
@@ -179,4 +191,5 @@ class BaseOptions():
             torch.cuda.set_device(opt.gpu_ids[0])
 
         self.opt = opt
+        
         return self.opt
