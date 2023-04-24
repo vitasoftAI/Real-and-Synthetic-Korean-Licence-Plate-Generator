@@ -8,9 +8,9 @@ class GANLoss(nn.Module):
     
     """
     
-    This class gets several arguments and initialize GAN loss function.
+    This class gets several parameters and initialize GAN loss function.
     
-    Arguments:
+    Parameters:
     
         gan_mode          - type of the loss function, str;
         target_real_label - label for a real image, int;
@@ -42,7 +42,7 @@ class GANLoss(nn.Module):
         
         This function gets prediction and is real option and tensor with the ground truth label. 
         
-        Arguments:
+        Parameters:
         
             prediction      - predicted value for the discrimination, tensor;
             target_is_real  - whether ground truth label is for real or fake images, bool. 
@@ -63,7 +63,7 @@ class GANLoss(nn.Module):
         
         This function gets prediction and is real option and computes the loss value. 
         
-        Arguments:
+        Parameters:
         
             prediction      - predicted value for the discrimination, tensor;
             target_is_real  - whether ground truth label is for real or fake images, bool. 
@@ -80,7 +80,7 @@ class GANLoss(nn.Module):
         # Compute loss based on the GAN mode
         if self.gan_mode in ['lsgan', 'vanilla']: loss = self.loss(prediction, self.get_target_tensor(prediction, target_is_real))
         elif self.gan_mode == 'wgangp': loss = -prediction.mean() if target_is_real else prediction.mean()
-        elif self.gan_mode == 'nonsaturating': loss = F.softplus(-prediction).view(bs, -1).mean(dim=1) if target_is_real else F.softplus(prediction).view(bs, -1).mean(dim=1)
+        elif self.gan_mode == 'nonsaturating': loss = F.softplus(-prediction).view(bs, -1).mean(dim = 1) if target_is_real else F.softplus(prediction).view(bs, -1).mean(dim = 1)
         
         return loss
     
@@ -90,7 +90,7 @@ class PatchNCELoss(nn.Module):
     
     This class gets options and computes PatchNCE loss value.
     
-    Arguments:
+    Parameters:
     
         opt  - train options, parser.
         
@@ -105,7 +105,7 @@ class PatchNCELoss(nn.Module):
         super().__init__()
         self.opt = opt
         # Loss function
-        self.cross_entropy_loss = torch.nn.CrossEntropyLoss(reduction='none')
+        self.cross_entropy_loss = torch.nn.CrossEntropyLoss(reduction = 'none')
         # Mask type
         self.mask_dtype = torch.uint8 if version.parse(torch.__version__) < version.parse('1.2.0') else torch.bool
 
@@ -114,7 +114,7 @@ class PatchNCELoss(nn.Module):
         """
         This function gets query and key features and computes loss.
         
-        Arguments:
+        Parameters:
         
             feat_q - features of query value, tensor;
             feat_k - features of key value, tensor.
