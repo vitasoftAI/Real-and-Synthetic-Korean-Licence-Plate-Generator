@@ -18,7 +18,7 @@ def pp(var_name, var, shape = False):
     
     This function gets variable name, variable, and shape option and prints predefined variable with or without its shape.
     
-    Arguments:
+    Parameters:
         
         var_name - variable name to be printed, str;
         var      - variable to be printed, var;
@@ -35,7 +35,7 @@ def get_filter(filt_size = 3):
     
      This function gets filter size and returns tensor filter based on the given variable.
      
-     Argument:
+     Parameter:
          
          filt_size - filter size, int.
          
@@ -65,7 +65,7 @@ def get_pad_layer(pad_type):
     
     This function gets padding type as input and returns PadLayer.
     
-    Arguments:
+    Parameters:
         
         pad_type - type of padding, str.
        
@@ -90,7 +90,7 @@ def get_norm_layer(norm_type = 'instance'):
     
     This function gets normalization type and return a normalization layer.
     
-    Argument:
+    Parameters:
     
         norm_type - the name of the normalization layer: batch | instance | none, str;
     
@@ -117,7 +117,7 @@ def get_scheduler(optimizer, opt):
     
     This function gets optimizer and options and returns a learning rate scheduler.
     
-    Arguments:
+    Parameters:
     
         optimizer - the optimizer to update trainable parameters of the model.
         opt       - stores all the experiment flags; needs to be a subclass of BaseOptions．　
@@ -154,7 +154,7 @@ def init_weights(model, init_type = 'normal', init_gain = 0.02, debug = False):
     
     This function initializes network weights based on the given initialization type.
     
-    Arguments:
+    Parameters:
     
         model - model to be initialized, model;
         init_type - the name of an initialization method;
@@ -170,7 +170,7 @@ def init_weights(model, init_type = 'normal', init_gain = 0.02, debug = False):
         
         This function initializes weigths.
         
-        Argument:
+        Parameter:
         
             m - model to get class name.
         
@@ -201,7 +201,7 @@ def init_net(model, init_type = 'normal', init_gain = 0.02, gpu_ids = [], debug 
     
     This function initializes a cpu or gpu device model and initializing the model weights.
     
-    Arguments:
+    Parameters:
     
         model     - the model to be initialized;
         init_type - the name of an initialization method, str;
@@ -230,7 +230,7 @@ def cal_gradient_penalty(netD, real_data, fake_data, device, type = 'mixed', con
     
     This function calculates the gradient penalty loss, used in WGAN-GP paper. 
     
-    Arguments:
+    Parameters:
     
         netD        - discriminator network, model;
         real_data   - real images, tensor;
@@ -277,7 +277,7 @@ def define_G(input_nc, output_nc, ngf, netG, norm = 'batch', use_dropout = False
     
     This function creates a generator.
     
-    Arguments:
+    Parameters:
     
         input_nc     - the number of channels in input images, int;
         output_nc    - the number of channels in output images, int;
@@ -319,7 +319,7 @@ def define_F(input_nc, netF, norm = 'batch', use_dropout = False, init_type = 'n
     
     This function creates F network.
     
-    Arguments:
+    Parameters:
     
         input_nc     - the number of channels in input images, int;
         netF         - F network name, str; 
@@ -351,7 +351,7 @@ def define_D(input_nc, ndf, netD, n_layers_D = 3, norm = 'batch', init_type = 'n
     
     This function creates a discriminator.
     
-    Arguments:
+    Parameters:
     
         input_nc     - the number of channels in input images, int;
         ndf          - the number of filters in the first conv layer, int;
@@ -419,7 +419,7 @@ class Downsample(nn.Module):
     
     This class downsamples an input tensor volume.
     
-    Arguments:
+    Parameters:
     
         channels    - channels of the convolutioon filter, int;
         pad_type    - padding type, str;
@@ -459,7 +459,7 @@ class Downsample(nn.Module):
         
         This function gets input tensor volume and does downsampling.
         
-        Argument:
+        Parameter:
         
             inp - input image, tensor.
             
@@ -482,7 +482,7 @@ class Upsample2(nn.Module):
     
     This class upsamples an input tensor volume.
     
-    Arguments:
+    Parameters:
     
         scale_factor - a factor for upsampling, int;
         mode         - a mode for upsampling, str.
@@ -504,7 +504,7 @@ class Upsample2(nn.Module):
         
         This function gets input tensor volume and does upsampling.
         
-        Argument:
+        Parameter:
         
             inp - input tensor volume, tensor.
         
@@ -522,7 +522,7 @@ class Normalize(nn.Module):
     
     This class normalizes an input tensor image.
     
-    Argument:
+    Parameter:
     
         x - an input image, tensor;
         
@@ -548,7 +548,7 @@ class PatchSampleF(nn.Module):
     
     This class creates patches and return features along with the corresponding positions.
     
-    Arguments:
+    Parameters:
     
         use_mlp      - option to use MLP or not, bool;
         init_type    - initializer type, str;
@@ -580,7 +580,7 @@ class PatchSampleF(nn.Module):
         
         This function gets features and creates multilayer perceptron.
         
-        Argument:
+        Parameter:
         
             feats - features, list.
             
@@ -614,7 +614,7 @@ class PatchSampleF(nn.Module):
         
         This function gets features, number of patches and patch indices and returns features and their corresponding indices.
         
-        Arguments:
+        Parameters:
         
             feats       - features, list;
             num_patches - number of patches, int;
@@ -680,7 +680,7 @@ class LinearBlock(nn.Module):
     
     This class creates a fully connected layer and passes the input through it.
     
-    Arguments:
+    Parameters:
     
         input_dim  - input dimension of the fully connected layer;
         output_dim - output dimension of the fully connected layer;
@@ -723,7 +723,7 @@ class LinearBlock(nn.Module):
         
         This function gets input volume, passes it through MLP layer, applies normalization and activation (if defined) and returns the output volume.
         
-        Arguments:
+        Parameters:
         
             inp - input volume, tensor.
             
@@ -750,7 +750,7 @@ class ResnetGenerator(nn.Module):
     This class creates Resnet-based generator that consists of Resnet blocks between a few downsampling and upsampling operations.
     The code is adapted from Justin Johnson's neural style transfer project(https://github.com/jcjohnson/fast-neural-style).
     
-    Arguments:
+    Parameters:
     
         input_nc      - the number of channels in input volumes, int;
         output_nc     - the number of channels in output volumes, int;
@@ -830,7 +830,7 @@ class ResnetGenerator(nn.Module):
         This function gets input volume, layers, and encoding option; passes the input volume through the ResNet-based Generator model
         and outputs a generated image.
         
-        Arguments:
+        Parameters:
         
             input       - input volume, tensor;
             layers      - pre-defined layers, list;
@@ -870,7 +870,7 @@ class ResnetBlock(nn.Module):
     
     This class creates a Resnet block.
     
-    Arguments:
+    Parameters:
     
         dim          - the number of channels in the convolution layer, int;
         padding_type - a padding layer type, str;
@@ -895,7 +895,7 @@ class ResnetBlock(nn.Module):
 
         This function builds a convolution block.
 
-        Arguments:
+        Parameters:
 
          dim          - the number of channels in the convolution layer, int;
          padding_type - a padding layer type, str;
@@ -933,7 +933,7 @@ class ResnetBlock(nn.Module):
         
         This function gets input volume and passes it through the pre-defined residual block.
         
-        Argument:
+        Parameter:
         
             input       - input volume, tensor;
             
@@ -952,7 +952,7 @@ class NLayerDiscriminator(nn.Module):
     
     This class creates a discriminator network.
     
-    Arguments:
+    Parameters:
     
         input_nc     - input image channels, int;
         ndf          - number of channels in the first convolution layer, int;
@@ -1007,7 +1007,7 @@ class NLayerDiscriminator(nn.Module):
         
         This function gets input volume and passes it through the pre-defined discriminator model.
         
-        Argument:
+        Parameter:
         
             input       - input volume, tensor;
             
