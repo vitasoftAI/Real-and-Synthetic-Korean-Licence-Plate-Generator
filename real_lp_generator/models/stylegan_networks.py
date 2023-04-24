@@ -43,7 +43,7 @@ class PixelNorm(nn.Module):
     
     This class computes pixel norm.
     
-    Argument:
+    Parameter:
     
         input       - input volume, tensor.
         
@@ -65,7 +65,7 @@ def make_kernel(k):
     
     This function makes kernel.
     
-    Argument:
+    Parameter:
     
         k - kernel array, array.
         
@@ -90,7 +90,7 @@ class Upsample(nn.Module):
     
     This class gets input tensor volume and increases its dimensions by a factor of 2.
     
-    Arguments:
+    Parameters:
     
         kernel - size of the kernel;
         factor - a factor size to upsample, int.
@@ -123,7 +123,7 @@ class Downsample(nn.Module):
     
     This class gets input tensor volume and decreases its dimensions by a factor of 2.
     
-    Arguments:
+    Parameters:
     
         kernel - size of the kernel;
         factor - a factor size to downsample, int.
@@ -156,7 +156,7 @@ class Blur(nn.Module):
     
     This class gets input tensor volume and does blur operation.
     
-    Arguments:
+    Parameters:
     
         kernel          - size of the kernel;
         pad             - padding function;
@@ -187,7 +187,7 @@ class EqualConv2d(nn.Module):
     
     This class conducts equal convolution operation. 
     
-    Arguments:
+    Parameters:
     
         in_channel    - number of channels of an input volume, int;
         out_channel   - number of channels of an output volume, int;
@@ -229,7 +229,7 @@ class EqualLinear(nn.Module):
     
     This class conducts equal linear matrix multiplication operation. 
     
-    Arguments:
+    Parameters:
     
         in_dim    - number of dimensions of an input volume, int;
         out_dim   - number of dimensions of an output volume, int;
@@ -270,7 +270,7 @@ class ScaledLeakyReLU(nn.Module):
     
     This class performs leaky ReLU activate function with a pre-defined scale. 
     
-    Arguments:
+    Parameters:
     
         negative_slope    - value for leaky ReLU's negative slope, float;
         
@@ -292,7 +292,7 @@ class ModulatedConv2d(nn.Module):
     
     This class performs modulated convolution operation. 
     
-    Arguments:
+    Parameters:
     
         in_channel        - number of channels for the input volume to the convolution operation, int;
         out_channel       - number of channels for the out volume from the convolution operation, int;
@@ -393,7 +393,7 @@ class NoiseInjection(nn.Module):
     
     This class applies Noise to an input image.
     
-    Arguments:
+    Parameters:
     
         image    - input image, tensor;
         noise    - noise level, float.
@@ -418,7 +418,7 @@ class ConstantInput(nn.Module):
     
     This class creates and returns constant input parameter.
     
-    Arguments:
+    Parameters:
     
         channel   - channel size, int;
         size      - size of the input to be created, int.
@@ -429,7 +429,7 @@ class ConstantInput(nn.Module):
     
     """
     
-    def __init__(self, channel, size=4):
+    def __init__(self, channel, size = 4):
         super().__init__()
 
         # Initialize input parameter
@@ -450,7 +450,7 @@ class StyledConv(nn.Module):
     
     This class creates styles and conducts styled convolution operation.
     
-    Arguments:
+    Parameters:
     
         in_channel        - number of channels for the input volume to the convolution operation, int;
         out_channel       - number of channels for the out volume from the convolution operation, int;
@@ -516,14 +516,15 @@ class ToRGB(nn.Module):
 
 
 class Generator(nn.Module):
+    
     def __init__(
         self,
         size,
         style_dim,
         n_mlp,
-        channel_multiplier=2,
-        blur_kernel=[1, 3, 3, 1],
-        lr_mlp=0.01,
+        channel_multiplier = 2,
+        blur_kernel = [1, 3, 3, 1],
+        lr_mlp = 0.01,
     ):
         super().__init__()
 
