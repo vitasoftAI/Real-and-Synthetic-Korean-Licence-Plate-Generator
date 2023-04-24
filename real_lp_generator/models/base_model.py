@@ -10,7 +10,7 @@ def pp(var_name, var, shape = False):
     
     This is a debugging function that gets variable and returns print with (or without) its shape
     
-    Arguments:
+    Parameters:
     
         var_name     - name of the variable to be printed, str;
         var          - variable, various type;
@@ -37,7 +37,7 @@ class BaseModel(ABC):
         
         This function initializes the BaseModel class.
         
-        Argument:
+        Parameter:
         
             opt - stores all the experiment flags; needs to be a subclass of BaseOptions;
 
@@ -75,7 +75,7 @@ class BaseModel(ABC):
         
         This function adds new model-specific options, and rewrite default values for existing options.
         
-        Arguments:
+        Parameters:
         
             parser          - original option parser, parser object;
             is_train        - whether training phase or test phase, bool.
@@ -95,7 +95,7 @@ class BaseModel(ABC):
         
         This function unpacks input data from the dataloader and perform necessary pre-processing steps.
         
-        Argument:
+        Parameter:
         
             input          - includes the data itself and its metadata information, dictionary.
         
@@ -129,7 +129,7 @@ class BaseModel(ABC):
         
         This function loads and print networks; create schedulers.
         
-        Argument:
+        Parameter:
         
             opt - stores all the experiment flags; needs to be a subclass of BaseOptions.
         
@@ -254,7 +254,7 @@ class BaseModel(ABC):
         
         This function saves all the networks to the disk.
         
-        Argument:
+        Parameter:
         
             epoch - current epoch; used in the file name '%s_net_%s.pth' % (epoch, name), int.
         
@@ -278,12 +278,12 @@ class BaseModel(ABC):
         
         This function fixes InstanceNorm checkpoints incompatibility (prior to 0.4)
         
-        Arguments:
+        Parameters:
             
-            state_dict - a state dictionary of a model;
-            module - module;
-            keys - dictionary keys, list;
-            i - index, int.
+            state_dict    - a state dictionary of a model;
+            module        - module;
+            keys          - dictionary keys, list;
+            i             - index, int.
             
         """
         
@@ -304,7 +304,7 @@ class BaseModel(ABC):
         
         This function loads all the networks from the disk.
         
-        Arguments:
+        Parameters:
         
             epoch - current epoch, int.
             
@@ -333,7 +333,7 @@ class BaseModel(ABC):
         
         This function prints the total number of parameters in the network and (if verbose) network architecture
         
-        Arguments:
+        Parameters:
         
             verbose - if verbose: print the network architecture, bool.
         
@@ -359,7 +359,7 @@ class BaseModel(ABC):
         
         This function sets requies_grad = False for all the networks to avoid unnecessary computations
         
-        Arguments:
+        Parameters:
         
             nets - a list of networks, list;
             requires_grad - whether the networks require gradients or not, bool.
