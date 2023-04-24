@@ -21,7 +21,7 @@ class CUTModel(BaseModel):
         
         This function adds arguments and returns parser based on the train options. 
         
-        Arguments:
+        Parameters:
         
             parser   - initialized parser, parser object;
             is_train - option for training bool. 
@@ -110,7 +110,7 @@ class CUTModel(BaseModel):
         Feature network (netF) is initialized based on the shape of the intermediate features of the backbone (encoder) 
         Therefore, the weights of the feature network are initialized at the first feedforward pass with some input images.
         
-        Arguments:
+        Parameters:
         
             data - input data, tensor.
         
@@ -185,7 +185,7 @@ class CUTModel(BaseModel):
         
         This function gets input tensor and does pre-preprocessing steps required for training.
         
-        Arguments:
+        Parameters:
         
             input - input data, dictionary.
             
@@ -286,7 +286,7 @@ class CUTModel(BaseModel):
         
         This function computes NCE loss value .
         
-        Arguments:
+        Parameters:
         
             src      - a source image, tensor;
             tgt      - a target image, tensor.
