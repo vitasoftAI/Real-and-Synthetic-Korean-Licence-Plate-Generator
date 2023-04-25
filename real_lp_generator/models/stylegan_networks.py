@@ -494,11 +494,30 @@ class StyledConv(nn.Module):
 
 
 class ToRGB(nn.Module):
-    def __init__(self, in_channel, style_dim, upsample=True, blur_kernel=[1, 3, 3, 1]):
+    
+    
+    """
+    
+    This class gets input channels and style dimension and changes image to RGB.
+    
+    Parameters:
+    
+        in_channel  - number of channels in input volume, int;
+        style_dim   - style dimension, int;
+        upsample    - whether or not to upsample, bool;
+        blur_kernel - kernel size for blurring, list -> int;blur_kernel.
+        
+    Output:
+    
+        out         - output volume from the class, tensor.
+    
+    """
+    
+    def __init__(self, in_channel, style_dim, upsample = True, blur_kernel = [1, 3, 3, 1]):
         super().__init__()
 
-        if upsample:
-            self.upsample = Upsample(blur_kernel)
+        # Upsample
+        if upsample: self.upsample = Upsample(blur_kernel)
 
         self.conv = ModulatedConv2d(in_channel, 3, 1, style_dim, demodulate=False)
         self.bias = nn.Parameter(torch.zeros(1, 3, 1, 1))
