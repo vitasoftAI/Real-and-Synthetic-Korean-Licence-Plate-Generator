@@ -522,13 +522,29 @@ class ToRGB(nn.Module):
         self.conv = ModulatedConv2d(in_channel, 3, 1, style_dim, demodulate=False)
         self.bias = nn.Parameter(torch.zeros(1, 3, 1, 1))
 
-    def forward(self, input, style, skip=None):
+    def forward(self, input, style, skip = None):
+        
+        """
+        This function gets input volume and conducts feed forward of the class.
+        
+        Parameters:
+        
+            input    - input volume to the class, tensor;
+            style    - type of style, str;
+            skip     - whether or not to use skip connection, bool.
+            
+        Output:
+        
+            out      - output volume from the class, tensor.
+        
+        """
+        
         out = self.conv(input, style)
         out = out + self.bias
 
         if skip is not None:
+            
             skip = self.upsample(skip)
-
             out = out + skip
 
         return out
