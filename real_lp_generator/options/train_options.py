@@ -1,10 +1,13 @@
+# Import baseoptions
 from .base_options import BaseOptions
 
-
 class TrainOptions(BaseOptions):
-    """This class includes training options.
+    
+    
+    """
+    
+    This class returns base train options.
 
-    It also includes shared options defined in BaseOptions.
     """
 
     def initialize(self, parser):
