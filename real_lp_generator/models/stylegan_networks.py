@@ -505,7 +505,7 @@ class ToRGB(nn.Module):
         in_channel  - number of channels in input volume, int;
         style_dim   - style dimension, int;
         upsample    - whether or not to upsample, bool;
-        blur_kernel - kernel size for blurring, list -> int;blur_kernel.
+        blur_kernel - kernel size for blurring, list -> int.
         
     Output:
     
@@ -551,6 +551,21 @@ class ToRGB(nn.Module):
 
 
 class Generator(nn.Module):
+    
+    """
+    
+    This class gets several parameters and returns generated style image.
+    
+    Parameters:
+    
+        size                - size, int;
+        style_dim           - style dimension, int;
+        n_mlp               - number of mlps, int;
+        channel_multiplier  - multiplier channels, int;
+        blur_kernel         - kernel size for blurring, list -> int.
+        lr_mlp              - mlp learning rate value, float.
+    
+    """
     
     def __init__(
         self,
