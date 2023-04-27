@@ -567,32 +567,21 @@ class Generator(nn.Module):
     
     """
     
-    def __init__(
-        self,
-        size,
-        style_dim,
-        n_mlp,
-        channel_multiplier = 2,
-        blur_kernel = [1, 3, 3, 1],
-        lr_mlp = 0.01,
-    ):
+    def __init__(self, size, style_dim, n_mlp, channel_multiplier = 2, blur_kernel = [1, 3, 3, 1], lr_mlp = 0.01):
         super().__init__()
 
-        self.size = size
-
-        self.style_dim = style_dim
-
+        self.size, self.style_dim = size, style_dim
+        
+        # Initialize layers
         layers = [PixelNorm()]
 
         for i in range(n_mlp):
-            layers.append(
-                EqualLinear(
-                    style_dim, style_dim, lr_mul=lr_mlp, activation='fused_lrelu'
-                )
-            )
+            layers.append(  EqualLinear(style_dim, style_dim, lr_mul=lr_mlp, activation = "fused_lrelu")  )
 
+        # Initialize styles model
         self.style = nn.Sequential(*layers)
 
+        # Set number of channels
         self.channels = {
             4: 512,
             8: 512,
@@ -606,19 +595,13 @@ class Generator(nn.Module):
         }
 
         self.input = ConstantInput(self.channels[4])
-        self.conv1 = StyledConv(
-            self.channels[4], self.channels[4], 3, style_dim, blur_kernel=blur_kernel
-        )
-        self.to_rgb1 = ToRGB(self.channels[4], style_dim, upsample=False)
+        self.conv1 = StyledConv( self.channels[4], self.channels[4], 3, style_dim, blur_kernel = blur_kernel )
+        self.to_rgb1 = ToRGB(self.channels[4], style_dim, upsample = False)
 
         self.log_size = int(math.log(size, 2))
         self.num_layers = (self.log_size - 2) * 2 + 1
 
-        self.convs = nn.ModuleList()
-        self.upsamples = nn.ModuleList()
-        self.to_rgbs = nn.ModuleList()
-        self.noises = nn.Module()
-
+        self.convs, self.to_rgbs, self.upsamples, self.noises = nn.ModuleList(), nn.ModuleList(), nn.ModuleList(), nn.Module()
         in_channel = self.channels[4]
 
         for layer_idx in range(self.num_layers):
