@@ -664,16 +664,15 @@ class Generator(nn.Module):
     def forward(
         self,
         styles,
-        return_latents=False,
-        inject_index=None,
-        truncation=1,
-        truncation_latent=None,
-        input_is_latent=False,
-        noise=None,
-        randomize_noise=True,
+        return_latents = False,
+        inject_index = None,
+        truncation = 1,
+        truncation_latent = None,
+        input_is_latent = False,
+        noise = None,
+        randomize_noise = True,
     ):
-        if not input_is_latent:
-            styles = [self.style(s) for s in styles]
+        if not input_is_latent: styles = [self.style(s) for s in styles]
 
         if noise is None:
             if randomize_noise:
@@ -699,8 +698,7 @@ class Generator(nn.Module):
             if len(styles[0].shape) < 3:
                 latent = styles[0].unsqueeze(1).repeat(1, inject_index, 1)
 
-            else:
-                latent = styles[0]
+            else: latent = styles[0]
 
         else:
             if inject_index is None:
@@ -728,12 +726,9 @@ class Generator(nn.Module):
 
         image = skip
 
-        if return_latents:
-            return image, latent
+        if return_latents: return image, latent
 
-        else:
-            return image, None
-
+        else: return image, None
 
 class ConvLayer(nn.Sequential):
     def __init__(
