@@ -624,26 +624,42 @@ class Generator(nn.Module):
 
     def make_noise(self):
         
+        """
+        
+        This function creates noise to be applied to an image.
+        
+        """
         
         device = self.input.input.device
-
         noises = [torch.randn(1, 1, 2 ** 2, 2 ** 2, device = device)]
 
         for i in range(3, self.log_size + 1):
-            for _ in range(2):
-                noises.append(torch.randn(1, 1, 2 ** i, 2 ** i, device = device))
+            for _ in range(2): noises.append(torch.randn(1, 1, 2 ** i, 2 ** i, device = device))
         
         return noises
 
     def mean_latent(self, n_latent):
+        
+        """
+        
+        This function gets a parameter creates latent.
+        
+        Parameter:
+        
+            n_latent    - number of latents, int.
+            
+        Output:
+        
+            latent      - styled latent, tensor.
+        
+        """
         
         latent_in = torch.randn( n_latent, self.style_dim, device = self.input.input.device )
         latent = self.style(latent_in).mean(0, keepdim = True)
 
         return latent
 
-    def get_latent(self, input):
-        return self.style(input)
+    def get_latent(self, input): return self.style(input)
 
     def forward(
         self,
