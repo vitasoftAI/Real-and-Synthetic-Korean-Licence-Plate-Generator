@@ -564,19 +564,21 @@ class Generator(nn.Module):
         channel_multiplier  - multiplier channels, int;
         blur_kernel         - kernel size for blurring, list -> int.
         lr_mlp              - mlp learning rate value, float.
+        
+    Output:
+    
+        image               - a generated style image, tensor.
     
     """
     
     def __init__(self, size, style_dim, n_mlp, channel_multiplier = 2, blur_kernel = [1, 3, 3, 1], lr_mlp = 0.01):
         super().__init__()
-
         self.size, self.style_dim = size, style_dim
         
         # Initialize layers
         layers = [PixelNorm()]
 
-        for i in range(n_mlp):
-            layers.append(  EqualLinear(style_dim, style_dim, lr_mul=lr_mlp, activation = "fused_lrelu")  )
+        for i in range(n_mlp): layers.append(  EqualLinear(style_dim, style_dim, lr_mul = lr_mlp, activation = "fused_lrelu")  )
 
         # Initialize styles model
         self.style = nn.Sequential(*layers)
@@ -612,45 +614,31 @@ class Generator(nn.Module):
         for i in range(3, self.log_size + 1):
             out_channel = self.channels[2 ** i]
 
-            self.convs.append(
-                StyledConv(
-                    in_channel,
-                    out_channel,
-                    3,
-                    style_dim,
-                    upsample=True,
-                    blur_kernel=blur_kernel,
-                )
-            )
-
-            self.convs.append(
-                StyledConv(
-                    out_channel, out_channel, 3, style_dim, blur_kernel=blur_kernel
-                )
-            )
+            self.convs.append(  StyledConv(in_channel, out_channel, 3, style_dim, upsample = True, blur_kernel = blur_kernel)   )
+            self.convs.append(  StyledConv(out_channel, out_channel, 3, style_dim, blur_kernel = blur_kernel)  )
 
             self.to_rgbs.append(ToRGB(out_channel, style_dim))
-
             in_channel = out_channel
 
         self.n_latent = self.log_size * 2 - 2
 
     def make_noise(self):
+        
+        
         device = self.input.input.device
 
-        noises = [torch.randn(1, 1, 2 ** 2, 2 ** 2, device=device)]
+        noises = [torch.randn(1, 1, 2 ** 2, 2 ** 2, device = device)]
 
         for i in range(3, self.log_size + 1):
             for _ in range(2):
-                noises.append(torch.randn(1, 1, 2 ** i, 2 ** i, device=device))
-
+                noises.append(torch.randn(1, 1, 2 ** i, 2 ** i, device = device))
+        
         return noises
 
     def mean_latent(self, n_latent):
-        latent_in = torch.randn(
-            n_latent, self.style_dim, device=self.input.input.device
-        )
-        latent = self.style(latent_in).mean(0, keepdim=True)
+        
+        latent_in = torch.randn( n_latent, self.style_dim, device = self.input.input.device )
+        latent = self.style(latent_in).mean(0, keepdim = True)
 
         return latent
 
