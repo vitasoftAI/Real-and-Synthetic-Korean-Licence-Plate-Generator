@@ -760,28 +760,13 @@ class ConvLayer(nn.Sequential):
             layers.append(Blur(blur_kernel, pad = (pad0, pad1)))
             stride, self.padding = 2, 0
 
-        else: stride, self.padding = 1, kernel_size // 2
-
-        layers.append(
-            EqualConv2d(
-                in_channel,
-                out_channel,
-                kernel_size,
-                padding=self.padding,
-                stride=stride,
-                bias=bias and not activate,
-            )
-        )
+        layers.append( EqualConv2d( in_channel, out_channel, kernel_size, padding = self.padding, stride = stride, bias = bias and not activate  )  )
 
         if activate:
-            if bias:
-                layers.append(FusedLeakyReLU(out_channel))
+            if bias: layers.append(FusedLeakyReLU(out_channel))
 
-            else:
-                layers.append(ScaledLeakyReLU(0.2))
-
+            else: layers.append(ScaledLeakyReLU(0.2))
         super().__init__(*layers)
-
 
 class ResBlock(nn.Module):
     def __init__(self, in_channel, out_channel, blur_kernel=[1, 3, 3, 1], downsample=True, skip_gain=1.0):
