@@ -769,12 +769,25 @@ class ConvLayer(nn.Sequential):
         super().__init__(*layers)
 
 class ResBlock(nn.Module):
-    def __init__(self, in_channel, out_channel, blur_kernel=[1, 3, 3, 1], downsample=True, skip_gain=1.0):
+    
+    """
+    
+    This class initializes residual block for style GAN.
+    
+    Parameters:
+        
+        in_channel        - number of channels for the input volume to the convolution operation, int;
+        out_channel       - number of channels for the out volume from the convolution operation, int;
+        downsample        - whether or not to use downsampling, bool;
+        blur_kernel       - kernel size for blurring, list -> int;
+        skip_gain         - gain value, float.
+    
+    """
+    
+    def __init__(self, in_channel, out_channel, blur_kernel = [1, 3, 3, 1], downsample = True, skip_gain = 1.0):
         super().__init__()
 
-        self.skip_gain = skip_gain
-        self.conv1 = ConvLayer(in_channel, in_channel, 3)
-        self.conv2 = ConvLayer(in_channel, out_channel, 3, downsample=downsample, blur_kernel=blur_kernel)
+        self.skip_gain, self.conv1, self.conv2 = skip_gain, ConvLayer(in_channel, in_channel, 3), ConvLayer(in_channel, out_channel, 3, downsample = downsample, blur_kernel = blur_kernel)
 
         if in_channel != out_channel or downsample:
             self.skip = ConvLayer(
