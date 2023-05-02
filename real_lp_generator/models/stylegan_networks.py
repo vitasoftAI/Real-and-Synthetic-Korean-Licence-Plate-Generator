@@ -739,30 +739,28 @@ class ConvLayer(nn.Sequential):
     
     def __init__(
         self,
-        in_channel,
-        out_channel,
-        kernel_size,
-        downsample=False,
-        blur_kernel=[1, 3, 3, 1],
-        bias=True,
-        activate=True,
+        in_channel, out_channel,
+        kernel_size, downsample = False,
+        blur_kernel = [1, 3, 3, 1],
+        bias = True, activate = True,
     ):
+        
+        # Initialize layers list
         layers = []
 
         if downsample:
+            
+            # Factor for donwsampling
             factor = 2
+            
+            # Padding values
             p = (len(blur_kernel) - factor) + (kernel_size - 1)
-            pad0 = (p + 1) // 2
-            pad1 = p // 2
+            pad0, pad1 = (p + 1) // 2, p // 2
 
-            layers.append(Blur(blur_kernel, pad=(pad0, pad1)))
+            layers.append(Blur(blur_kernel, pad = (pad0, pad1)))
+            stride, self.padding = 2, 0
 
-            stride = 2
-            self.padding = 0
-
-        else:
-            stride = 1
-            self.padding = kernel_size // 2
+        else: stride, self.padding = 1, kernel_size // 2
 
         layers.append(
             EqualConv2d(
