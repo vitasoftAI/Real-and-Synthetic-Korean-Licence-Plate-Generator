@@ -790,23 +790,25 @@ class ResBlock(nn.Module):
         self.skip_gain, self.conv1, self.conv2 = skip_gain, ConvLayer(in_channel, in_channel, 3), ConvLayer(in_channel, out_channel, 3, downsample = downsample, blur_kernel = blur_kernel)
 
         if in_channel != out_channel or downsample:
-            self.skip = ConvLayer(
-                in_channel, out_channel, 1, downsample=downsample, activate=False, bias=False
-            )
-        else:
-            self.skip = nn.Identity()
+            self.skip = ConvLayer( in_channel, out_channel, 1, downsample = downsample, activate = False, bias = False )
+        else: self.skip = nn.Identity()
 
     def forward(self, input):
-        out = self.conv1(input)
-        out = self.conv2(out)
-
+        
+        # Get output from conv layers
+        out = self.conv2(self.conv1(input))
+        
+        # Get output from residual convolution
         skip = self.skip(input)
-        out = (out * self.skip_gain + skip) / math.sqrt(self.skip_gain ** 2 + 1.0)
-
-        return out
-
+        
+        # Return output of the residual block
+        return (out * self.skip_gain + skip) / math.sqrt(self.skip_gain ** 2 + 1.0)
 
 class StyleGAN2Discriminator(nn.Module):
+    
+    
+    
+    
     def __init__(self, input_nc, ndf=64, n_layers=3, no_antialias=False, size=None, opt=None):
         super().__init__()
         self.opt = opt
