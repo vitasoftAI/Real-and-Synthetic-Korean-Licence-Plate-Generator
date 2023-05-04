@@ -806,10 +806,22 @@ class ResBlock(nn.Module):
 
 class StyleGAN2Discriminator(nn.Module):
     
+    """
     
+    This class gets several parameters and implements discrimination phase of StyleGan.
     
+    Parameters:
     
-    def __init__(self, input_nc, ndf=64, n_layers=3, no_antialias=False, size=None, opt=None):
+        input_nc        - number of channels in input volume, int;
+        ndf             - number of channels in output volume, int;
+        n_layers        - number of layers in the discriminator, int;
+        no_antialias    - whether or not to use antialias, bool;
+        size            - size of the network, int;
+        opt             - options, parser object.
+        
+    """
+    
+    def __init__(self, input_nc, ndf = 64, n_layers = 3, no_antialias = False, size = None, opt = None):
         super().__init__()
         self.opt = opt
         self.stddev_group = 16
