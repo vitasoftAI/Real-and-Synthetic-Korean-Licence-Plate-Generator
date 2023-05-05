@@ -823,15 +823,21 @@ class StyleGAN2Discriminator(nn.Module):
     
     def __init__(self, input_nc, ndf = 64, n_layers = 3, no_antialias = False, size = None, opt = None):
         super().__init__()
-        self.opt = opt
-        self.stddev_group = 16
+        
+        self.opt, self.stddev_group = opt, 16
+        
         if size is None:
             size = 2 ** int((np.rint(np.log2(min(opt.load_size, opt.crop_size)))))
             if "patch" in self.opt.netD and self.opt.D_patch_size is not None:
                 size = 2 ** int(np.log2(self.opt.D_patch_size))
 
+        # Initialize blur kernel
         blur_kernel = [1, 3, 3, 1]
+        
+        # Get channel multiplier
         channel_multiplier = ndf / 64
+        
+        # Initialize channels dictionary
         channels = {
             4: min(384, int(4096 * channel_multiplier)),
             8: min(384, int(2048 * channel_multiplier)),
@@ -844,38 +850,40 @@ class StyleGAN2Discriminator(nn.Module):
             1024: int(16 * channel_multiplier),
         }
 
+        # Get convolution layers list
         convs = [ConvLayer(3, channels[size], 1)]
+        
+        # Get log size and input channel
+        log_size, in_channel = int(math.log(size, 2)), channels[size]
 
-        log_size = int(math.log(size, 2))
-
-        in_channel = channels[size]
-
-        if "smallpatch" in self.opt.netD:
-            final_res_log2 = 4
-        elif "patch" in self.opt.netD:
-            final_res_log2 = 3
-        else:
-            final_res_log2 = 2
+        if "smallpatch" in self.opt.netD: final_res_log2 = 4
+        elif "patch" in self.opt.netD: final_res_log2 = 3
+        else: final_res_log2 = 2
 
         for i in range(log_size, final_res_log2, -1):
+            
+            # Get output channels
             out_channel = channels[2 ** (i - 1)]
-
+            
+            # Add to the convolutions list
             convs.append(ResBlock(in_channel, out_channel, blur_kernel))
-
+            
+            # Set input channel
             in_channel = out_channel
 
+        # Initialize convolution sequential object
         self.convs = nn.Sequential(*convs)
 
-        if False and "tile" in self.opt.netD:
-            in_channel += 1
+        if False and "tile" in self.opt.netD: in_channel += 1
+        
+        # Set final convolution
         self.final_conv = ConvLayer(in_channel, channels[4], 3)
-        if "patch" in self.opt.netD:
-            self.final_linear = ConvLayer(channels[4], 1, 3, bias=False, activate=False)
-        else:
-            self.final_linear = nn.Sequential(
-                EqualLinear(channels[4] * 4 * 4, channels[4], activation='fused_lrelu'),
-                EqualLinear(channels[4], 1),
-            )
+        
+        # Initialize final linear layer for patch case
+        if "patch" in self.opt.netD: self.final_linear = ConvLayer(channels[4], 1, 3, bias = False, activate = False)
+        
+        # Initialize final linear layer for other case
+        else: self.final_linear = nn.Sequential( EqualLinear(channels[4] * 4 * 4, channels[4], activation = "fused_lrelu"), EqualLinear(channels[4], 1) )
 
     def forward(self, input, get_minibatch_features=False):
         if "patch" in self.opt.netD and self.opt.D_patch_size is not None:
