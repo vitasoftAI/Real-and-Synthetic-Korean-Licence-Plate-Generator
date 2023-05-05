@@ -885,18 +885,35 @@ class StyleGAN2Discriminator(nn.Module):
         # Initialize final linear layer for other case
         else: self.final_linear = nn.Sequential( EqualLinear(channels[4] * 4 * 4, channels[4], activation = "fused_lrelu"), EqualLinear(channels[4], 1) )
 
-    def forward(self, input, get_minibatch_features=False):
+    def forward(self, input, get_minibatch_features = False):
+        
+        """
+        
+        This function gets several parameters and conducts feedforward of StyleGAN2Discriminator class.
+        
+        Parameters:
+        
+            input                  - input volume, tensor;
+            get_minibatch_features - whether or not minibatch features, bool.
+        
+        Output:
+        
+            out                    - output tensor from the class, tensor.
+        
+        """
+        
         if "patch" in self.opt.netD and self.opt.D_patch_size is not None:
             h, w = input.size(2), input.size(3)
             y = torch.randint(h - self.opt.D_patch_size, ())
             x = torch.randint(w - self.opt.D_patch_size, ())
             input = input[:, :, y:y + self.opt.D_patch_size, x:x + self.opt.D_patch_size]
+        
         out = input
-        for i, conv in enumerate(self.convs):
-            out = conv(out)
-            # print(i, out.abs().mean())
-        # out = self.convs(input)
-
+        
+        # Go through convolution layers
+        for i, conv in enumerate(self.convs): out = conv(out)
+        
+        # Get information from the convolution output
         batch, channel, height, width = out.shape
 
         if False and "tile" in self.opt.netD:
