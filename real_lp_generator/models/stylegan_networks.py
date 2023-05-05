@@ -918,23 +918,22 @@ class StyleGAN2Discriminator(nn.Module):
 
         if False and "tile" in self.opt.netD:
             group = min(batch, self.stddev_group)
-            stddev = out.view(
-                group, -1, 1, channel // 1, height, width
-            )
-            stddev = torch.sqrt(stddev.var(0, unbiased=False) + 1e-8)
-            stddev = stddev.mean([2, 3, 4], keepdim=True).squeeze(2)
+            stddev = out.view(group, -1, 1, channel // 1, height, width)
+            stddev = torch.sqrt(stddev.var(0, unbiased = False) + 1e-8)
+            stddev = stddev.mean([2, 3, 4], keepdim = True).squeeze(2)
             stddev = stddev.repeat(group, 1, height, width)
             out = torch.cat([out, stddev], 1)
-
+        
+        # Get output from final convolution
         out = self.final_conv(out)
-        # print(out.abs().mean())
 
-        if "patch" not in self.opt.netD:
-            out = out.view(batch, -1)
+        # For patch case
+        if "patch" not in self.opt.netD: out = out.view(batch, -1)
+        
+        # For other case
         out = self.final_linear(out)
 
         return out
-
 
 class TileStyleGAN2Discriminator(StyleGAN2Discriminator):
     def forward(self, input):
