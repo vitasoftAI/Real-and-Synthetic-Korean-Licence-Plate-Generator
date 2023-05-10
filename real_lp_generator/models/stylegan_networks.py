@@ -969,7 +969,25 @@ class TileStyleGAN2Discriminator(StyleGAN2Discriminator):
         return super().forward(input)
 
 class StyleGAN2Encoder(nn.Module):
-    def __init__(self, input_nc, output_nc, ngf=64, use_dropout=False, n_blocks=6, padding_type='reflect', no_antialias=False, opt=None):
+    
+    """
+    
+    This class gets several parameters and performs encoder of the StyleGAN network.
+    
+    Parameters:
+    
+        input_nc        - number of channels in input volume, int;
+        output_nc       - number of channels in output volume, int;
+        ngf             - number of gan filters, int;
+        use_dropout     - whether or not to use dropout, bool;
+        n_blocks        - number of blocks, int;
+        padding_type    - type of padding, str;
+        no_antialias    - whether or not to use antialias, bool;
+        opt             - options, parser object.  
+    
+    """
+    
+    def __init__(self, input_nc, output_nc, ngf = 64, use_dropout = False, n_blocks = 6, padding_type = "reflect", no_antialias = False, opt = None):
         super().__init__()
         assert opt is not None
         self.opt = opt
