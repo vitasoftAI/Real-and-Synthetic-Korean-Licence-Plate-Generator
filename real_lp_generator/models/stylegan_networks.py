@@ -936,15 +936,37 @@ class StyleGAN2Discriminator(nn.Module):
         return out
 
 class TileStyleGAN2Discriminator(StyleGAN2Discriminator):
+    
+    """
+    
+    This class gets an input and performs tile style GAN discriminator.
+    
+    Parameter:
+    
+        input    - an input volume, tensor.
+    
+    Output:
+    
+        out      - an output volume from the class, tensor.
+    
+    """
+    
     def forward(self, input):
+        
+        # Get batch size, channels, and image dimensions from the input tensor
         B, C, H, W = input.size(0), input.size(1), input.size(2), input.size(3)
+        
+        # Get patch size
         size = self.opt.D_patch_size
-        Y = H // size
-        X = W // size
+        
+        # Get image dimensions to create patches
+        Y, X = H // size, W // size
+         
+        # Create patches
         input = input.view(B, C, Y, size, X, size)
         input = input.permute(0, 2, 4, 1, 3, 5).contiguous().view(B * Y * X, C, size, size)
+        
         return super().forward(input)
-
 
 class StyleGAN2Encoder(nn.Module):
     def __init__(self, input_nc, output_nc, ngf=64, use_dropout=False, n_blocks=6, padding_type='reflect', no_antialias=False, opt=None):
