@@ -8,7 +8,7 @@ def pp(var_name, var, shape = False):
     
     """
     
-    This is a debugging function that gets variable and returns print with (or without) its shape
+    This function gets variable and returns print with (or without) its shape.
     
     Parameters:
     
